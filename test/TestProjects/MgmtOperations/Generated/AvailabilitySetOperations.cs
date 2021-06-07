@@ -46,7 +46,7 @@ namespace MgmtOperations
             scope.Start();
             try
             {
-                var response = await RestClient.GetAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await RestClient.GetAsync(Id.ResourceGroupName, Id.Name, null, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new AvailabilitySet(this, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -63,7 +63,45 @@ namespace MgmtOperations
             scope.Start();
             try
             {
-                var response = RestClient.Get(Id.ResourceGroupName, Id.Name, cancellationToken);
+                var response = RestClient.Get(Id.ResourceGroupName, Id.Name, null, cancellationToken);
+                return Response.FromValue(new AvailabilitySet(this, response.Value), response.GetRawResponse());
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Retrieves information about an availability set. </summary>
+        /// <param name="expand"> May be used to expand the participants. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<AvailabilitySet>> GetAsync(string expand, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.Get");
+            scope.Start();
+            try
+            {
+                var response = await RestClient.GetAsync(Id.ResourceGroupName, Id.Name, expand, cancellationToken).ConfigureAwait(false);
+                return Response.FromValue(new AvailabilitySet(this, response.Value), response.GetRawResponse());
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Retrieves information about an availability set. </summary>
+        /// <param name="expand"> May be used to expand the participants. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<AvailabilitySet> Get(string expand, CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.Get");
+            scope.Start();
+            try
+            {
+                var response = RestClient.Get(Id.ResourceGroupName, Id.Name, expand, cancellationToken);
                 return Response.FromValue(new AvailabilitySet(this, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -161,7 +199,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Add a tag to the current resource. </summary>
+        /// <param name="key"> The key for the tag. </param>
+        /// <param name="value"> The value for the tag. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag added. </returns>
         public async Task<Response<AvailabilitySet>> AddTagAsync(string key, string value, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.AddTag");
@@ -178,7 +220,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Add a tag to the current resource. </summary>
+        /// <param name="key"> The key for the tag. </param>
+        /// <param name="value"> The value for the tag. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag added. </returns>
         public Response<AvailabilitySet> AddTag(string key, string value, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.AddTag");
@@ -195,7 +241,12 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Add a tag to the current resource. </summary>
+        /// <param name="key"> The key for the tag. </param>
+        /// <param name="value"> The value for the tag. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag added. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public async Task<AvailabilitySetsUpdateOperation> StartAddTagAsync(string key, string value, CancellationToken cancellationToken = default)
         {
             if (key == null)
@@ -221,7 +272,12 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Add a tag to the current resource. </summary>
+        /// <param name="key"> The key for the tag. </param>
+        /// <param name="value"> The value for the tag. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag added. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public AvailabilitySetsUpdateOperation StartAddTag(string key, string value, CancellationToken cancellationToken = default)
         {
             if (key == null)
@@ -247,7 +303,10 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Replace the tags on the resource with the given set. </summary>
+        /// <param name="tags"> The set of tags to use as replacement. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tags replaced. </returns>
         public async Task<Response<AvailabilitySet>> SetTagsAsync(IDictionary<string, string> tags, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.SetTags");
@@ -264,7 +323,10 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Replace the tags on the resource with the given set. </summary>
+        /// <param name="tags"> The set of tags to use as replacement. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tags replaced. </returns>
         public Response<AvailabilitySet> SetTags(IDictionary<string, string> tags, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.SetTags");
@@ -281,7 +343,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Replace the tags on the resource with the given set. </summary>
+        /// <param name="tags"> The set of tags to use as replacement. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tags replaced. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public async Task<AvailabilitySetsUpdateOperation> StartSetTagsAsync(IDictionary<string, string> tags, CancellationToken cancellationToken = default)
         {
             if (tags == null)
@@ -305,7 +371,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Replace the tags on the resource with the given set. </summary>
+        /// <param name="tags"> The set of tags to use as replacement. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tags replaced. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public AvailabilitySetsUpdateOperation StartSetTags(IDictionary<string, string> tags, CancellationToken cancellationToken = default)
         {
             if (tags == null)
@@ -329,7 +399,10 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Removes a tag by key from the resource. </summary>
+        /// <param name="key"> The key of the tag to remove. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag removed. </returns>
         public async Task<Response<AvailabilitySet>> RemoveTagAsync(string key, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.RemoveTag");
@@ -346,7 +419,10 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Removes a tag by key from the resource. </summary>
+        /// <param name="key"> The key of the tag to remove. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag removed. </returns>
         public Response<AvailabilitySet> RemoveTag(string key, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("AvailabilitySetOperations.RemoveTag");
@@ -363,7 +439,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Removes a tag by key from the resource. </summary>
+        /// <param name="key"> The key of the tag to remove. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag removed. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public async Task<AvailabilitySetsUpdateOperation> StartRemoveTagAsync(string key, CancellationToken cancellationToken = default)
         {
             if (key == null)
@@ -389,7 +469,11 @@ namespace MgmtOperations
             }
         }
 
-        /// <inheritdoc />
+        /// <summary> Removes a tag by key from the resource. </summary>
+        /// <param name="key"> The key of the tag to remove. </param>
+        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
+        /// <returns> The updated resource with the tag removed. </returns>
+        /// <remarks> <see href="https://azure.github.io/azure-sdk/dotnet_introduction.html#dotnet-longrunning">Details on long running operation object.</see>. </remarks>
         public AvailabilitySetsUpdateOperation StartRemoveTag(string key, CancellationToken cancellationToken = default)
         {
             if (key == null)
