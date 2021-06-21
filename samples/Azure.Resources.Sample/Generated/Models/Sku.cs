@@ -5,14 +5,24 @@
 
 #nullable disable
 
+using System;
+
 namespace Azure.ResourceManager.Resources.Models
 {
     /// <summary> SKU for the resource. </summary>
     public partial class Sku
     {
         /// <summary> Initializes a new instance of Sku. </summary>
-        public Sku()
+        /// <param name="name"> The SKU name. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="name"/> is null. </exception>
+        public Sku(string name)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
+            Name = name;
         }
 
         /// <summary> Initializes a new instance of Sku. </summary>

@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Azure.ResourceManager.Resources.Models
 {
-    /// <summary> Specified resource. </summary>
+    /// <summary> Resource information. </summary>
     public partial class Resource
     {
         /// <summary> Initializes a new instance of Resource. </summary>

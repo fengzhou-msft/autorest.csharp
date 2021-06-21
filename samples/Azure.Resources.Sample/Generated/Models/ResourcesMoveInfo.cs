@@ -14,7 +14,7 @@ namespace Azure.ResourceManager.Resources.Models
     public partial class ResourcesMoveInfo
     {
         /// <summary> Initializes a new instance of ResourcesMoveInfo. </summary>
-        public ResourcesMoveInfo()
+        internal ResourcesMoveInfo()
         {
             Resources = new ChangeTrackingList<string>();
         }
@@ -22,6 +22,6 @@ namespace Azure.ResourceManager.Resources.Models
         /// <summary> The IDs of the resources. </summary>
         public IList<string> Resources { get; }
         /// <summary> The target resource group. </summary>
-        public string TargetResourceGroup { get; set; }
+        public string TargetResourceGroup { get; }
     }
 }

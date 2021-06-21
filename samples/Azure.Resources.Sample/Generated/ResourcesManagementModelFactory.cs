@@ -14,36 +14,6 @@ namespace Azure.ResourceManager.Resources
     /// <summary> Model factory for read-only models. </summary>
     public static partial class ResourcesManagementModelFactory
     {
-        /// <summary> Initializes new instance of OperationListResult class. </summary>
-        /// <param name="value"> List of Microsoft.Resources operations. </param>
-        /// <param name="nextLink"> URL to get the next set of operation list results if there are any. </param>
-        /// <returns> A new <see cref="Models.OperationListResult"/> instance for mocking. </returns>
-        public static OperationListResult OperationListResult(IReadOnlyList<Models.Operation> value = default, string nextLink = default)
-        {
-            value ??= new List<Models.Operation>();
-            return new OperationListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of Operation class. </summary>
-        /// <param name="name"> Operation name: {provider}/{resource}/{operation}. </param>
-        /// <param name="display"> The object that represents the operation. </param>
-        /// <returns> A new <see cref="Models.Operation"/> instance for mocking. </returns>
-        public static Models.Operation Operation(string name = default, OperationDisplay display = default)
-        {
-            return new Models.Operation(name, display);
-        }
-
-        /// <summary> Initializes new instance of OperationDisplay class. </summary>
-        /// <param name="provider"> Service provider: Microsoft.Resources. </param>
-        /// <param name="resource"> Resource on which the operation is performed: Profile, endpoint, etc. </param>
-        /// <param name="operation"> Operation type: Read, write, delete, etc. </param>
-        /// <param name="description"> Description of the operation. </param>
-        /// <returns> A new <see cref="Models.OperationDisplay"/> instance for mocking. </returns>
-        public static OperationDisplay OperationDisplay(string provider = default, string resource = default, string operation = default, string description = default)
-        {
-            return new OperationDisplay(provider, resource, operation, description);
-        }
-
         /// <summary> Initializes new instance of ErrorResponse class. </summary>
         /// <param name="code"> The error code. </param>
         /// <param name="message"> The error message. </param>
@@ -82,7 +52,7 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Initializes new instance of DeploymentPropertiesExtended class. </summary>
-        /// <param name="provisioningState"> The state of the provisioning. </param>
+        /// <param name="provisioningState"> Denotes the state of provisioning. </param>
         /// <param name="correlationId"> The correlation ID of the deployment. </param>
         /// <param name="timestamp"> The timestamp of the template deployment. </param>
         /// <param name="duration"> The duration of the template deployment. </param>
@@ -115,28 +85,45 @@ namespace Azure.ResourceManager.Resources
         /// <param name="registrationState"> The registration state of the resource provider. </param>
         /// <param name="registrationPolicy"> The registration policy of the resource provider. </param>
         /// <param name="resourceTypes"> The collection of provider resource types. </param>
+        /// <param name="providerAuthorizationConsentState"> The provider authorization consent state. </param>
         /// <returns> A new <see cref="Models.Provider"/> instance for mocking. </returns>
-        public static Provider Provider(string id = default, string @namespace = default, string registrationState = default, string registrationPolicy = default, IReadOnlyList<ProviderResourceType> resourceTypes = default)
+        public static Provider Provider(string id = default, string @namespace = default, string registrationState = default, string registrationPolicy = default, IReadOnlyList<ProviderResourceType> resourceTypes = default, ProviderAuthorizationConsentState? providerAuthorizationConsentState = default)
         {
             resourceTypes ??= new List<ProviderResourceType>();
-            return new Provider(id, @namespace, registrationState, registrationPolicy, resourceTypes);
+            return new Provider(id, @namespace, registrationState, registrationPolicy, resourceTypes, providerAuthorizationConsentState);
         }
 
         /// <summary> Initializes new instance of ProviderResourceType class. </summary>
         /// <param name="resourceType"> The resource type. </param>
         /// <param name="locations"> The collection of locations where this resource type can be created. </param>
+        /// <param name="locationMappings"> The location mappings that are supported by this resource type. </param>
         /// <param name="aliases"> The aliases that are supported by this resource type. </param>
         /// <param name="apiVersions"> The API version. </param>
+        /// <param name="defaultApiVersion"> The default API version. </param>
+        /// <param name="apiProfiles"> The API profiles for the resource provider. </param>
         /// <param name="capabilities"> The additional capabilities offered by this resource type. </param>
         /// <param name="properties"> The properties. </param>
         /// <returns> A new <see cref="Models.ProviderResourceType"/> instance for mocking. </returns>
-        public static ProviderResourceType ProviderResourceType(string resourceType = default, IReadOnlyList<string> locations = default, IReadOnlyList<Alias> aliases = default, IReadOnlyList<string> apiVersions = default, string capabilities = default, IReadOnlyDictionary<string, string> properties = default)
+        public static ProviderResourceType ProviderResourceType(string resourceType = default, IReadOnlyList<string> locations = default, IReadOnlyList<ProviderExtendedLocation> locationMappings = default, IReadOnlyList<Alias> aliases = default, IReadOnlyList<string> apiVersions = default, string defaultApiVersion = default, IReadOnlyList<ApiProfile> apiProfiles = default, string capabilities = default, IReadOnlyDictionary<string, string> properties = default)
         {
             locations ??= new List<string>();
+            locationMappings ??= new List<ProviderExtendedLocation>();
             aliases ??= new List<Alias>();
             apiVersions ??= new List<string>();
+            apiProfiles ??= new List<ApiProfile>();
             properties ??= new Dictionary<string, string>();
-            return new ProviderResourceType(resourceType, locations, aliases, apiVersions, capabilities, properties);
+            return new ProviderResourceType(resourceType, locations, locationMappings, aliases, apiVersions, defaultApiVersion, apiProfiles, capabilities, properties);
+        }
+
+        /// <summary> Initializes new instance of ProviderExtendedLocation class. </summary>
+        /// <param name="location"> The azure location. </param>
+        /// <param name="type"> The extended location type. </param>
+        /// <param name="extendedLocations"> The extended locations for the azure location. </param>
+        /// <returns> A new <see cref="Models.ProviderExtendedLocation"/> instance for mocking. </returns>
+        public static ProviderExtendedLocation ProviderExtendedLocation(string location = default, string type = default, IReadOnlyList<string> extendedLocations = default)
+        {
+            extendedLocations ??= new List<string>();
+            return new ProviderExtendedLocation(location, type, extendedLocations);
         }
 
         /// <summary> Initializes new instance of Alias class. </summary>
@@ -145,22 +132,24 @@ namespace Azure.ResourceManager.Resources
         /// <param name="type"> The type of the alias. </param>
         /// <param name="defaultPath"> The default path for an alias. </param>
         /// <param name="defaultPattern"> The default pattern for an alias. </param>
+        /// <param name="defaultMetadata"> The default alias path metadata. Applies to the default path and to any alias path that doesn&apos;t have metadata. </param>
         /// <returns> A new <see cref="Models.Alias"/> instance for mocking. </returns>
-        public static Alias Alias(string name = default, IReadOnlyList<AliasPath> paths = default, AliasType? type = default, string defaultPath = default, AliasPattern defaultPattern = default)
+        public static Alias Alias(string name = default, IReadOnlyList<AliasPath> paths = default, AliasType? type = default, string defaultPath = default, AliasPattern defaultPattern = default, AliasPathMetadata defaultMetadata = default)
         {
             paths ??= new List<AliasPath>();
-            return new Alias(name, paths, type, defaultPath, defaultPattern);
+            return new Alias(name, paths, type, defaultPath, defaultPattern, defaultMetadata);
         }
 
         /// <summary> Initializes new instance of AliasPath class. </summary>
         /// <param name="path"> The path of an alias. </param>
         /// <param name="apiVersions"> The API versions. </param>
         /// <param name="pattern"> The pattern for an alias path. </param>
+        /// <param name="metadata"> The metadata of the alias path. If missing, fall back to the default metadata of the alias. </param>
         /// <returns> A new <see cref="Models.AliasPath"/> instance for mocking. </returns>
-        public static AliasPath AliasPath(string path = default, IReadOnlyList<string> apiVersions = default, AliasPattern pattern = default)
+        public static AliasPath AliasPath(string path = default, IReadOnlyList<string> apiVersions = default, AliasPattern pattern = default, AliasPathMetadata metadata = default)
         {
             apiVersions ??= new List<string>();
-            return new AliasPath(path, apiVersions, pattern);
+            return new AliasPath(path, apiVersions, pattern, metadata);
         }
 
         /// <summary> Initializes new instance of AliasPattern class. </summary>
@@ -171,6 +160,24 @@ namespace Azure.ResourceManager.Resources
         public static AliasPattern AliasPattern(string phrase = default, string variable = default, AliasPatternType? type = default)
         {
             return new AliasPattern(phrase, variable, type);
+        }
+
+        /// <summary> Initializes new instance of AliasPathMetadata class. </summary>
+        /// <param name="type"> The type of the token that the alias path is referring to. </param>
+        /// <param name="attributes"> The attributes of the token that the alias path is referring to. </param>
+        /// <returns> A new <see cref="Models.AliasPathMetadata"/> instance for mocking. </returns>
+        public static AliasPathMetadata AliasPathMetadata(AliasPathTokenType? type = default, AliasPathAttributes? attributes = default)
+        {
+            return new AliasPathMetadata(type, attributes);
+        }
+
+        /// <summary> Initializes new instance of ApiProfile class. </summary>
+        /// <param name="profileVersion"> The profile version. </param>
+        /// <param name="apiVersion"> The API version. </param>
+        /// <returns> A new <see cref="Models.ApiProfile"/> instance for mocking. </returns>
+        public static ApiProfile ApiProfile(string profileVersion = default, string apiVersion = default)
+        {
+            return new ApiProfile(profileVersion, apiVersion);
         }
 
         /// <summary> Initializes new instance of Dependency class. </summary>
@@ -254,14 +261,15 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes new instance of WhatIfChange class. </summary>
         /// <param name="resourceId"> Resource ID. </param>
         /// <param name="changeType"> Type of change that will be made to the resource when the deployment is executed. </param>
+        /// <param name="unsupportedReason"> The explanation about why the resource is unsupported by What-If. </param>
         /// <param name="before"> The snapshot of the resource before the deployment is executed. </param>
         /// <param name="after"> The predicted snapshot of the resource after the deployment is executed. </param>
         /// <param name="delta"> The predicted changes to resource properties. </param>
         /// <returns> A new <see cref="Models.WhatIfChange"/> instance for mocking. </returns>
-        public static WhatIfChange WhatIfChange(string resourceId = default, ChangeType changeType = default, object before = default, object after = default, IReadOnlyList<WhatIfPropertyChange> delta = default)
+        public static WhatIfChange WhatIfChange(string resourceId = default, ChangeType changeType = default, string unsupportedReason = default, object before = default, object after = default, IReadOnlyList<WhatIfPropertyChange> delta = default)
         {
             delta ??= new List<WhatIfPropertyChange>();
-            return new WhatIfChange(resourceId, changeType, before, after, delta);
+            return new WhatIfChange(resourceId, changeType, unsupportedReason, before, after, delta);
         }
 
         /// <summary> Initializes new instance of WhatIfPropertyChange class. </summary>
@@ -275,184 +283,6 @@ namespace Azure.ResourceManager.Resources
         {
             children ??= new List<WhatIfPropertyChange>();
             return new WhatIfPropertyChange(path, propertyChangeType, before, after, children);
-        }
-
-        /// <summary> Initializes new instance of ProviderListResult class. </summary>
-        /// <param name="value"> An array of resource providers. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.ProviderListResult"/> instance for mocking. </returns>
-        public static ProviderListResult ProviderListResult(IReadOnlyList<Provider> value = default, string nextLink = default)
-        {
-            value ??= new List<Provider>();
-            return new ProviderListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of ResourceListResult class. </summary>
-        /// <param name="value"> An array of resources. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.ResourceListResult"/> instance for mocking. </returns>
-        public static ResourceListResult ResourceListResult(IReadOnlyList<GenericResourceExpanded> value = default, string nextLink = default)
-        {
-            value ??= new List<GenericResourceExpanded>();
-            return new ResourceListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of Resource class. </summary>
-        /// <param name="id"> Resource ID. </param>
-        /// <param name="name"> Resource name. </param>
-        /// <param name="type"> Resource type. </param>
-        /// <param name="location"> Resource location. </param>
-        /// <param name="tags"> Resource tags. </param>
-        /// <returns> A new <see cref="Models.Resource"/> instance for mocking. </returns>
-        public static Resource Resource(string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
-        {
-            tags ??= new Dictionary<string, string>();
-            return new Resource(id, name, type, location, tags);
-        }
-
-        /// <summary> Initializes new instance of GenericResource class. </summary>
-        /// <param name="plan"> The plan of the resource. </param>
-        /// <param name="properties"> The resource properties. </param>
-        /// <param name="kind"> The kind of the resource. </param>
-        /// <param name="managedBy"> ID of the resource that manages this resource. </param>
-        /// <param name="sku"> The SKU of the resource. </param>
-        /// <param name="identity"> The identity of the resource. </param>
-        /// <param name="id"> Resource ID. </param>
-        /// <param name="name"> Resource name. </param>
-        /// <param name="type"> Resource type. </param>
-        /// <param name="location"> Resource location. </param>
-        /// <param name="tags"> Resource tags. </param>
-        /// <returns> A new <see cref="Models.GenericResource"/> instance for mocking. </returns>
-        public static GenericResource GenericResource(Plan plan = default, object properties = default, string kind = default, string managedBy = default, Sku sku = default, Identity identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
-        {
-            tags ??= new Dictionary<string, string>();
-            return new GenericResource(plan, properties, kind, managedBy, sku, identity, id, name, type, location, tags);
-        }
-
-        /// <summary> Initializes new instance of Identity class. </summary>
-        /// <param name="principalId"> The principal ID of resource identity. </param>
-        /// <param name="tenantId"> The tenant ID of resource. </param>
-        /// <param name="type"> The identity type. </param>
-        /// <param name="userAssignedIdentities"> The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: &apos;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}&apos;. </param>
-        /// <returns> A new <see cref="Models.Identity"/> instance for mocking. </returns>
-        public static Identity Identity(string principalId = default, string tenantId = default, ResourceIdentityType? type = default, IDictionary<string, IdentityUserAssignedIdentitiesValue> userAssignedIdentities = default)
-        {
-            userAssignedIdentities ??= new Dictionary<string, IdentityUserAssignedIdentitiesValue>();
-            return new Identity(principalId, tenantId, type, userAssignedIdentities);
-        }
-
-        /// <summary> Initializes new instance of IdentityUserAssignedIdentitiesValue class. </summary>
-        /// <param name="principalId"> The principal id of user assigned identity. </param>
-        /// <param name="clientId"> The client id of user assigned identity. </param>
-        /// <returns> A new <see cref="Models.IdentityUserAssignedIdentitiesValue"/> instance for mocking. </returns>
-        public static IdentityUserAssignedIdentitiesValue IdentityUserAssignedIdentitiesValue(string principalId = default, string clientId = default)
-        {
-            return new IdentityUserAssignedIdentitiesValue(principalId, clientId);
-        }
-
-        /// <summary> Initializes new instance of GenericResourceExpanded class. </summary>
-        /// <param name="createdTime"> The created time of the resource. This is only present if requested via the $expand query parameter. </param>
-        /// <param name="changedTime"> The changed time of the resource. This is only present if requested via the $expand query parameter. </param>
-        /// <param name="provisioningState"> The provisioning state of the resource. This is only present if requested via the $expand query parameter. </param>
-        /// <param name="plan"> The plan of the resource. </param>
-        /// <param name="properties"> The resource properties. </param>
-        /// <param name="kind"> The kind of the resource. </param>
-        /// <param name="managedBy"> ID of the resource that manages this resource. </param>
-        /// <param name="sku"> The SKU of the resource. </param>
-        /// <param name="identity"> The identity of the resource. </param>
-        /// <param name="id"> Resource ID. </param>
-        /// <param name="name"> Resource name. </param>
-        /// <param name="type"> Resource type. </param>
-        /// <param name="location"> Resource location. </param>
-        /// <param name="tags"> Resource tags. </param>
-        /// <returns> A new <see cref="Models.GenericResourceExpanded"/> instance for mocking. </returns>
-        public static GenericResourceExpanded GenericResourceExpanded(DateTimeOffset? createdTime = default, DateTimeOffset? changedTime = default, string provisioningState = default, Plan plan = default, object properties = default, string kind = default, string managedBy = default, Sku sku = default, Identity identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
-        {
-            tags ??= new Dictionary<string, string>();
-            return new GenericResourceExpanded(createdTime, changedTime, provisioningState, plan, properties, kind, managedBy, sku, identity, id, name, type, location, tags);
-        }
-
-        /// <summary> Initializes new instance of ResourceGroup class. </summary>
-        /// <param name="id"> The ID of the resource group. </param>
-        /// <param name="name"> The name of the resource group. </param>
-        /// <param name="type"> The type of the resource group. </param>
-        /// <param name="properties"> The resource group properties. </param>
-        /// <param name="location"> The location of the resource group. It cannot be changed after the resource group has been created. It must be one of the supported Azure locations. </param>
-        /// <param name="managedBy"> The ID of the resource that manages this resource group. </param>
-        /// <param name="tags"> The tags attached to the resource group. </param>
-        /// <returns> A new <see cref="Models.ResourceGroup"/> instance for mocking. </returns>
-        public static ResourceGroup ResourceGroup(string id = default, string name = default, string type = default, ResourceGroupProperties properties = default, string location = default, string managedBy = default, IDictionary<string, string> tags = default)
-        {
-            tags ??= new Dictionary<string, string>();
-            return new ResourceGroup(id, name, type, properties, location, managedBy, tags);
-        }
-
-        /// <summary> Initializes new instance of ResourceGroupProperties class. </summary>
-        /// <param name="provisioningState"> The provisioning state. </param>
-        /// <returns> A new <see cref="Models.ResourceGroupProperties"/> instance for mocking. </returns>
-        public static ResourceGroupProperties ResourceGroupProperties(string provisioningState = default)
-        {
-            return new ResourceGroupProperties(provisioningState);
-        }
-
-        /// <summary> Initializes new instance of ResourceGroupExportResult class. </summary>
-        /// <param name="template"> The template content. </param>
-        /// <param name="error"> The template export error. </param>
-        /// <returns> A new <see cref="Models.ResourceGroupExportResult"/> instance for mocking. </returns>
-        public static ResourceGroupExportResult ResourceGroupExportResult(object template = default, ErrorResponse error = default)
-        {
-            return new ResourceGroupExportResult(template, error);
-        }
-
-        /// <summary> Initializes new instance of ResourceGroupListResult class. </summary>
-        /// <param name="value"> An array of resource groups. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.ResourceGroupListResult"/> instance for mocking. </returns>
-        public static ResourceGroupListResult ResourceGroupListResult(IReadOnlyList<ResourceGroup> value = default, string nextLink = default)
-        {
-            value ??= new List<ResourceGroup>();
-            return new ResourceGroupListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of TagValue class. </summary>
-        /// <param name="id"> The tag value ID. </param>
-        /// <param name="tagValueValue"> The tag value. </param>
-        /// <param name="count"> The tag value count. </param>
-        /// <returns> A new <see cref="Models.TagValue"/> instance for mocking. </returns>
-        public static TagValue TagValue(string id = default, string tagValueValue = default, TagCount count = default)
-        {
-            return new TagValue(id, tagValueValue, count);
-        }
-
-        /// <summary> Initializes new instance of TagCount class. </summary>
-        /// <param name="type"> Type of count. </param>
-        /// <param name="value"> Value of count. </param>
-        /// <returns> A new <see cref="Models.TagCount"/> instance for mocking. </returns>
-        public static TagCount TagCount(string type = default, int? value = default)
-        {
-            return new TagCount(type, value);
-        }
-
-        /// <summary> Initializes new instance of TagDetails class. </summary>
-        /// <param name="id"> The tag name ID. </param>
-        /// <param name="tagName"> The tag name. </param>
-        /// <param name="count"> The total number of resources that use the resource tag. When a tag is initially created and has no associated resources, the value is 0. </param>
-        /// <param name="values"> The list of tag values. </param>
-        /// <returns> A new <see cref="Models.TagDetails"/> instance for mocking. </returns>
-        public static TagDetails TagDetails(string id = default, string tagName = default, TagCount count = default, IReadOnlyList<TagValue> values = default)
-        {
-            values ??= new List<TagValue>();
-            return new TagDetails(id, tagName, count, values);
-        }
-
-        /// <summary> Initializes new instance of TagsListResult class. </summary>
-        /// <param name="value"> An array of tags. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.TagsListResult"/> instance for mocking. </returns>
-        public static TagsListResult TagsListResult(IReadOnlyList<TagDetails> value = default, string nextLink = default)
-        {
-            value ??= new List<TagDetails>();
-            return new TagsListResult(value, nextLink);
         }
 
         /// <summary> Initializes new instance of DeploymentOperation class. </summary>
@@ -471,8 +301,8 @@ namespace Azure.ResourceManager.Resources
         /// <param name="timestamp"> The date and time of the operation. </param>
         /// <param name="duration"> The duration of the operation. </param>
         /// <param name="serviceRequestId"> Deployment operation service request id. </param>
-        /// <param name="statusCode"> Operation status code. </param>
-        /// <param name="statusMessage"> Operation status message. </param>
+        /// <param name="statusCode"> Operation status code from the resource provider. This property may not be set if a response has not yet been received. </param>
+        /// <param name="statusMessage"> Operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider. </param>
         /// <param name="targetResource"> The target resource. </param>
         /// <param name="request"> The HTTP request message. </param>
         /// <param name="response"> The HTTP response message. </param>
@@ -480,6 +310,15 @@ namespace Azure.ResourceManager.Resources
         public static DeploymentOperationProperties DeploymentOperationProperties(ProvisioningOperation? provisioningOperation = default, string provisioningState = default, DateTimeOffset? timestamp = default, string duration = default, string serviceRequestId = default, string statusCode = default, object statusMessage = default, TargetResource targetResource = default, HttpMessage request = default, HttpMessage response = default)
         {
             return new DeploymentOperationProperties(provisioningOperation, provisioningState, timestamp, duration, serviceRequestId, statusCode, statusMessage, targetResource, request, response);
+        }
+
+        /// <summary> Initializes new instance of StatusMessage class. </summary>
+        /// <param name="status"> Status of the deployment operation. </param>
+        /// <param name="error"> The error reported by the operation. </param>
+        /// <returns> A new <see cref="Models.StatusMessage"/> instance for mocking. </returns>
+        public static StatusMessage StatusMessage(string status = default, ErrorResponse error = default)
+        {
+            return new StatusMessage(status, error);
         }
 
         /// <summary> Initializes new instance of TargetResource class. </summary>
@@ -519,135 +358,6 @@ namespace Azure.ResourceManager.Resources
             return new TemplateHashResult(minifiedTemplate, templateHash);
         }
 
-        /// <summary> Initializes new instance of TagsResource class. </summary>
-        /// <param name="id"> The ID of the tags wrapper resource. </param>
-        /// <param name="name"> The name of the tags wrapper resource. </param>
-        /// <param name="type"> The type of the tags wrapper resource. </param>
-        /// <param name="properties"> The set of tags. </param>
-        /// <returns> A new <see cref="Models.TagsResource"/> instance for mocking. </returns>
-        public static TagsResource TagsResource(string id = default, string name = default, string type = default, Tags properties = default)
-        {
-            return new TagsResource(id, name, type, properties);
-        }
-
-        /// <summary> Initializes new instance of LocationListResult class. </summary>
-        /// <param name="value"> An array of locations. </param>
-        /// <returns> A new <see cref="Models.LocationListResult"/> instance for mocking. </returns>
-        public static LocationListResult LocationListResult(IReadOnlyList<Location> value = default)
-        {
-            value ??= new List<Location>();
-            return new LocationListResult(value);
-        }
-
-        /// <summary> Initializes new instance of Location class. </summary>
-        /// <param name="id"> The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus. </param>
-        /// <param name="subscriptionId"> The subscription ID. </param>
-        /// <param name="name"> The location name. </param>
-        /// <param name="displayName"> The display name of the location. </param>
-        /// <param name="regionalDisplayName"> The display name of the location and its region. </param>
-        /// <param name="metadata"> Metadata of the location, such as lat/long, paired region, and others. </param>
-        /// <returns> A new <see cref="Models.Location"/> instance for mocking. </returns>
-        public static Location Location(string id = default, string subscriptionId = default, string name = default, string displayName = default, string regionalDisplayName = default, LocationMetadata metadata = default)
-        {
-            return new Location(id, subscriptionId, name, displayName, regionalDisplayName, metadata);
-        }
-
-        /// <summary> Initializes new instance of LocationMetadata class. </summary>
-        /// <param name="regionType"> The type of the region. </param>
-        /// <param name="regionCategory"> The category of the region. </param>
-        /// <param name="geographyGroup"> The geography group of the location. </param>
-        /// <param name="longitude"> The longitude of the location. </param>
-        /// <param name="latitude"> The latitude of the location. </param>
-        /// <param name="physicalLocation"> The physical location of the Azure location. </param>
-        /// <param name="pairedRegion"> The regions paired to this region. </param>
-        /// <returns> A new <see cref="Models.LocationMetadata"/> instance for mocking. </returns>
-        public static LocationMetadata LocationMetadata(RegionType? regionType = default, RegionCategory? regionCategory = default, string geographyGroup = default, string longitude = default, string latitude = default, string physicalLocation = default, IReadOnlyList<PairedRegion> pairedRegion = default)
-        {
-            pairedRegion ??= new List<PairedRegion>();
-            return new LocationMetadata(regionType, regionCategory, geographyGroup, longitude, latitude, physicalLocation, pairedRegion);
-        }
-
-        /// <summary> Initializes new instance of PairedRegion class. </summary>
-        /// <param name="name"> The name of the paired region. </param>
-        /// <param name="id"> The fully qualified ID of the location. For example, /subscriptions/00000000-0000-0000-0000-000000000000/locations/westus. </param>
-        /// <param name="subscriptionId"> The subscription ID. </param>
-        /// <returns> A new <see cref="Models.PairedRegion"/> instance for mocking. </returns>
-        public static PairedRegion PairedRegion(string name = default, string id = default, string subscriptionId = default)
-        {
-            return new PairedRegion(name, id, subscriptionId);
-        }
-
-        /// <summary> Initializes new instance of Subscription class. </summary>
-        /// <param name="id"> The fully qualified ID for the subscription. For example, /subscriptions/00000000-0000-0000-0000-000000000000. </param>
-        /// <param name="subscriptionId"> The subscription ID. </param>
-        /// <param name="displayName"> The subscription display name. </param>
-        /// <param name="tenantId"> The subscription tenant ID. </param>
-        /// <param name="state"> The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted. </param>
-        /// <param name="subscriptionPolicies"> The subscription policies. </param>
-        /// <param name="authorizationSource"> The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, &apos;Legacy, RoleBased&apos;. </param>
-        /// <param name="managedByTenants"> An array containing the tenants managing the subscription. </param>
-        /// <param name="tags"> The tags attached to the subscription. </param>
-        /// <returns> A new <see cref="Models.Subscription"/> instance for mocking. </returns>
-        public static Subscription Subscription(string id = default, string subscriptionId = default, string displayName = default, string tenantId = default, SubscriptionState? state = default, SubscriptionPolicies subscriptionPolicies = default, string authorizationSource = default, IReadOnlyList<ManagedByTenant> managedByTenants = default, IReadOnlyDictionary<string, string> tags = default)
-        {
-            managedByTenants ??= new List<ManagedByTenant>();
-            tags ??= new Dictionary<string, string>();
-            return new Subscription(id, subscriptionId, displayName, tenantId, state, subscriptionPolicies, authorizationSource, managedByTenants, tags);
-        }
-
-        /// <summary> Initializes new instance of SubscriptionPolicies class. </summary>
-        /// <param name="locationPlacementId"> The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions. </param>
-        /// <param name="quotaId"> The subscription quota ID. </param>
-        /// <param name="spendingLimit"> The subscription spending limit. </param>
-        /// <returns> A new <see cref="Models.SubscriptionPolicies"/> instance for mocking. </returns>
-        public static SubscriptionPolicies SubscriptionPolicies(string locationPlacementId = default, string quotaId = default, SpendingLimit? spendingLimit = default)
-        {
-            return new SubscriptionPolicies(locationPlacementId, quotaId, spendingLimit);
-        }
-
-        /// <summary> Initializes new instance of ManagedByTenant class. </summary>
-        /// <param name="tenantId"> The tenant ID of the managing tenant. This is a GUID. </param>
-        /// <returns> A new <see cref="Models.ManagedByTenant"/> instance for mocking. </returns>
-        public static ManagedByTenant ManagedByTenant(string tenantId = default)
-        {
-            return new ManagedByTenant(tenantId);
-        }
-
-        /// <summary> Initializes new instance of SubscriptionListResult class. </summary>
-        /// <param name="value"> An array of subscriptions. </param>
-        /// <param name="nextLink"> The URL to get the next set of results. </param>
-        /// <returns> A new <see cref="Models.SubscriptionListResult"/> instance for mocking. </returns>
-        public static SubscriptionListResult SubscriptionListResult(IReadOnlyList<Subscription> value = default, string nextLink = default)
-        {
-            value ??= new List<Subscription>();
-            return new SubscriptionListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of TenantListResult class. </summary>
-        /// <param name="value"> An array of tenants. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.TenantListResult"/> instance for mocking. </returns>
-        public static TenantListResult TenantListResult(IReadOnlyList<TenantIdDescription> value = default, string nextLink = default)
-        {
-            value ??= new List<TenantIdDescription>();
-            return new TenantListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of TenantIdDescription class. </summary>
-        /// <param name="id"> The fully qualified ID of the tenant. For example, /tenants/00000000-0000-0000-0000-000000000000. </param>
-        /// <param name="tenantId"> The tenant ID. For example, 00000000-0000-0000-0000-000000000000. </param>
-        /// <param name="tenantCategory"> Category of the tenant. </param>
-        /// <param name="country"> Country/region name of the address for the tenant. </param>
-        /// <param name="countryCode"> Country/region abbreviation for the tenant. </param>
-        /// <param name="displayName"> The display name of the tenant. </param>
-        /// <param name="domains"> The list of domains for the tenant. </param>
-        /// <returns> A new <see cref="Models.TenantIdDescription"/> instance for mocking. </returns>
-        public static TenantIdDescription TenantIdDescription(string id = default, string tenantId = default, TenantCategory? tenantCategory = default, string country = default, string countryCode = default, string displayName = default, IReadOnlyList<string> domains = default)
-        {
-            domains ??= new List<string>();
-            return new TenantIdDescription(id, tenantId, tenantCategory, country, countryCode, displayName, domains);
-        }
-
         /// <summary> Initializes new instance of PolicyAssignment class. </summary>
         /// <param name="id"> The ID of the policy assignment. </param>
         /// <param name="type"> The type of the policy assignment. </param>
@@ -671,14 +381,14 @@ namespace Azure.ResourceManager.Resources
             return new PolicyAssignment(id, type, name, sku, location, identity, displayName, policyDefinitionId, scope, notScopes, parameters, description, metadata, enforcementMode);
         }
 
-        /// <summary> Initializes new instance of IdentityAutoGenerated class. </summary>
+        /// <summary> Initializes new instance of Identity class. </summary>
         /// <param name="principalId"> The principal ID of the resource identity. </param>
         /// <param name="tenantId"> The tenant ID of the resource identity. </param>
         /// <param name="type"> The identity type. This is the only required field when adding a system assigned identity to a resource. </param>
-        /// <returns> A new <see cref="Models.IdentityAutoGenerated"/> instance for mocking. </returns>
-        public static IdentityAutoGenerated IdentityAutoGenerated(string principalId = default, string tenantId = default, ResourceIdentityType? type = default)
+        /// <returns> A new <see cref="Models.Identity"/> instance for mocking. </returns>
+        public static Identity Identity(string principalId = default, string tenantId = default, ResourceIdentityType? type = default)
         {
-            return new IdentityAutoGenerated(principalId, tenantId, type);
+            return new Identity(principalId, tenantId, type);
         }
 
         /// <summary> Initializes new instance of PolicyAssignmentListResult class. </summary>
@@ -775,13 +485,33 @@ namespace Azure.ResourceManager.Resources
             return new DeploymentScript(identity, location, tags, kind, systemData, id, name, type);
         }
 
+        /// <summary> Initializes new instance of ManagedServiceIdentity class. </summary>
+        /// <param name="type"> Type of the managed identity. </param>
+        /// <param name="tenantId"> ID of the Azure Active Directory. </param>
+        /// <param name="userAssignedIdentities"> The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity. </param>
+        /// <returns> A new <see cref="Models.ManagedServiceIdentity"/> instance for mocking. </returns>
+        public static ManagedServiceIdentity ManagedServiceIdentity(ManagedServiceIdentityType? type = default, string tenantId = default, IDictionary<string, UserAssignedIdentity> userAssignedIdentities = default)
+        {
+            userAssignedIdentities ??= new Dictionary<string, UserAssignedIdentity>();
+            return new ManagedServiceIdentity(type, tenantId, userAssignedIdentities);
+        }
+
+        /// <summary> Initializes new instance of UserAssignedIdentity class. </summary>
+        /// <param name="principalId"> Azure Active Directory principal ID associated with this identity. </param>
+        /// <param name="clientId"> Client App Id associated with this identity. </param>
+        /// <returns> A new <see cref="Models.UserAssignedIdentity"/> instance for mocking. </returns>
+        public static UserAssignedIdentity UserAssignedIdentity(string principalId = default, string clientId = default)
+        {
+            return new UserAssignedIdentity(principalId, clientId);
+        }
+
         /// <summary> Initializes new instance of SystemData class. </summary>
         /// <param name="createdBy"> The identity that created the resource. </param>
         /// <param name="createdByType"> The type of identity that created the resource. </param>
         /// <param name="createdAt"> The timestamp of resource creation (UTC). </param>
         /// <param name="lastModifiedBy"> The identity that last modified the resource. </param>
         /// <param name="lastModifiedByType"> The type of identity that last modified the resource. </param>
-        /// <param name="lastModifiedAt"> The type of identity that last modified the resource. </param>
+        /// <param name="lastModifiedAt"> The timestamp of resource last modification (UTC). </param>
         /// <returns> A new <see cref="Models.SystemData"/> instance for mocking. </returns>
         public static SystemData SystemData(string createdBy = default, CreatedByType? createdByType = default, DateTimeOffset? createdAt = default, string lastModifiedBy = default, CreatedByType? lastModifiedByType = default, DateTimeOffset? lastModifiedAt = default)
         {
@@ -828,64 +558,6 @@ namespace Azure.ResourceManager.Resources
         public static ScriptLog ScriptLog(string log = default, string id = default, string name = default, string type = default)
         {
             return new ScriptLog(log, id, name, type);
-        }
-
-        /// <summary> Initializes new instance of FeatureOperationsListResult class. </summary>
-        /// <param name="value"> The array of features. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        /// <returns> A new <see cref="Models.FeatureOperationsListResult"/> instance for mocking. </returns>
-        public static FeatureOperationsListResult FeatureOperationsListResult(IReadOnlyList<FeatureResult> value = default, string nextLink = default)
-        {
-            value ??= new List<FeatureResult>();
-            return new FeatureOperationsListResult(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of FeatureResult class. </summary>
-        /// <param name="name"> The name of the feature. </param>
-        /// <param name="properties"> Properties of the previewed feature. </param>
-        /// <param name="id"> The resource ID of the feature. </param>
-        /// <param name="type"> The resource type of the feature. </param>
-        /// <returns> A new <see cref="Models.FeatureResult"/> instance for mocking. </returns>
-        public static FeatureResult FeatureResult(string name = default, FeatureProperties properties = default, string id = default, string type = default)
-        {
-            return new FeatureResult(name, properties, id, type);
-        }
-
-        /// <summary> Initializes new instance of FeatureProperties class. </summary>
-        /// <param name="state"> The registration state of the feature for the subscription. </param>
-        /// <returns> A new <see cref="Models.FeatureProperties"/> instance for mocking. </returns>
-        public static FeatureProperties FeatureProperties(string state = default)
-        {
-            return new FeatureProperties(state);
-        }
-
-        /// <summary> Initializes new instance of OperationListResultAutoGenerated class. </summary>
-        /// <param name="value"> List of Microsoft.Authorization operations. </param>
-        /// <param name="nextLink"> URL to get the next set of operation list results if there are any. </param>
-        /// <returns> A new <see cref="Models.OperationListResultAutoGenerated"/> instance for mocking. </returns>
-        public static OperationListResultAutoGenerated OperationListResultAutoGenerated(IReadOnlyList<OperationAutoGenerated> value = default, string nextLink = default)
-        {
-            value ??= new List<OperationAutoGenerated>();
-            return new OperationListResultAutoGenerated(value, nextLink);
-        }
-
-        /// <summary> Initializes new instance of OperationAutoGenerated class. </summary>
-        /// <param name="name"> Operation name: {provider}/{resource}/{operation}. </param>
-        /// <param name="display"> The object that represents the operation. </param>
-        /// <returns> A new <see cref="Models.OperationAutoGenerated"/> instance for mocking. </returns>
-        public static OperationAutoGenerated OperationAutoGenerated(string name = default, OperationDisplayAutoGenerated display = default)
-        {
-            return new OperationAutoGenerated(name, display);
-        }
-
-        /// <summary> Initializes new instance of OperationDisplayAutoGenerated class. </summary>
-        /// <param name="provider"> Service provider: Microsoft.Authorization. </param>
-        /// <param name="resource"> Resource on which the operation is performed: Profile, endpoint, etc. </param>
-        /// <param name="operation"> Operation type: Read, write, delete, etc. </param>
-        /// <returns> A new <see cref="Models.OperationDisplayAutoGenerated"/> instance for mocking. </returns>
-        public static OperationDisplayAutoGenerated OperationDisplayAutoGenerated(string provider = default, string resource = default, string operation = default)
-        {
-            return new OperationDisplayAutoGenerated(provider, resource, operation);
         }
 
         /// <summary> Initializes new instance of ManagementLockObject class. </summary>
@@ -943,7 +615,20 @@ namespace Azure.ResourceManager.Resources
             return new ResourceLinkResult(value, nextLink);
         }
 
-        /// <summary> Initializes new instance of GenericResourceAutoGenerated class. </summary>
+        /// <summary> Initializes new instance of Resource class. </summary>
+        /// <param name="id"> Resource ID. </param>
+        /// <param name="name"> Resource name. </param>
+        /// <param name="type"> Resource type. </param>
+        /// <param name="location"> Resource location. </param>
+        /// <param name="tags"> Resource tags. </param>
+        /// <returns> A new <see cref="Models.Resource"/> instance for mocking. </returns>
+        public static Resource Resource(string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
+        {
+            tags ??= new Dictionary<string, string>();
+            return new Resource(id, name, type, location, tags);
+        }
+
+        /// <summary> Initializes new instance of GenericResource class. </summary>
         /// <param name="managedBy"> ID of the resource that manages this resource. </param>
         /// <param name="sku"> The SKU of the resource. </param>
         /// <param name="identity"> The identity of the resource. </param>
@@ -952,21 +637,21 @@ namespace Azure.ResourceManager.Resources
         /// <param name="type"> Resource type. </param>
         /// <param name="location"> Resource location. </param>
         /// <param name="tags"> Resource tags. </param>
-        /// <returns> A new <see cref="Models.GenericResourceAutoGenerated"/> instance for mocking. </returns>
-        public static GenericResourceAutoGenerated GenericResourceAutoGenerated(string managedBy = default, SkuAutoGenerated sku = default, IdentityAutoGenerated2 identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
+        /// <returns> A new <see cref="Models.GenericResource"/> instance for mocking. </returns>
+        public static GenericResource GenericResource(string managedBy = default, Sku sku = default, Identity identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
         {
             tags ??= new Dictionary<string, string>();
-            return new GenericResourceAutoGenerated(managedBy, sku, identity, id, name, type, location, tags);
+            return new GenericResource(managedBy, sku, identity, id, name, type, location, tags);
         }
 
-        /// <summary> Initializes new instance of IdentityAutoGenerated2 class. </summary>
+        /// <summary> Initializes new instance of IdentityAutoGenerated class. </summary>
         /// <param name="principalId"> The principal ID of resource identity. </param>
         /// <param name="tenantId"> The tenant ID of resource. </param>
         /// <param name="type"> The identity type. </param>
-        /// <returns> A new <see cref="Models.IdentityAutoGenerated2"/> instance for mocking. </returns>
-        public static IdentityAutoGenerated2 IdentityAutoGenerated2(string principalId = default, string tenantId = default, ResourceIdentityType? type = default)
+        /// <returns> A new <see cref="Models.IdentityAutoGenerated"/> instance for mocking. </returns>
+        public static IdentityAutoGenerated IdentityAutoGenerated(string principalId = default, string tenantId = default, ResourceIdentityType? type = default)
         {
-            return new IdentityAutoGenerated2(principalId, tenantId, type);
+            return new IdentityAutoGenerated(principalId, tenantId, type);
         }
 
         /// <summary> Initializes new instance of Application class. </summary>
@@ -986,10 +671,33 @@ namespace Azure.ResourceManager.Resources
         /// <param name="location"> Resource location. </param>
         /// <param name="tags"> Resource tags. </param>
         /// <returns> A new <see cref="Models.Application"/> instance for mocking. </returns>
-        public static Application Application(PlanAutoGenerated plan = default, string kind = default, string managedResourceGroupId = default, string applicationDefinitionId = default, object parameters = default, object outputs = default, ProvisioningState? provisioningState = default, string managedBy = default, SkuAutoGenerated sku = default, IdentityAutoGenerated2 identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
+        public static Application Application(PlanAutoGenerated plan = default, string kind = default, string managedResourceGroupId = default, string applicationDefinitionId = default, object parameters = default, object outputs = default, ProvisioningState? provisioningState = default, string managedBy = default, Sku sku = default, IdentityAutoGenerated identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
         {
             tags ??= new Dictionary<string, string>();
             return new Application(plan, kind, managedResourceGroupId, applicationDefinitionId, parameters, outputs, provisioningState, managedBy, sku, identity, id, name, type, location, tags);
+        }
+
+        /// <summary> Initializes new instance of ApplicationPatchable class. </summary>
+        /// <param name="plan"> The plan information. </param>
+        /// <param name="kind"> The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. </param>
+        /// <param name="managedResourceGroupId"> The managed resource group Id. </param>
+        /// <param name="applicationDefinitionId"> The fully qualified path of managed application definition Id. </param>
+        /// <param name="parameters"> Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. </param>
+        /// <param name="outputs"> Name and value pairs that define the managed application outputs. </param>
+        /// <param name="provisioningState"> The managed application provisioning state. </param>
+        /// <param name="managedBy"> ID of the resource that manages this resource. </param>
+        /// <param name="sku"> The SKU of the resource. </param>
+        /// <param name="identity"> The identity of the resource. </param>
+        /// <param name="id"> Resource ID. </param>
+        /// <param name="name"> Resource name. </param>
+        /// <param name="type"> Resource type. </param>
+        /// <param name="location"> Resource location. </param>
+        /// <param name="tags"> Resource tags. </param>
+        /// <returns> A new <see cref="Models.ApplicationPatchable"/> instance for mocking. </returns>
+        public static ApplicationPatchable ApplicationPatchable(PlanPatchable plan = default, string kind = default, string managedResourceGroupId = default, string applicationDefinitionId = default, object parameters = default, object outputs = default, ProvisioningState? provisioningState = default, string managedBy = default, Sku sku = default, IdentityAutoGenerated identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
+        {
+            tags ??= new Dictionary<string, string>();
+            return new ApplicationPatchable(plan, kind, managedResourceGroupId, applicationDefinitionId, parameters, outputs, provisioningState, managedBy, sku, identity, id, name, type, location, tags);
         }
 
         /// <summary> Initializes new instance of ApplicationDefinition class. </summary>
@@ -1011,7 +719,7 @@ namespace Azure.ResourceManager.Resources
         /// <param name="location"> Resource location. </param>
         /// <param name="tags"> Resource tags. </param>
         /// <returns> A new <see cref="Models.ApplicationDefinition"/> instance for mocking. </returns>
-        public static ApplicationDefinition ApplicationDefinition(ApplicationLockLevel lockLevel = default, string displayName = default, string isEnabled = default, IList<ApplicationProviderAuthorization> authorizations = default, IList<ApplicationArtifact> artifacts = default, string description = default, string packageFileUri = default, object mainTemplate = default, object createUiDefinition = default, string managedBy = default, SkuAutoGenerated sku = default, IdentityAutoGenerated2 identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
+        public static ApplicationDefinition ApplicationDefinition(ApplicationLockLevel lockLevel = default, string displayName = default, string isEnabled = default, IList<ApplicationProviderAuthorization> authorizations = default, IList<ApplicationArtifact> artifacts = default, string description = default, string packageFileUri = default, object mainTemplate = default, object createUiDefinition = default, string managedBy = default, Sku sku = default, IdentityAutoGenerated identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
         {
             authorizations ??= new List<ApplicationProviderAuthorization>();
             artifacts ??= new List<ApplicationArtifact>();
@@ -1052,8 +760,8 @@ namespace Azure.ResourceManager.Resources
         /// <param name="arguments"> Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location &apos;West US 2&apos;. </param>
         /// <param name="environmentVariables"> The environment variables to pass over to the script. </param>
         /// <param name="forceUpdateTag"> Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. </param>
-        /// <param name="retentionInterval"> Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P7D means one week). </param>
-        /// <param name="timeout"> Maximum allowed script execution time specified in ISO 8601 format. Default value is PT1H. </param>
+        /// <param name="retentionInterval"> Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). </param>
+        /// <param name="timeout"> Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D. </param>
         /// <param name="azPowerShellVersion"> Azure PowerShell module version to be used. </param>
         /// <param name="identity"> Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. </param>
         /// <param name="location"> The location of the ACI and the storage account for the deployment script. </param>
@@ -1099,8 +807,8 @@ namespace Azure.ResourceManager.Resources
         /// <param name="arguments"> Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location &apos;West US 2&apos;. </param>
         /// <param name="environmentVariables"> The environment variables to pass over to the script. </param>
         /// <param name="forceUpdateTag"> Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. </param>
-        /// <param name="retentionInterval"> Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P7D means one week). </param>
-        /// <param name="timeout"> Maximum allowed script execution time specified in ISO 8601 format. Default value is PT1H. </param>
+        /// <param name="retentionInterval"> Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). </param>
+        /// <param name="timeout"> Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D. </param>
         /// <param name="azCliVersion"> Azure CLI module version to be used. </param>
         /// <param name="identity"> Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. </param>
         /// <param name="location"> The location of the ACI and the storage account for the deployment script. </param>
@@ -1118,29 +826,6 @@ namespace Azure.ResourceManager.Resources
             environmentVariables ??= new List<EnvironmentVariable>();
             tags ??= new Dictionary<string, string>();
             return new AzureCliScript(containerSettings, storageAccountSettings, cleanupPreference, provisioningState, status, outputs, primaryScriptUri, supportingScriptUris, scriptContent, arguments, environmentVariables, forceUpdateTag, retentionInterval, timeout, azCliVersion, identity, location, tags, kind, systemData, id, name, type);
-        }
-
-        /// <summary> Initializes new instance of ApplicationPatchable class. </summary>
-        /// <param name="plan"> The plan information. </param>
-        /// <param name="kind"> The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. </param>
-        /// <param name="managedResourceGroupId"> The managed resource group Id. </param>
-        /// <param name="applicationDefinitionId"> The fully qualified path of managed application definition Id. </param>
-        /// <param name="parameters"> Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. </param>
-        /// <param name="outputs"> Name and value pairs that define the managed application outputs. </param>
-        /// <param name="provisioningState"> The managed application provisioning state. </param>
-        /// <param name="managedBy"> ID of the resource that manages this resource. </param>
-        /// <param name="sku"> The SKU of the resource. </param>
-        /// <param name="identity"> The identity of the resource. </param>
-        /// <param name="id"> Resource ID. </param>
-        /// <param name="name"> Resource name. </param>
-        /// <param name="type"> Resource type. </param>
-        /// <param name="location"> Resource location. </param>
-        /// <param name="tags"> Resource tags. </param>
-        /// <returns> A new <see cref="Models.ApplicationPatchable"/> instance for mocking. </returns>
-        public static ApplicationPatchable ApplicationPatchable(PlanPatchable plan = default, string kind = default, string managedResourceGroupId = default, string applicationDefinitionId = default, object parameters = default, object outputs = default, ProvisioningState? provisioningState = default, string managedBy = default, SkuAutoGenerated sku = default, IdentityAutoGenerated2 identity = default, string id = default, string name = default, string type = default, string location = default, IDictionary<string, string> tags = default)
-        {
-            tags ??= new Dictionary<string, string>();
-            return new ApplicationPatchable(plan, kind, managedResourceGroupId, applicationDefinitionId, parameters, outputs, provisioningState, managedBy, sku, identity, id, name, type, location, tags);
         }
     }
 }

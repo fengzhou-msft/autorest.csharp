@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes a new instance of PolicySetDefinitionsRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
+        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public PolicySetDefinitionsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)

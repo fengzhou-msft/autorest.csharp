@@ -23,8 +23,8 @@ namespace Azure.ResourceManager.Resources.Models
         /// <param name="timestamp"> The date and time of the operation. </param>
         /// <param name="duration"> The duration of the operation. </param>
         /// <param name="serviceRequestId"> Deployment operation service request id. </param>
-        /// <param name="statusCode"> Operation status code. </param>
-        /// <param name="statusMessage"> Operation status message. </param>
+        /// <param name="statusCode"> Operation status code from the resource provider. This property may not be set if a response has not yet been received. </param>
+        /// <param name="statusMessage"> Operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider. </param>
         /// <param name="targetResource"> The target resource. </param>
         /// <param name="request"> The HTTP request message. </param>
         /// <param name="response"> The HTTP response message. </param>
@@ -52,9 +52,9 @@ namespace Azure.ResourceManager.Resources.Models
         public string Duration { get; }
         /// <summary> Deployment operation service request id. </summary>
         public string ServiceRequestId { get; }
-        /// <summary> Operation status code. </summary>
+        /// <summary> Operation status code from the resource provider. This property may not be set if a response has not yet been received. </summary>
         public string StatusCode { get; }
-        /// <summary> Operation status message. </summary>
+        /// <summary> Operation status message from the resource provider. This property is optional.  It will only be provided if an error was received from the resource provider. </summary>
         public object StatusMessage { get; }
         /// <summary> The target resource. </summary>
         public TargetResource TargetResource { get; }

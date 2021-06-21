@@ -15,19 +15,6 @@ namespace Azure.ResourceManager.Resources.Models
         {
         }
 
-        /// <summary> Initializes a new instance of FeatureResult. </summary>
-        /// <param name="name"> The name of the feature. </param>
-        /// <param name="properties"> Properties of the previewed feature. </param>
-        /// <param name="id"> The resource ID of the feature. </param>
-        /// <param name="type"> The resource type of the feature. </param>
-        internal FeatureResult(string name, FeatureProperties properties, string id, string type)
-        {
-            Name = name;
-            Properties = properties;
-            Id = id;
-            Type = type;
-        }
-
         /// <summary> The name of the feature. </summary>
         public string Name { get; }
         /// <summary> Properties of the previewed feature. </summary>

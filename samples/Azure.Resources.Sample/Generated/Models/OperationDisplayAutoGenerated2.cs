@@ -15,7 +15,7 @@ namespace Azure.ResourceManager.Resources.Models
         {
         }
 
-        /// <summary> Service provider: Microsoft.Features. </summary>
+        /// <summary> Service provider: Microsoft.Authorization. </summary>
         public string Provider { get; }
         /// <summary> Resource on which the operation is performed: Profile, endpoint, etc. </summary>
         public string Resource { get; }

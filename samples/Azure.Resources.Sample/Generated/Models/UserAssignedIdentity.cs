@@ -25,8 +25,8 @@ namespace Azure.ResourceManager.Resources.Models
         }
 
         /// <summary> Azure Active Directory principal ID associated with this identity. </summary>
-        public string PrincipalId { get; set; }
+        public string PrincipalId { get; }
         /// <summary> Client App Id associated with this identity. </summary>
-        public string ClientId { get; set; }
+        public string ClientId { get; }
     }
 }

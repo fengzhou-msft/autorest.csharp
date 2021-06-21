@@ -19,15 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<FeatureResult>();
         }
 
-        /// <summary> Initializes a new instance of FeatureOperationsListResult. </summary>
-        /// <param name="value"> The array of features. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal FeatureOperationsListResult(IReadOnlyList<FeatureResult> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> The array of features. </summary>
         public IReadOnlyList<FeatureResult> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>

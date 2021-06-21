@@ -20,6 +20,7 @@ namespace Azure.ResourceManager.Resources.Models
             Optional<string> registrationState = default;
             Optional<string> registrationPolicy = default;
             Optional<IReadOnlyList<ProviderResourceType>> resourceTypes = default;
+            Optional<ProviderAuthorizationConsentState> providerAuthorizationConsentState = default;
             foreach (var property in element.EnumerateObject())
             {
                 if (property.NameEquals("id"))
@@ -57,8 +58,18 @@ namespace Azure.ResourceManager.Resources.Models
                     resourceTypes = array;
                     continue;
                 }
+                if (property.NameEquals("providerAuthorizationConsentState"))
+                {
+                    if (property.Value.ValueKind == JsonValueKind.Null)
+                    {
+                        property.ThrowNonNullablePropertyIsNull();
+                        continue;
+                    }
+                    providerAuthorizationConsentState = new ProviderAuthorizationConsentState(property.Value.GetString());
+                    continue;
+                }
             }
-            return new Provider(id.Value, @namespace.Value, registrationState.Value, registrationPolicy.Value, Optional.ToList(resourceTypes));
+            return new Provider(id.Value, @namespace.Value, registrationState.Value, registrationPolicy.Value, Optional.ToList(resourceTypes), Optional.ToNullable(providerAuthorizationConsentState));
         }
     }
 }

@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Azure.ResourceManager.Resources.Models
 {
-    /// <summary> The resource management error response. </summary>
+    /// <summary> Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). </summary>
     public partial class ErrorResponse
     {
         /// <summary> Initializes a new instance of ErrorResponse. </summary>

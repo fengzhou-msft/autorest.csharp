@@ -19,13 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<Location>();
         }
 
-        /// <summary> Initializes a new instance of LocationListResult. </summary>
-        /// <param name="value"> An array of locations. </param>
-        internal LocationListResult(IReadOnlyList<Location> value)
-        {
-            Value = value;
-        }
-
         /// <summary> An array of locations. </summary>
         public IReadOnlyList<Location> Value { get; }
     }

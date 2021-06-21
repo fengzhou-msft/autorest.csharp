@@ -20,9 +20,6 @@ namespace Azure.ResourceManager.Resources.Models
         }
 
         /// <summary> Initializes a new instance of GenericResource. </summary>
-        /// <param name="plan"> The plan of the resource. </param>
-        /// <param name="properties"> The resource properties. </param>
-        /// <param name="kind"> The kind of the resource. </param>
         /// <param name="managedBy"> ID of the resource that manages this resource. </param>
         /// <param name="sku"> The SKU of the resource. </param>
         /// <param name="identity"> The identity of the resource. </param>
@@ -31,11 +28,8 @@ namespace Azure.ResourceManager.Resources.Models
         /// <param name="type"> Resource type. </param>
         /// <param name="location"> Resource location. </param>
         /// <param name="tags"> Resource tags. </param>
-        internal GenericResource(Plan plan, object properties, string kind, string managedBy, Sku sku, Identity identity, string id, string name, string type, string location, IDictionary<string, string> tags)
+        internal GenericResource(string managedBy, Sku sku, Identity identity, string id, string name, string type, string location, IDictionary<string, string> tags)
         {
-            Plan = plan;
-            Properties = properties;
-            Kind = kind;
             ManagedBy = managedBy;
             Sku = sku;
             Identity = identity;
@@ -46,12 +40,6 @@ namespace Azure.ResourceManager.Resources.Models
             Tags = tags;
         }
 
-        /// <summary> The plan of the resource. </summary>
-        public Plan Plan { get; set; }
-        /// <summary> The resource properties. </summary>
-        public object Properties { get; set; }
-        /// <summary> The kind of the resource. </summary>
-        public string Kind { get; set; }
         /// <summary> ID of the resource that manages this resource. </summary>
         public string ManagedBy { get; set; }
         /// <summary> The SKU of the resource. </summary>

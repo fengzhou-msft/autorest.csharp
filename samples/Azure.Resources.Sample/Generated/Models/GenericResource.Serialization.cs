@@ -16,21 +16,6 @@ namespace Azure.ResourceManager.Resources.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(Plan))
-            {
-                writer.WritePropertyName("plan");
-                writer.(Plan);
-            }
-            if (Optional.IsDefined(Properties))
-            {
-                writer.WritePropertyName("properties");
-                writer.WriteObjectValue(Properties);
-            }
-            if (Optional.IsDefined(Kind))
-            {
-                writer.WritePropertyName("kind");
-                writer.WriteStringValue(Kind);
-            }
             if (Optional.IsDefined(ManagedBy))
             {
                 writer.WritePropertyName("managedBy");
@@ -67,9 +52,6 @@ namespace Azure.ResourceManager.Resources.Models
 
         internal static GenericResource DeserializeGenericResource(JsonElement element)
         {
-            Optional<Plan> plan = default;
-            Optional<object> properties = default;
-            Optional<string> kind = default;
             Optional<string> managedBy = default;
             Optional<Sku> sku = default;
             Optional<Identity> identity = default;
@@ -80,31 +62,6 @@ namespace Azure.ResourceManager.Resources.Models
             Optional<IDictionary<string, string>> tags = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("plan"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    plan = property.Value.();
-                    continue;
-                }
-                if (property.NameEquals("properties"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    properties = property.Value.GetObject();
-                    continue;
-                }
-                if (property.NameEquals("kind"))
-                {
-                    kind = property.Value.GetString();
-                    continue;
-                }
                 if (property.NameEquals("managedBy"))
                 {
                     managedBy = property.Value.GetString();
@@ -166,7 +123,7 @@ namespace Azure.ResourceManager.Resources.Models
                     continue;
                 }
             }
-            return new GenericResource(plan.Value, properties.Value, kind.Value, managedBy.Value, sku.Value, identity.Value, id.Value, name.Value, type.Value, location.Value, Optional.ToDictionary(tags));
+            return new GenericResource(managedBy.Value, sku.Value, identity.Value, id.Value, name.Value, type.Value, location.Value, Optional.ToDictionary(tags));
         }
     }
 }

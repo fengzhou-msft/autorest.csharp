@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes a new instance of ApplicationsRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
+        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public ApplicationsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
@@ -294,7 +294,7 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateUpdateRequest(string resourceGroupName, string applicationName, Application parameters)
+        internal Azure.Core.HttpMessage CreateUpdateRequest(string resourceGroupName, string applicationName, ApplicationPatchable parameters)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -326,7 +326,7 @@ namespace Azure.ResourceManager.Resources
         /// <param name="parameters"> Parameters supplied to update an existing managed application. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationName"/> is null. </exception>
-        public async Task<Response<Application>> UpdateAsync(string resourceGroupName, string applicationName, Application parameters = null, CancellationToken cancellationToken = default)
+        public async Task<Response<Application>> UpdateAsync(string resourceGroupName, string applicationName, ApplicationPatchable parameters = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -359,7 +359,7 @@ namespace Azure.ResourceManager.Resources
         /// <param name="parameters"> Parameters supplied to update an existing managed application. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationName"/> is null. </exception>
-        public Response<Application> Update(string resourceGroupName, string applicationName, Application parameters = null, CancellationToken cancellationToken = default)
+        public Response<Application> Update(string resourceGroupName, string applicationName, ApplicationPatchable parameters = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {

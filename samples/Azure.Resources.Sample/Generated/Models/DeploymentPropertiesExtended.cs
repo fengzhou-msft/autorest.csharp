@@ -24,7 +24,7 @@ namespace Azure.ResourceManager.Resources.Models
         }
 
         /// <summary> Initializes a new instance of DeploymentPropertiesExtended. </summary>
-        /// <param name="provisioningState"> The state of the provisioning. </param>
+        /// <param name="provisioningState"> Denotes the state of provisioning. </param>
         /// <param name="correlationId"> The correlation ID of the deployment. </param>
         /// <param name="timestamp"> The timestamp of the template deployment. </param>
         /// <param name="duration"> The duration of the template deployment. </param>
@@ -62,7 +62,7 @@ namespace Azure.ResourceManager.Resources.Models
             Error = error;
         }
 
-        /// <summary> The state of the provisioning. </summary>
+        /// <summary> Denotes the state of provisioning. </summary>
         public string ProvisioningState { get; }
         /// <summary> The correlation ID of the deployment. </summary>
         public string CorrelationId { get; }

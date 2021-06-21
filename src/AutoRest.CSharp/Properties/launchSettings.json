@@ -60,6 +60,10 @@
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.Resources.Sample\\Generated"
     },
+    "Azure.NewResources.Sample": {
+      "commandName": "Project",
+      "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.NewResources.Sample\\Generated"
+    },
     "Azure.Storage.Tables": {
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.Storage.Tables\\Generated"

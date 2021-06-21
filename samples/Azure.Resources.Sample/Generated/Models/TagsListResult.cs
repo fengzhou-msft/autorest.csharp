@@ -19,15 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<TagDetails>();
         }
 
-        /// <summary> Initializes a new instance of TagsListResult. </summary>
-        /// <param name="value"> An array of tags. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal TagsListResult(IReadOnlyList<TagDetails> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> An array of tags. </summary>
         public IReadOnlyList<TagDetails> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>

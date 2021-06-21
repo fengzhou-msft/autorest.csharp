@@ -11,13 +11,13 @@ namespace Azure.ResourceManager.Resources.Models
     public partial class TagsPatchResource
     {
         /// <summary> Initializes a new instance of TagsPatchResource. </summary>
-        public TagsPatchResource()
+        internal TagsPatchResource()
         {
         }
 
         /// <summary> The operation type for the patch API. </summary>
-        public TagsPatchResourceOperation? Operation { get; set; }
+        public TagsPatchResourceOperation? Operation { get; }
         /// <summary> The set of tags. </summary>
-        public Tags Properties { get; set; }
+        public Tags Properties { get; }
     }
 }

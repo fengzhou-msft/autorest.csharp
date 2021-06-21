@@ -28,15 +28,6 @@ namespace Azure.ResourceManager.Resources.Models
             NextLink = nextLink;
         }
 
-        /// <summary> Initializes a new instance of TenantListResult. </summary>
-        /// <param name="value"> An array of tenants. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal TenantListResult(IReadOnlyList<TenantIdDescription> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> An array of tenants. </summary>
         public IReadOnlyList<TenantIdDescription> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>

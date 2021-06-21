@@ -52,6 +52,11 @@ namespace Azure.ResourceManager.Resources.Models
                 writer.WritePropertyName("onErrorDeployment");
                 writer.WriteObjectValue(OnErrorDeployment);
             }
+            if (Optional.IsDefined(ExpressionEvaluationOptions))
+            {
+                writer.WritePropertyName("expressionEvaluationOptions");
+                writer.WriteObjectValue(ExpressionEvaluationOptions);
+            }
             writer.WriteEndObject();
         }
     }

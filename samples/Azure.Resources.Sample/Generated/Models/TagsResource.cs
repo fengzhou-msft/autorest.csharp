@@ -15,26 +15,13 @@ namespace Azure.ResourceManager.Resources.Models
         /// <summary> Initializes a new instance of TagsResource. </summary>
         /// <param name="properties"> The set of tags. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="properties"/> is null. </exception>
-        public TagsResource(Tags properties)
+        internal TagsResource(Tags properties)
         {
             if (properties == null)
             {
                 throw new ArgumentNullException(nameof(properties));
             }
 
-            Properties = properties;
-        }
-
-        /// <summary> Initializes a new instance of TagsResource. </summary>
-        /// <param name="id"> The ID of the tags wrapper resource. </param>
-        /// <param name="name"> The name of the tags wrapper resource. </param>
-        /// <param name="type"> The type of the tags wrapper resource. </param>
-        /// <param name="properties"> The set of tags. </param>
-        internal TagsResource(string id, string name, string type, Tags properties)
-        {
-            Id = id;
-            Name = name;
-            Type = type;
             Properties = properties;
         }
 
@@ -45,6 +32,6 @@ namespace Azure.ResourceManager.Resources.Models
         /// <summary> The type of the tags wrapper resource. </summary>
         public string Type { get; }
         /// <summary> The set of tags. </summary>
-        public Tags Properties { get; set; }
+        public Tags Properties { get; }
     }
 }

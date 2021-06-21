@@ -19,15 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<GenericResourceExpanded>();
         }
 
-        /// <summary> Initializes a new instance of ResourceListResult. </summary>
-        /// <param name="value"> An array of resources. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal ResourceListResult(IReadOnlyList<GenericResourceExpanded> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> An array of resources. </summary>
         public IReadOnlyList<GenericResourceExpanded> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>

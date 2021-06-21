@@ -19,15 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<Provider>();
         }
 
-        /// <summary> Initializes a new instance of ProviderListResult. </summary>
-        /// <param name="value"> An array of resource providers. </param>
-        /// <param name="nextLink"> The URL to use for getting the next set of results. </param>
-        internal ProviderListResult(IReadOnlyList<Provider> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> An array of resource providers. </summary>
         public IReadOnlyList<Provider> Value { get; }
         /// <summary> The URL to use for getting the next set of results. </summary>

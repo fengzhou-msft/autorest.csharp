@@ -14,16 +14,9 @@ namespace Azure.ResourceManager.Resources.Models
     public partial class Tags
     {
         /// <summary> Initializes a new instance of Tags. </summary>
-        public Tags()
+        internal Tags()
         {
             TagsValue = new ChangeTrackingDictionary<string, string>();
-        }
-
-        /// <summary> Initializes a new instance of Tags. </summary>
-        /// <param name="tagsValue"> Dictionary of &lt;string&gt;. </param>
-        internal Tags(IDictionary<string, string> tagsValue)
-        {
-            TagsValue = tagsValue;
         }
 
         /// <summary> Dictionary of &lt;string&gt;. </summary>

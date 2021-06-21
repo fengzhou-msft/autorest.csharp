@@ -25,13 +25,15 @@ namespace Azure.ResourceManager.Resources.Models
         /// <param name="registrationState"> The registration state of the resource provider. </param>
         /// <param name="registrationPolicy"> The registration policy of the resource provider. </param>
         /// <param name="resourceTypes"> The collection of provider resource types. </param>
-        internal Provider(string id, string @namespace, string registrationState, string registrationPolicy, IReadOnlyList<ProviderResourceType> resourceTypes)
+        /// <param name="providerAuthorizationConsentState"> The provider authorization consent state. </param>
+        internal Provider(string id, string @namespace, string registrationState, string registrationPolicy, IReadOnlyList<ProviderResourceType> resourceTypes, ProviderAuthorizationConsentState? providerAuthorizationConsentState)
         {
             Id = id;
             Namespace = @namespace;
             RegistrationState = registrationState;
             RegistrationPolicy = registrationPolicy;
             ResourceTypes = resourceTypes;
+            ProviderAuthorizationConsentState = providerAuthorizationConsentState;
         }
 
         /// <summary> The provider ID. </summary>
@@ -44,5 +46,7 @@ namespace Azure.ResourceManager.Resources.Models
         public string RegistrationPolicy { get; }
         /// <summary> The collection of provider resource types. </summary>
         public IReadOnlyList<ProviderResourceType> ResourceTypes { get; }
+        /// <summary> The provider authorization consent state. </summary>
+        public ProviderAuthorizationConsentState? ProviderAuthorizationConsentState { get; }
     }
 }

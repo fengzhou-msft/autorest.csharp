@@ -33,5 +33,7 @@ namespace Azure.ResourceManager.Resources.Models
         public DebugSetting DebugSetting { get; set; }
         /// <summary> The deployment on error behavior. </summary>
         public OnErrorDeployment OnErrorDeployment { get; set; }
+        /// <summary> Specifies whether template expressions are evaluated within the scope of the parent template or nested template. Only applicable to nested templates. If not specified, default value is outer. </summary>
+        public ExpressionEvaluationOptions ExpressionEvaluationOptions { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes a new instance of ApplicationDefinitionsRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
+        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public ApplicationDefinitionsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
@@ -368,15 +368,19 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateGetByIdRequest(string applicationDefinitionId)
+        internal Azure.Core.HttpMessage CreateGetByIdRequest(string resourceGroupName, string applicationDefinitionName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Get;
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
-            uri.AppendPath("/", false);
-            uri.AppendPath(applicationDefinitionId, false);
+            uri.AppendPath("/subscriptions/", false);
+            uri.AppendPath(subscriptionId, true);
+            uri.AppendPath("/resourceGroups/", false);
+            uri.AppendPath(resourceGroupName, true);
+            uri.AppendPath("/providers/Microsoft.Solutions/applicationDefinitions/", false);
+            uri.AppendPath(applicationDefinitionName, true);
             uri.AppendQuery("api-version", "2018-06-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -384,17 +388,22 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Gets the managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> is null. </exception>
-        public async Task<Response<ApplicationDefinition>> GetByIdAsync(string applicationDefinitionId, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationDefinitionName"/> is null. </exception>
+        public async Task<Response<ApplicationDefinition>> GetByIdAsync(string resourceGroupName, string applicationDefinitionName, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
 
-            using var message = CreateGetByIdRequest(applicationDefinitionId);
+            using var message = CreateGetByIdRequest(resourceGroupName, applicationDefinitionName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -413,17 +422,22 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Gets the managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> is null. </exception>
-        public Response<ApplicationDefinition> GetById(string applicationDefinitionId, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationDefinitionName"/> is null. </exception>
+        public Response<ApplicationDefinition> GetById(string resourceGroupName, string applicationDefinitionName, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
 
-            using var message = CreateGetByIdRequest(applicationDefinitionId);
+            using var message = CreateGetByIdRequest(resourceGroupName, applicationDefinitionName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -441,15 +455,19 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateDeleteByIdRequest(string applicationDefinitionId)
+        internal Azure.Core.HttpMessage CreateDeleteByIdRequest(string resourceGroupName, string applicationDefinitionName)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Delete;
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
-            uri.AppendPath("/", false);
-            uri.AppendPath(applicationDefinitionId, false);
+            uri.AppendPath("/subscriptions/", false);
+            uri.AppendPath(subscriptionId, true);
+            uri.AppendPath("/resourceGroups/", false);
+            uri.AppendPath(resourceGroupName, true);
+            uri.AppendPath("/providers/Microsoft.Solutions/applicationDefinitions/", false);
+            uri.AppendPath(applicationDefinitionName, true);
             uri.AppendQuery("api-version", "2018-06-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -457,17 +475,22 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Deletes the managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> is null. </exception>
-        public async Task<Response> DeleteByIdAsync(string applicationDefinitionId, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationDefinitionName"/> is null. </exception>
+        public async Task<Response> DeleteByIdAsync(string resourceGroupName, string applicationDefinitionName, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
 
-            using var message = CreateDeleteByIdRequest(applicationDefinitionId);
+            using var message = CreateDeleteByIdRequest(resourceGroupName, applicationDefinitionName);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -481,17 +504,22 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Deletes the managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> is null. </exception>
-        public Response DeleteById(string applicationDefinitionId, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="applicationDefinitionName"/> is null. </exception>
+        public Response DeleteById(string resourceGroupName, string applicationDefinitionName, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
 
-            using var message = CreateDeleteByIdRequest(applicationDefinitionId);
+            using var message = CreateDeleteByIdRequest(resourceGroupName, applicationDefinitionName);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -504,15 +532,19 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateCreateOrUpdateByIdRequest(string applicationDefinitionId, ApplicationDefinition parameters)
+        internal Azure.Core.HttpMessage CreateCreateOrUpdateByIdRequest(string resourceGroupName, string applicationDefinitionName, ApplicationDefinition parameters)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Put;
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
-            uri.AppendPath("/", false);
-            uri.AppendPath(applicationDefinitionId, false);
+            uri.AppendPath("/subscriptions/", false);
+            uri.AppendPath(subscriptionId, true);
+            uri.AppendPath("/resourceGroups/", false);
+            uri.AppendPath(resourceGroupName, true);
+            uri.AppendPath("/providers/Microsoft.Solutions/applicationDefinitions/", false);
+            uri.AppendPath(applicationDefinitionName, true);
             uri.AppendQuery("api-version", "2018-06-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
@@ -524,22 +556,27 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Creates a new managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="parameters"> Parameters supplied to the create or update a managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> or <paramref name="parameters"/> is null. </exception>
-        public async Task<Response> CreateOrUpdateByIdAsync(string applicationDefinitionId, ApplicationDefinition parameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="applicationDefinitionName"/>, or <paramref name="parameters"/> is null. </exception>
+        public async Task<Response> CreateOrUpdateByIdAsync(string resourceGroupName, string applicationDefinitionName, ApplicationDefinition parameters, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
             if (parameters == null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var message = CreateCreateOrUpdateByIdRequest(applicationDefinitionId, parameters);
+            using var message = CreateCreateOrUpdateByIdRequest(resourceGroupName, applicationDefinitionName, parameters);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -552,22 +589,27 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Creates a new managed application definition. </summary>
-        /// <param name="applicationDefinitionId"> The fully qualified ID of the managed application definition, including the managed application name and the managed application definition resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applicationDefinitions/{applicationDefinition-name}. </param>
+        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
+        /// <param name="applicationDefinitionName"> The name of the managed application definition. </param>
         /// <param name="parameters"> Parameters supplied to the create or update a managed application definition. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="applicationDefinitionId"/> or <paramref name="parameters"/> is null. </exception>
-        public Response CreateOrUpdateById(string applicationDefinitionId, ApplicationDefinition parameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="applicationDefinitionName"/>, or <paramref name="parameters"/> is null. </exception>
+        public Response CreateOrUpdateById(string resourceGroupName, string applicationDefinitionName, ApplicationDefinition parameters, CancellationToken cancellationToken = default)
         {
-            if (applicationDefinitionId == null)
+            if (resourceGroupName == null)
             {
-                throw new ArgumentNullException(nameof(applicationDefinitionId));
+                throw new ArgumentNullException(nameof(resourceGroupName));
+            }
+            if (applicationDefinitionName == null)
+            {
+                throw new ArgumentNullException(nameof(applicationDefinitionName));
             }
             if (parameters == null)
             {
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var message = CreateCreateOrUpdateByIdRequest(applicationDefinitionId, parameters);
+            using var message = CreateCreateOrUpdateByIdRequest(resourceGroupName, applicationDefinitionName, parameters);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

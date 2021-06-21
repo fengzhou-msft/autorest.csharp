@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes a new instance of DeploymentRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
+        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public DeploymentRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
@@ -56,7 +56,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/operations/", false);
             uri.AppendPath(operationId, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -152,7 +152,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -235,7 +235,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/operations/", false);
             uri.AppendPath(operationId, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -319,7 +319,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -394,7 +394,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/operations/", false);
             uri.AppendPath(operationId, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -490,7 +490,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -575,7 +575,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/operations/", false);
             uri.AppendPath(operationId, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -661,7 +661,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -738,7 +738,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/operations/", false);
             uri.AppendPath(operationId, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -836,7 +836,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;

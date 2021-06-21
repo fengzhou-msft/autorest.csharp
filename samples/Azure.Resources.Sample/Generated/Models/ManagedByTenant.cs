@@ -15,13 +15,6 @@ namespace Azure.ResourceManager.Resources.Models
         {
         }
 
-        /// <summary> Initializes a new instance of ManagedByTenant. </summary>
-        /// <param name="tenantId"> The tenant ID of the managing tenant. This is a GUID. </param>
-        internal ManagedByTenant(string tenantId)
-        {
-            TenantId = tenantId;
-        }
-
         /// <summary> The tenant ID of the managing tenant. This is a GUID. </summary>
         public string TenantId { get; }
     }

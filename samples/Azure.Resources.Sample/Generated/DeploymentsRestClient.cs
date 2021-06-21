@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Resources
         /// <summary> Initializes a new instance of DeploymentsRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The ID of the target subscription. </param>
+        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
         /// <param name="endpoint"> server parameter. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> is null. </exception>
         public DeploymentsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
@@ -54,7 +54,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(scope, false);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -127,7 +127,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(scope, false);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -200,7 +200,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(scope, false);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -287,7 +287,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(scope, false);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -369,7 +369,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/cancel", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -441,7 +441,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/validate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -531,7 +531,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/exportTemplate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -619,7 +619,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -692,7 +692,7 @@ namespace Azure.ResourceManager.Resources
             uri.Reset(endpoint);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -753,7 +753,7 @@ namespace Azure.ResourceManager.Resources
             uri.Reset(endpoint);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -814,7 +814,7 @@ namespace Azure.ResourceManager.Resources
             uri.Reset(endpoint);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -889,7 +889,7 @@ namespace Azure.ResourceManager.Resources
             uri.Reset(endpoint);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -959,7 +959,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/cancel", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1019,7 +1019,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/validate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -1087,6 +1087,95 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
+        internal Azure.Core.HttpMessage CreateWhatIfAtTenantScopeRequest(string deploymentName, string location, DeploymentWhatIfProperties properties)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
+            uri.AppendPath(deploymentName, true);
+            uri.AppendPath("/whatIf", false);
+            uri.AppendQuery("api-version", "2021-04-01", true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var model = new ScopedDeploymentWhatIf(location, properties);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Returns changes that will be made by the deployment if executed at the scope of the tenant group. </summary>
+        /// <param name="deploymentName"> The name of the deployment. </param>
+        /// <param name="location"> The location to store the deployment data. </param>
+        /// <param name="properties"> The deployment properties. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="deploymentName"/>, <paramref name="location"/>, or <paramref name="properties"/> is null. </exception>
+        public async Task<ResponseWithHeaders<DeploymentsWhatIfAtTenantScopeHeaders>> WhatIfAtTenantScopeAsync(string deploymentName, string location, DeploymentWhatIfProperties properties, CancellationToken cancellationToken = default)
+        {
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException(nameof(deploymentName));
+            }
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+            if (properties == null)
+            {
+                throw new ArgumentNullException(nameof(properties));
+            }
+
+            using var message = CreateWhatIfAtTenantScopeRequest(deploymentName, location, properties);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            var headers = new DeploymentsWhatIfAtTenantScopeHeaders(message.Response);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 202:
+                    return ResponseWithHeaders.FromValue(headers, message.Response);
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns changes that will be made by the deployment if executed at the scope of the tenant group. </summary>
+        /// <param name="deploymentName"> The name of the deployment. </param>
+        /// <param name="location"> The location to store the deployment data. </param>
+        /// <param name="properties"> The deployment properties. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="deploymentName"/>, <paramref name="location"/>, or <paramref name="properties"/> is null. </exception>
+        public ResponseWithHeaders<DeploymentsWhatIfAtTenantScopeHeaders> WhatIfAtTenantScope(string deploymentName, string location, DeploymentWhatIfProperties properties, CancellationToken cancellationToken = default)
+        {
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException(nameof(deploymentName));
+            }
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+            if (properties == null)
+            {
+                throw new ArgumentNullException(nameof(properties));
+            }
+
+            using var message = CreateWhatIfAtTenantScopeRequest(deploymentName, location, properties);
+            _pipeline.Send(message, cancellationToken);
+            var headers = new DeploymentsWhatIfAtTenantScopeHeaders(message.Response);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 202:
+                    return ResponseWithHeaders.FromValue(headers, message.Response);
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal Azure.Core.HttpMessage CreateExportTemplateAtTenantScopeRequest(string deploymentName)
         {
             var message = _pipeline.CreateMessage();
@@ -1097,7 +1186,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/exportTemplate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1173,7 +1262,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1234,7 +1323,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(groupId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1307,7 +1396,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(groupId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1380,7 +1469,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(groupId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -1467,7 +1556,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(groupId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1549,7 +1638,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/cancel", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1621,7 +1710,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/validate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -1699,6 +1788,107 @@ namespace Azure.ResourceManager.Resources
             }
         }
 
+        internal Azure.Core.HttpMessage CreateWhatIfAtManagementGroupScopeRequest(string groupId, string deploymentName, string location, DeploymentWhatIfProperties properties)
+        {
+            var message = _pipeline.CreateMessage();
+            var request = message.Request;
+            request.Method = RequestMethod.Post;
+            var uri = new RawRequestUriBuilder();
+            uri.Reset(endpoint);
+            uri.AppendPath("/providers/Microsoft.Management/managementGroups/", false);
+            uri.AppendPath(groupId, true);
+            uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
+            uri.AppendPath(deploymentName, true);
+            uri.AppendPath("/whatIf", false);
+            uri.AppendQuery("api-version", "2021-04-01", true);
+            request.Uri = uri;
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("Content-Type", "application/json");
+            var model = new ScopedDeploymentWhatIf(location, properties);
+            var content = new Utf8JsonRequestContent();
+            content.JsonWriter.WriteObjectValue(model);
+            request.Content = content;
+            return message;
+        }
+
+        /// <summary> Returns changes that will be made by the deployment if executed at the scope of the management group. </summary>
+        /// <param name="groupId"> The management group ID. </param>
+        /// <param name="deploymentName"> The name of the deployment. </param>
+        /// <param name="location"> The location to store the deployment data. </param>
+        /// <param name="properties"> The deployment properties. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="groupId"/>, <paramref name="deploymentName"/>, <paramref name="location"/>, or <paramref name="properties"/> is null. </exception>
+        public async Task<ResponseWithHeaders<DeploymentsWhatIfAtManagementGroupScopeHeaders>> WhatIfAtManagementGroupScopeAsync(string groupId, string deploymentName, string location, DeploymentWhatIfProperties properties, CancellationToken cancellationToken = default)
+        {
+            if (groupId == null)
+            {
+                throw new ArgumentNullException(nameof(groupId));
+            }
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException(nameof(deploymentName));
+            }
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+            if (properties == null)
+            {
+                throw new ArgumentNullException(nameof(properties));
+            }
+
+            using var message = CreateWhatIfAtManagementGroupScopeRequest(groupId, deploymentName, location, properties);
+            await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            var headers = new DeploymentsWhatIfAtManagementGroupScopeHeaders(message.Response);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 202:
+                    return ResponseWithHeaders.FromValue(headers, message.Response);
+                default:
+                    throw await _clientDiagnostics.CreateRequestFailedExceptionAsync(message.Response).ConfigureAwait(false);
+            }
+        }
+
+        /// <summary> Returns changes that will be made by the deployment if executed at the scope of the management group. </summary>
+        /// <param name="groupId"> The management group ID. </param>
+        /// <param name="deploymentName"> The name of the deployment. </param>
+        /// <param name="location"> The location to store the deployment data. </param>
+        /// <param name="properties"> The deployment properties. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <exception cref="ArgumentNullException"> <paramref name="groupId"/>, <paramref name="deploymentName"/>, <paramref name="location"/>, or <paramref name="properties"/> is null. </exception>
+        public ResponseWithHeaders<DeploymentsWhatIfAtManagementGroupScopeHeaders> WhatIfAtManagementGroupScope(string groupId, string deploymentName, string location, DeploymentWhatIfProperties properties, CancellationToken cancellationToken = default)
+        {
+            if (groupId == null)
+            {
+                throw new ArgumentNullException(nameof(groupId));
+            }
+            if (deploymentName == null)
+            {
+                throw new ArgumentNullException(nameof(deploymentName));
+            }
+            if (location == null)
+            {
+                throw new ArgumentNullException(nameof(location));
+            }
+            if (properties == null)
+            {
+                throw new ArgumentNullException(nameof(properties));
+            }
+
+            using var message = CreateWhatIfAtManagementGroupScopeRequest(groupId, deploymentName, location, properties);
+            _pipeline.Send(message, cancellationToken);
+            var headers = new DeploymentsWhatIfAtManagementGroupScopeHeaders(message.Response);
+            switch (message.Response.Status)
+            {
+                case 200:
+                case 202:
+                    return ResponseWithHeaders.FromValue(headers, message.Response);
+                default:
+                    throw _clientDiagnostics.CreateRequestFailedException(message.Response);
+            }
+        }
+
         internal Azure.Core.HttpMessage CreateExportTemplateAtManagementGroupScopeRequest(string groupId, string deploymentName)
         {
             var message = _pipeline.CreateMessage();
@@ -1711,7 +1901,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/exportTemplate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1799,7 +1989,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1874,7 +2064,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(subscriptionId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1937,7 +2127,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(subscriptionId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2000,7 +2190,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(subscriptionId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -2077,7 +2267,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(subscriptionId, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2149,7 +2339,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/cancel", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2211,7 +2401,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/validate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -2291,7 +2481,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/whatIf", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -2377,7 +2567,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/exportTemplate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2455,7 +2645,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2518,7 +2708,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2593,7 +2783,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2668,7 +2858,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -2757,7 +2947,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2841,7 +3031,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/cancel", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -2915,7 +3105,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/validate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -3007,7 +3197,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/whatIf", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
@@ -3105,7 +3295,7 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Resources/deployments/", false);
             uri.AppendPath(deploymentName, true);
             uri.AppendPath("/exportTemplate", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -3195,7 +3385,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -3267,7 +3457,7 @@ namespace Azure.ResourceManager.Resources
             var uri = new RawRequestUriBuilder();
             uri.Reset(endpoint);
             uri.AppendPath("/providers/Microsoft.Resources/calculateTemplateHash", false);
-            uri.AppendQuery("api-version", "2019-10-01", true);
+            uri.AppendQuery("api-version", "2021-04-01", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");

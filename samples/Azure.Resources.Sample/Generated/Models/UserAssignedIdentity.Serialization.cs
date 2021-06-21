@@ -15,16 +15,6 @@ namespace Azure.ResourceManager.Resources.Models
         void IUtf8JsonSerializable.Write(Utf8JsonWriter writer)
         {
             writer.WriteStartObject();
-            if (Optional.IsDefined(PrincipalId))
-            {
-                writer.WritePropertyName("principalId");
-                writer.WriteStringValue(PrincipalId);
-            }
-            if (Optional.IsDefined(ClientId))
-            {
-                writer.WritePropertyName("clientId");
-                writer.WriteStringValue(ClientId);
-            }
             writer.WriteEndObject();
         }
 

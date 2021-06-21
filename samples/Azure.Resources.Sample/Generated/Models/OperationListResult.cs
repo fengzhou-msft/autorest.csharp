@@ -19,15 +19,6 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<Operation>();
         }
 
-        /// <summary> Initializes a new instance of OperationListResult. </summary>
-        /// <param name="value"> List of Microsoft.Resources operations. </param>
-        /// <param name="nextLink"> URL to get the next set of operation list results if there are any. </param>
-        internal OperationListResult(IReadOnlyList<Operation> value, string nextLink)
-        {
-            Value = value;
-            NextLink = nextLink;
-        }
-
         /// <summary> List of Microsoft.Resources operations. </summary>
         public IReadOnlyList<Operation> Value { get; }
         /// <summary> URL to get the next set of operation list results if there are any. </summary>
