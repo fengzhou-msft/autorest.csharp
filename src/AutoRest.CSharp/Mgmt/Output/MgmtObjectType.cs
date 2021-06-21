@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoRest.CSharp.Generation.Types;
@@ -99,6 +100,10 @@ namespace AutoRest.CSharp.Mgmt.Output
                 }
                 else
                 {
+                    operationGroup = _context.Library.GetOperationGroupForNonResource(child.Name);
+                    if (operationGroup != null)
+                        return operationGroup;
+
                     // child is Model not Data
                     MgmtObjectType? mgmtObject = _context.Library.GetMgmtObjectFromModelName(child.Name);
                     if (mgmtObject != null)
@@ -106,11 +111,26 @@ namespace AutoRest.CSharp.Mgmt.Output
                         operationGroup = mgmtObject.GetOperationGroupFromChildren();
                         if (operationGroup != null)
                             return operationGroup;
+
                     }
                 }
             }
 
             return operationGroup;
+        }
+
+        public override ObjectTypeProperty GetPropertyForSchemaProperty(Property property, bool includeParents = false)
+        {
+            if (!TryGetPropertyForSchemaProperty(p => p.SchemaProperty == property, out ObjectTypeProperty? objectProperty, includeParents))
+            {
+                if (Inherits?.Implementation is SystemObjectType)
+                {
+                    return GetPropertyBySerializedName(property.SerializedName, includeParents);
+                }
+                throw new InvalidOperationException($"Unable to find object property for schema property {property.SerializedName} in schema {DefaultName}");
+            }
+
+            return objectProperty;
         }
     }
 }
