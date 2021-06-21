@@ -56,10 +56,6 @@
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.ResourceManager.Sample\\Generated"
     },
-    "Azure.Resources.Sample": {
-      "commandName": "Project",
-      "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.Resources.Sample\\Generated"
-    },
     "Azure.NewResources.Sample": {
       "commandName": "Project",
       "commandLineArgs": "--standalone $(SolutionDir)\\samples\\Azure.NewResources.Sample\\Generated"
