@@ -385,7 +385,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtSubscriptionNextPageRequest(string nextLink, string filter)
+        internal Azure.Core.HttpMessage CreateListAtSubscriptionNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -400,17 +400,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all the linked resources for the subscription. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value}. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<ResourceLinkResult>> ListAtSubscriptionNextPageAsync(string nextLink, string filter = null, CancellationToken cancellationToken = default)
+        public async Task<Response<ResourceLinkResult>> ListAtSubscriptionNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtSubscriptionNextPageRequest(nextLink, filter);
+            using var message = CreateListAtSubscriptionNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -428,17 +427,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all the linked resources for the subscription. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value}. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<ResourceLinkResult> ListAtSubscriptionNextPage(string nextLink, string filter = null, CancellationToken cancellationToken = default)
+        public Response<ResourceLinkResult> ListAtSubscriptionNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtSubscriptionNextPageRequest(nextLink, filter);
+            using var message = CreateListAtSubscriptionNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -454,7 +452,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtSourceScopeNextPageRequest(string nextLink, string scope)
+        internal Azure.Core.HttpMessage CreateListAtSourceScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -469,21 +467,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets a list of resource links at and below the specified source scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="scope"/> is null. </exception>
-        public async Task<Response<ResourceLinkResult>> ListAtSourceScopeNextPageAsync(string nextLink, string scope, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<ResourceLinkResult>> ListAtSourceScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
 
-            using var message = CreateListAtSourceScopeNextPageRequest(nextLink, scope);
+            using var message = CreateListAtSourceScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -501,21 +494,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets a list of resource links at and below the specified source scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="scope"/> is null. </exception>
-        public Response<ResourceLinkResult> ListAtSourceScopeNextPage(string nextLink, string scope, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<ResourceLinkResult> ListAtSourceScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
 
-            using var message = CreateListAtSourceScopeNextPageRequest(nextLink, scope);
+            using var message = CreateListAtSourceScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

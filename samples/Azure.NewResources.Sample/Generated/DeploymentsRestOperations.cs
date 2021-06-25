@@ -3512,7 +3512,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtScopeNextPageRequest(string nextLink, string scope, string filter, int? top)
+        internal Azure.Core.HttpMessage CreateListAtScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3527,23 +3527,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments at the given scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The resource scope. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="scope"/> is null. </exception>
-        public async Task<Response<DeploymentListResult>> ListAtScopeNextPageAsync(string nextLink, string scope, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentListResult>> ListAtScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
 
-            using var message = CreateListAtScopeNextPageRequest(nextLink, scope, filter, top);
+            using var message = CreateListAtScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3561,23 +3554,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments at the given scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The resource scope. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="scope"/> is null. </exception>
-        public Response<DeploymentListResult> ListAtScopeNextPage(string nextLink, string scope, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentListResult> ListAtScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
 
-            using var message = CreateListAtScopeNextPageRequest(nextLink, scope, filter, top);
+            using var message = CreateListAtScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -3593,7 +3579,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtTenantScopeNextPageRequest(string nextLink, string filter, int? top)
+        internal Azure.Core.HttpMessage CreateListAtTenantScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3608,18 +3594,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments at the tenant scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<DeploymentListResult>> ListAtTenantScopeNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<DeploymentListResult>> ListAtTenantScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtTenantScopeNextPageRequest(nextLink, filter, top);
+            using var message = CreateListAtTenantScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3637,18 +3621,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments at the tenant scope. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<DeploymentListResult> ListAtTenantScopeNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<DeploymentListResult> ListAtTenantScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtTenantScopeNextPageRequest(nextLink, filter, top);
+            using var message = CreateListAtTenantScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -3664,7 +3646,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtManagementGroupScopeNextPageRequest(string nextLink, string groupId, string filter, int? top)
+        internal Azure.Core.HttpMessage CreateListAtManagementGroupScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3679,23 +3661,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a management group. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="groupId"> The management group ID. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="groupId"/> is null. </exception>
-        public async Task<Response<DeploymentListResult>> ListAtManagementGroupScopeNextPageAsync(string nextLink, string groupId, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentListResult>> ListAtManagementGroupScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (groupId == null)
-            {
-                throw new ArgumentNullException(nameof(groupId));
-            }
 
-            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink, groupId, filter, top);
+            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3713,23 +3688,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a management group. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="groupId"> The management group ID. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="groupId"/> is null. </exception>
-        public Response<DeploymentListResult> ListAtManagementGroupScopeNextPage(string nextLink, string groupId, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentListResult> ListAtManagementGroupScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (groupId == null)
-            {
-                throw new ArgumentNullException(nameof(groupId));
-            }
 
-            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink, groupId, filter, top);
+            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -3745,7 +3713,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtSubscriptionScopeNextPageRequest(string nextLink, string filter, int? top)
+        internal Azure.Core.HttpMessage CreateListAtSubscriptionScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3760,18 +3728,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a subscription. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<DeploymentListResult>> ListAtSubscriptionScopeNextPageAsync(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public async Task<Response<DeploymentListResult>> ListAtSubscriptionScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink, filter, top);
+            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3789,18 +3755,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a subscription. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<DeploymentListResult> ListAtSubscriptionScopeNextPage(string nextLink, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        public Response<DeploymentListResult> ListAtSubscriptionScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink, filter, top);
+            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -3816,7 +3780,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListByResourceGroupNextPageRequest(string nextLink, string resourceGroupName, string filter, int? top)
+        internal Azure.Core.HttpMessage CreateListByResourceGroupNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -3831,23 +3795,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a resource group. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group with the deployments to get. The name is case insensitive. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        public async Task<Response<DeploymentListResult>> ListByResourceGroupNextPageAsync(string nextLink, string resourceGroupName, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentListResult>> ListByResourceGroupNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
 
-            using var message = CreateListByResourceGroupNextPageRequest(nextLink, resourceGroupName, filter, top);
+            using var message = CreateListByResourceGroupNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -3865,23 +3822,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Get all the deployments for a resource group. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group with the deployments to get. The name is case insensitive. </param>
-        /// <param name="filter"> The filter to apply on the operation. For example, you can use $filter=provisioningState eq &apos;{state}&apos;. </param>
-        /// <param name="top"> The number of results to get. If null is passed, returns all deployments. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        public Response<DeploymentListResult> ListByResourceGroupNextPage(string nextLink, string resourceGroupName, string filter = null, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentListResult> ListByResourceGroupNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
 
-            using var message = CreateListByResourceGroupNextPageRequest(nextLink, resourceGroupName, filter, top);
+            using var message = CreateListByResourceGroupNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

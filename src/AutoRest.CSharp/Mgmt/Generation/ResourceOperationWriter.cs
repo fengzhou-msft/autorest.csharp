@@ -42,7 +42,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
             var cs = resourceOperation.Type;
             var @namespace = cs.Namespace;
             var isSingleton = resourceOperation.OperationGroup.IsSingletonResource(config);
-            var baseClass = isSingleton ? typeof(SingletonOperationsBase) : typeof(ResourceOperationsBase);
+            var isScope = resourceOperation.OperationGroup.IsScopeResource();
+            var baseClass = isSingleton ? typeof(SingletonOperationsBase) : (isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase));
 
             WriteUsings(writer);
 
@@ -55,9 +56,9 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 var resourceData = context.Library.GetResourceData(operationGroup);
                 writer.Append($"{resourceOperation.Declaration.Accessibility} partial class {cs.Name}: ");
 
-                _inheritResourceOperationsBase = resourceOperation.GetMethod != null;
+                _inheritResourceOperationsBase = !isScope && resourceOperation.GetMethod != null;
                 CSharpType[] arguments = { resourceOperation.ResourceIdentifierType, resource.Type };
-                CSharpType type = new CSharpType(baseClass, arguments);
+                CSharpType type = isScope ? new CSharpType(baseClass) : new CSharpType(baseClass, arguments);
                 writer.Append($"{type}, ");
 
                 if (resourceOperation.GetMethod == null && baseClass == typeof(ResourceOperationsBase))
@@ -84,12 +85,12 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     {
                         WriteClientFields(writer, resourceOperation.RestClient, false);
                     }
-                    WriteClientCtors(writer, resourceOperation, isSingleton);
+                    WriteClientCtors(writer, resourceOperation, isSingleton, isScope);
                     WriteClientProperties(writer, resourceOperation, context.Configuration.MgmtConfiguration);
                     // TODO Write singleton operations
                     if (!isSingleton)
                     {
-                        WriteClientMethods(writer, resourceOperation, resource, resourceData, context);
+                        WriteClientMethods(writer, resourceOperation, resource, resourceData, context, isScope);
                     }
                     else
                     {
@@ -99,10 +100,10 @@ namespace AutoRest.CSharp.Mgmt.Generation
             }
         }
 
-        private void WriteClientCtors(CodeWriter writer, ResourceOperation resourceOperation, bool isSingleton = false)
+        private void WriteClientCtors(CodeWriter writer, ResourceOperation resourceOperation, bool isSingleton = false, bool isScope = false)
         {
             var typeOfThis = resourceOperation.Type.Name;
-            var constructorIdParam = isSingleton ? "" : $", {resourceOperation.ResourceIdentifierType} id";
+            var constructorIdParam = isSingleton ? "" : $", {(isScope ? typeof(ResourceIdentifier) : resourceOperation.ResourceIdentifierType)} id";
 
             writer.Line();
             // write an internal default constructor
@@ -119,7 +120,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 writer.WriteXmlDocumentationParameter("id", "The identifier of the resource that is the target of operations.");
             }
             var baseConstructorCall = isSingleton ? "base(options)" : "base(options, id)";
-            using (writer.Scope($"protected internal {typeOfThis}({typeof(ResourceOperationsBase)} options{constructorIdParam}) : {baseConstructorCall}"))
+            using (writer.Scope($"protected internal {typeOfThis}({(isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase))} options{constructorIdParam}) : {baseConstructorCall}"))
             {
                 if (!isSingleton)
                 {
@@ -130,7 +131,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
                         subscriptionValue = "subscriptionId";
                         writer.Line($"Id.TryGetSubscriptionId(out var subscriptionId);");
                     }
-                    writer.Line($"{RestClientField} = new {resourceOperation.RestClient.Type}({ClientDiagnosticsField}, {PipelineProperty}, {subscriptionValue}, BaseUri);");
+                    var subscriptionOrEmpty = isScope ? "" : $"{subscriptionValue}, ";
+                    writer.Line($"{RestClientField} = new {resourceOperation.RestClient.Type}({ClientDiagnosticsField}, {PipelineProperty}, {subscriptionOrEmpty}BaseUri);");
                 }
             }
         }
@@ -142,7 +144,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             writer.Line($"protected override {typeof(ResourceType)} ValidResourceType => ResourceType;");
         }
 
-        private void WriteClientMethods(CodeWriter writer, ResourceOperation resourceOperation, Resource resource, ResourceData resourceData, BuildContext<MgmtOutputLibrary> context)
+        private void WriteClientMethods(CodeWriter writer, ResourceOperation resourceOperation, Resource resource, ResourceData resourceData, BuildContext<MgmtOutputLibrary> context, bool isScope=false)
         {
             var clientMethodsList = new List<RestClientMethod>();
 
@@ -164,6 +166,20 @@ namespace AutoRest.CSharp.Mgmt.Generation
 
                 WriteListAvailableLocationsMethod(writer, true);
                 WriteListAvailableLocationsMethod(writer, false);
+            }
+            else if (isScope && resourceOperation.GetMethod != null)
+            {
+                WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);
+                WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, false);
+
+                var nonPathParameters = GetNonPathParameters(resourceOperation.GetMethod.RestClientMethod);
+                if (nonPathParameters.Length > 0)
+                {
+                    // write get method
+                    WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);
+                    WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, false);
+                }
+                clientMethodsList.Add(resourceOperation.GetMethod.RestClientMethod);
             }
 
             if (_isDeletableResource)

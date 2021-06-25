@@ -6,7 +6,6 @@
 #nullable disable
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,36 +16,37 @@ using Azure.ResourceManager.Core;
 namespace Azure.ResourceManager.NewResources
 {
     /// <summary> A class representing the operations that can be performed over a specific ManagementLockObject. </summary>
-    public partial class ManagementLockObjectResourceGroupsOperations : ResourceOperationsBase<ResourceGroupResourceIdentifier, ManagementLockObject>
+    public partial class ManagementLockObjectOperations : OperationsBase
     {
         private readonly ClientDiagnostics _clientDiagnostics;
         private ManagementLocksRestOperations _restClient { get; }
 
-        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectResourceGroupsOperations"/> class for mocking. </summary>
-        protected ManagementLockObjectResourceGroupsOperations()
+        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectOperations"/> class for mocking. </summary>
+        protected ManagementLockObjectOperations()
         {
         }
 
-        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectResourceGroupsOperations"/> class. </summary>
+        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectOperations"/> class. </summary>
         /// <param name="options"> The client parameters to use in these operations. </param>
         /// <param name="id"> The identifier of the resource that is the target of operations. </param>
-        protected internal ManagementLockObjectResourceGroupsOperations(ResourceOperationsBase options, ResourceGroupResourceIdentifier id) : base(options, id)
+        protected internal ManagementLockObjectOperations(OperationsBase options, ResourceIdentifier id) : base(options, id)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
-            _restClient = new ManagementLocksRestOperations(_clientDiagnostics, Pipeline, Id.SubscriptionId, BaseUri);
+            _restClient = new ManagementLocksRestOperations(_clientDiagnostics, Pipeline, BaseUri);
         }
 
         public static readonly ResourceType ResourceType = "Microsoft.Authorization/locks";
         protected override ResourceType ValidResourceType => ResourceType;
 
-        /// <inheritdoc />
-        public async override Task<Response<ManagementLockObject>> GetAsync(CancellationToken cancellationToken = default)
+        /// <summary> Gets a management lock at the resource group level. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public async Task<Response<ManagementLockObject>> GetAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtResourceGroupLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.GetAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.GetAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new ManagementLockObject(this, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -56,14 +56,15 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        /// <inheritdoc />
-        public override Response<ManagementLockObject> Get(CancellationToken cancellationToken = default)
+        /// <summary> Gets a management lock at the resource group level. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public Response<ManagementLockObject> Get(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtResourceGroupLevel");
             scope.Start();
             try
             {
-                var response = _restClient.GetAtResourceGroupLevel(Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
+                var response = _restClient.GetAtResourceGroupLevel(Id.ResourceGroupName, Id.Name, cancellationToken);
                 return Response.FromValue(new ManagementLockObject(this, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -71,29 +72,13 @@ namespace Azure.ResourceManager.NewResources
                 scope.Failed(e);
                 throw;
             }
-        }
-
-        /// <summary> Lists all available geo-locations. </summary>
-        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        /// <returns> A collection of location that may take multiple service requests to iterate over. </returns>
-        public async Task<IEnumerable<LocationData>> ListAvailableLocationsAsync(CancellationToken cancellationToken = default)
-        {
-            return await ListAvailableLocationsAsync(ResourceType, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary> Lists all available geo-locations. </summary>
-        /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        /// <returns> A collection of location that may take multiple service requests to iterate over. </returns>
-        public IEnumerable<LocationData> ListAvailableLocations(CancellationToken cancellationToken = default)
-        {
-            return ListAvailableLocations(ResourceType, cancellationToken);
         }
 
         /// <summary> To delete management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async Task<Response> DeleteAtResourceGroupLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtResourceGroupLevel");
             scope.Start();
             try
             {
@@ -111,7 +96,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public Response DeleteAtResourceGroupLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtResourceGroupLevel");
             scope.Start();
             try
             {
@@ -129,11 +114,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async Task<Azure.Operation> StartDeleteAtResourceGroupLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.StartDeleteAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.StartDeleteAtResourceGroupLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.DeleteAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.DeleteAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 return new ManagementLocksDeleteAtResourceGroupLevelOperation(response);
             }
             catch (Exception e)
@@ -147,11 +132,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public Azure.Operation StartDeleteAtResourceGroupLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.StartDeleteAtResourceGroupLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.StartDeleteAtResourceGroupLevel");
             scope.Start();
             try
             {
-                var response = _restClient.DeleteAtResourceGroupLevel(Id.ResourceGroupName, Id.Parent.Name, Id.Name, cancellationToken);
+                var response = _restClient.DeleteAtResourceGroupLevel(Id.ResourceGroupName, Id.Name, cancellationToken);
                 return new ManagementLocksDeleteAtResourceGroupLevelOperation(response);
             }
             catch (Exception e)
@@ -164,7 +149,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response> DeleteByScopeAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteByScope");
             scope.Start();
             try
             {
@@ -182,7 +167,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response DeleteByScope(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteByScope");
             scope.Start();
             try
             {
@@ -200,7 +185,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ManagementLockObjectData>> GetByScopeAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetByScope");
             scope.Start();
             try
             {
@@ -218,7 +203,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ManagementLockObjectData> GetByScope(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetByScope");
             scope.Start();
             try
             {
@@ -236,11 +221,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response> DeleteAtResourceLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtResourceLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.DeleteAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.DeleteAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -254,11 +239,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response DeleteAtResourceLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtResourceLevel");
             scope.Start();
             try
             {
-                var response = _restClient.DeleteAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken);
+                var response = _restClient.DeleteAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -272,11 +257,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ManagementLockObjectData>> GetAtResourceLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtResourceLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.GetAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.GetAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -290,11 +275,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ManagementLockObjectData> GetAtResourceLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtResourceLevel");
             scope.Start();
             try
             {
-                var response = _restClient.GetAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken);
+                var response = _restClient.GetAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -308,11 +293,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response> DeleteAtSubscriptionLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.DeleteAtSubscriptionLevelAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.DeleteAtSubscriptionLevelAsync(Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -326,11 +311,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response DeleteAtSubscriptionLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.DeleteAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.DeleteAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = _restClient.DeleteAtSubscriptionLevel(Id.ResourceGroupName, Id.Name, cancellationToken);
+                var response = _restClient.DeleteAtSubscriptionLevel(Id.ResourceGroupName, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -344,11 +329,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual async Task<Response<ManagementLockObjectData>> GetAtSubscriptionLevelAsync(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.GetAtSubscriptionLevelAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.GetAtSubscriptionLevelAsync(Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -362,11 +347,11 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ManagementLockObjectData> GetAtSubscriptionLevel(CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsOperations.GetAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectOperations.GetAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = _restClient.GetAtSubscriptionLevel(Id.ResourceGroupName, Id.Name, cancellationToken);
+                var response = _restClient.GetAtSubscriptionLevel(Id.ResourceGroupName, cancellationToken);
                 return response;
             }
             catch (Exception e)

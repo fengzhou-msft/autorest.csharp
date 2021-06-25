@@ -18,16 +18,16 @@ using Azure.ResourceManager.Core.Resources;
 namespace Azure.ResourceManager.NewResources
 {
     /// <summary> A class representing collection of PolicyAssignment and their operations over a Tenant. </summary>
-    public partial class PolicyAssignmentTenantContainer : ResourceContainerBase<ResourceGroupResourceIdentifier, PolicyAssignment, PolicyAssignmentData>
+    public partial class PolicyAssignmentContainer : ResourceContainerBase<ResourceGroupResourceIdentifier, PolicyAssignment, PolicyAssignmentData>
     {
-        /// <summary> Initializes a new instance of the <see cref="PolicyAssignmentTenantContainer"/> class for mocking. </summary>
-        protected PolicyAssignmentTenantContainer()
+        /// <summary> Initializes a new instance of the <see cref="PolicyAssignmentContainer"/> class for mocking. </summary>
+        protected PolicyAssignmentContainer()
         {
         }
 
-        /// <summary> Initializes a new instance of PolicyAssignmentTenantContainer class. </summary>
+        /// <summary> Initializes a new instance of PolicyAssignmentContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal PolicyAssignmentTenantContainer(ResourceOperationsBase parent) : base(parent)
+        internal PolicyAssignmentContainer(ResourceOperationsBase parent) : base(parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -38,7 +38,7 @@ namespace Azure.ResourceManager.NewResources
         private PolicyAssignmentsRestOperations _restClient => new PolicyAssignmentsRestOperations(_clientDiagnostics, Pipeline, Id.SubscriptionId);
 
         /// <summary> Typed Resource Identifier for the container. </summary>
-        public new ResourceGroupResourceIdentifier Id => base.Id as ResourceGroupResourceIdentifier;
+        public new TenantResourceIdentifier Id => base.Id as TenantResourceIdentifier;
 
         /// <summary> Gets the valid resource type for this object. </summary>
         protected override ResourceType ValidResourceType => ResourceIdentifier.RootResourceIdentifier.ResourceType;
@@ -51,7 +51,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public Response<PolicyAssignment> CreateOrUpdate(string policyAssignmentName, PolicyAssignmentData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -79,7 +79,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public async Task<Response<PolicyAssignment>> CreateOrUpdateAsync(string policyAssignmentName, PolicyAssignmentData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.CreateOrUpdate");
             scope.Start();
             try
             {
@@ -108,7 +108,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public PolicyAssignmentsCreateOperation StartCreateOrUpdate(string policyAssignmentName, PolicyAssignmentData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.StartCreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.StartCreateOrUpdate");
             scope.Start();
             try
             {
@@ -137,7 +137,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public async Task<PolicyAssignmentsCreateOperation> StartCreateOrUpdateAsync(string policyAssignmentName, PolicyAssignmentData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.StartCreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.StartCreateOrUpdate");
             scope.Start();
             try
             {
@@ -165,7 +165,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public override Response<PolicyAssignment> Get(string policyAssignmentName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.Get");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.Get");
             scope.Start();
             try
             {
@@ -189,7 +189,7 @@ namespace Azure.ResourceManager.NewResources
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
         public async override Task<Response<PolicyAssignment>> GetAsync(string policyAssignmentName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.Get");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.Get");
             scope.Start();
             try
             {
@@ -216,7 +216,7 @@ namespace Azure.ResourceManager.NewResources
         {
             Page<PolicyAssignment> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.List");
+                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.List");
                 scope.Start();
                 try
                 {
@@ -231,7 +231,7 @@ namespace Azure.ResourceManager.NewResources
             }
             Page<PolicyAssignment> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.List");
+                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.List");
                 scope.Start();
                 try
                 {
@@ -255,7 +255,7 @@ namespace Azure.ResourceManager.NewResources
         {
             async Task<Page<PolicyAssignment>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.List");
+                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.List");
                 scope.Start();
                 try
                 {
@@ -270,7 +270,7 @@ namespace Azure.ResourceManager.NewResources
             }
             async Task<Page<PolicyAssignment>> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.List");
+                using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.List");
                 scope.Start();
                 try
                 {
@@ -293,11 +293,11 @@ namespace Azure.ResourceManager.NewResources
         /// <returns> A collection of resource that may take multiple service requests to iterate over. </returns>
         public Pageable<Core.GenericResource> ListAsGenericResource(string nameFilter, int? top = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.ListAsGenericResource");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.ListAsGenericResource");
             scope.Start();
             try
             {
-                var filters = new ResourceFilterCollection(PolicyAssignment.ResourceType);
+                var filters = new ResourceFilterCollection(PolicyAssignmentOperations.ResourceType);
                 filters.SubstringFilter = nameFilter;
                 return ResourceListOperations.ListAtContext(Parent as ResourceGroupOperations, filters, top, cancellationToken);
             }
@@ -315,11 +315,11 @@ namespace Azure.ResourceManager.NewResources
         /// <returns> An async collection of resource that may take multiple service requests to iterate over. </returns>
         public AsyncPageable<Core.GenericResource> ListAsGenericResourceAsync(string nameFilter, int? top = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.ListAsGenericResource");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.ListAsGenericResource");
             scope.Start();
             try
             {
-                var filters = new ResourceFilterCollection(PolicyAssignment.ResourceType);
+                var filters = new ResourceFilterCollection(PolicyAssignmentOperations.ResourceType);
                 filters.SubstringFilter = nameFilter;
                 return ResourceListOperations.ListAtContextAsync(Parent as ResourceGroupOperations, filters, top, cancellationToken);
             }
@@ -341,7 +341,7 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.CreateById");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.CreateById");
             scope.Start();
             try
             {
@@ -366,7 +366,7 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentTenantContainer.CreateById");
+            using var scope = _clientDiagnostics.CreateScope("PolicyAssignmentContainer.CreateById");
             scope.Start();
             try
             {

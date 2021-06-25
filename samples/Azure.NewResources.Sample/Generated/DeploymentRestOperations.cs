@@ -907,7 +907,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtScopeNextPageRequest(string nextLink, string scope, string deploymentName, int? top)
+        internal Azure.Core.HttpMessage CreateListAtScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -922,27 +922,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The resource scope. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="scope"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public async Task<Response<DeploymentOperationsListResult>> ListAtScopeNextPageAsync(string nextLink, string scope, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentOperationsListResult>> ListAtScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtScopeNextPageRequest(nextLink, scope, deploymentName, top);
+            using var message = CreateListAtScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -960,27 +949,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="scope"> The resource scope. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="scope"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public Response<DeploymentOperationsListResult> ListAtScopeNextPage(string nextLink, string scope, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentOperationsListResult> ListAtScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (scope == null)
-            {
-                throw new ArgumentNullException(nameof(scope));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtScopeNextPageRequest(nextLink, scope, deploymentName, top);
+            using var message = CreateListAtScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -996,7 +974,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtTenantScopeNextPageRequest(string nextLink, string deploymentName, int? top)
+        internal Azure.Core.HttpMessage CreateListAtTenantScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1011,22 +989,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="deploymentName"/> is null. </exception>
-        public async Task<Response<DeploymentOperationsListResult>> ListAtTenantScopeNextPageAsync(string nextLink, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentOperationsListResult>> ListAtTenantScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtTenantScopeNextPageRequest(nextLink, deploymentName, top);
+            using var message = CreateListAtTenantScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1044,22 +1016,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="deploymentName"/> is null. </exception>
-        public Response<DeploymentOperationsListResult> ListAtTenantScopeNextPage(string nextLink, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentOperationsListResult> ListAtTenantScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtTenantScopeNextPageRequest(nextLink, deploymentName, top);
+            using var message = CreateListAtTenantScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1075,7 +1041,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtManagementGroupScopeNextPageRequest(string nextLink, string groupId, string deploymentName, int? top)
+        internal Azure.Core.HttpMessage CreateListAtManagementGroupScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1090,27 +1056,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="groupId"> The management group ID. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="groupId"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public async Task<Response<DeploymentOperationsListResult>> ListAtManagementGroupScopeNextPageAsync(string nextLink, string groupId, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentOperationsListResult>> ListAtManagementGroupScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (groupId == null)
-            {
-                throw new ArgumentNullException(nameof(groupId));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink, groupId, deploymentName, top);
+            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1128,27 +1083,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="groupId"> The management group ID. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="groupId"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public Response<DeploymentOperationsListResult> ListAtManagementGroupScopeNextPage(string nextLink, string groupId, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentOperationsListResult> ListAtManagementGroupScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (groupId == null)
-            {
-                throw new ArgumentNullException(nameof(groupId));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink, groupId, deploymentName, top);
+            using var message = CreateListAtManagementGroupScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1164,7 +1108,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListAtSubscriptionScopeNextPageRequest(string nextLink, string deploymentName, int? top)
+        internal Azure.Core.HttpMessage CreateListAtSubscriptionScopeNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1179,22 +1123,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="deploymentName"/> is null. </exception>
-        public async Task<Response<DeploymentOperationsListResult>> ListAtSubscriptionScopeNextPageAsync(string nextLink, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentOperationsListResult>> ListAtSubscriptionScopeNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink, deploymentName, top);
+            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1212,22 +1150,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="deploymentName"/> is null. </exception>
-        public Response<DeploymentOperationsListResult> ListAtSubscriptionScopeNextPage(string nextLink, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentOperationsListResult> ListAtSubscriptionScopeNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink, deploymentName, top);
+            using var message = CreateListAtSubscriptionScopeNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1243,7 +1175,7 @@ namespace Azure.ResourceManager.NewResources
             }
         }
 
-        internal Azure.Core.HttpMessage CreateListNextPageRequest(string nextLink, string resourceGroupName, string deploymentName, int? top)
+        internal Azure.Core.HttpMessage CreateListNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1258,27 +1190,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public async Task<Response<DeploymentOperationsListResult>> ListNextPageAsync(string nextLink, string resourceGroupName, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DeploymentOperationsListResult>> ListNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName, deploymentName, top);
+            using var message = CreateListNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1296,27 +1217,16 @@ namespace Azure.ResourceManager.NewResources
 
         /// <summary> Gets all deployments operations for a deployment. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. The name is case insensitive. </param>
-        /// <param name="deploymentName"> The name of the deployment. </param>
-        /// <param name="top"> The number of results to return. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="deploymentName"/> is null. </exception>
-        public Response<DeploymentOperationsListResult> ListNextPage(string nextLink, string resourceGroupName, string deploymentName, int? top = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DeploymentOperationsListResult> ListNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (deploymentName == null)
-            {
-                throw new ArgumentNullException(nameof(deploymentName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName, deploymentName, top);
+            using var message = CreateListNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

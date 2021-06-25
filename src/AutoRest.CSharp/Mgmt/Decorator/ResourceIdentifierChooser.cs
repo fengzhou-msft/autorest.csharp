@@ -20,7 +20,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
         {
             if (operation.ParentResourceType(config) == ResourceTypeBuilder.Subscriptions)
                 return typeof(SubscriptionResourceIdentifier);
-            else if (operation.IsTenantResource(config))
+            else if (operation.IsTenantResource(config) || operation.IsScopeResource())
                 return typeof(TenantResourceIdentifier);
             else
                 return typeof(ResourceGroupResourceIdentifier);

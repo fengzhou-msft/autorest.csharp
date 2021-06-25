@@ -39,8 +39,9 @@ namespace AutoRest.CSharp.Mgmt.Output
             OperationGroup = operationGroup;
             _prefix = operationGroup.Resource(context.Configuration.MgmtConfiguration);
             var isExtension = operationGroup.IsExtensionResource(context.Configuration.MgmtConfiguration);
+            var isScope = operationGroup.IsScopeResource();
             string midValue = "";
-            if (isExtension)
+            if (isExtension && !isScope)
             {
                 var parent = operationGroup.ParentResourceType(context.Configuration.MgmtConfiguration);
                 var parentArr = parent.Split('/');

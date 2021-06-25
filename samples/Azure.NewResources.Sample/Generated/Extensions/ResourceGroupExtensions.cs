@@ -13,12 +13,12 @@ namespace Azure.ResourceManager.NewResources
     public static partial class ResourceGroupExtensions
     {
         #region ManagementLockObjects
-        /// <summary> Gets an object representing a ManagementLockObjectResourceGroupsContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a ManagementLockObjectContainer along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ManagementLockObjectResourceGroupsContainer" /> object. </returns>
-        public static ManagementLockObjectResourceGroupsContainer GetManagementLockObjects(this ResourceGroupOperations resourceGroup)
+        /// <returns> Returns a <see cref="ManagementLockObjectContainer" /> object. </returns>
+        public static ManagementLockObjectContainer GetManagementLockObjects(this ResourceGroupOperations resourceGroup)
         {
-            return new ManagementLockObjectResourceGroupsContainer(resourceGroup);
+            return new ManagementLockObjectContainer(resourceGroup);
         }
         #endregion
 

@@ -18,16 +18,16 @@ using Azure.ResourceManager.Core.Resources;
 namespace Azure.ResourceManager.NewResources
 {
     /// <summary> A class representing collection of ManagementLockObject and their operations over a ResourceGroup. </summary>
-    public partial class ManagementLockObjectResourceGroupsContainer : ResourceContainerBase<ResourceGroupResourceIdentifier, ManagementLockObject, ManagementLockObjectData>
+    public partial class ManagementLockObjectContainer : ResourceContainerBase<ResourceGroupResourceIdentifier, ManagementLockObject, ManagementLockObjectData>
     {
-        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectResourceGroupsContainer"/> class for mocking. </summary>
-        protected ManagementLockObjectResourceGroupsContainer()
+        /// <summary> Initializes a new instance of the <see cref="ManagementLockObjectContainer"/> class for mocking. </summary>
+        protected ManagementLockObjectContainer()
         {
         }
 
-        /// <summary> Initializes a new instance of ManagementLockObjectResourceGroupsContainer class. </summary>
+        /// <summary> Initializes a new instance of ManagementLockObjectContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal ManagementLockObjectResourceGroupsContainer(ResourceOperationsBase parent) : base(parent)
+        internal ManagementLockObjectContainer(ResourceOperationsBase parent) : base(parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -35,7 +35,7 @@ namespace Azure.ResourceManager.NewResources
         private readonly ClientDiagnostics _clientDiagnostics;
 
         /// <summary> Represents the REST operations. </summary>
-        private ManagementLocksRestOperations _restClient => new ManagementLocksRestOperations(_clientDiagnostics, Pipeline);
+        private ManagementLocksRestOperations _restClient => new ManagementLocksRestOperations(_clientDiagnostics, Pipeline, Id.SubscriptionId);
 
         /// <summary> Typed Resource Identifier for the container. </summary>
         public new ResourceGroupResourceIdentifier Id => base.Id as ResourceGroupResourceIdentifier;
@@ -46,25 +46,25 @@ namespace Azure.ResourceManager.NewResources
         // Container level operations.
 
         /// <summary> The operation to create or update a ManagementLockObject. Please note some properties can be set only during creation. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The lock name. The lock name can be a maximum of 260 characters. It cannot contain &lt;, &gt; %, &amp;, :, \, ?, /, or any control characters. </param>
         /// <param name="parameters"> The management lock parameters. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<ManagementLockObject> CreateOrUpdate(string subscriptionId, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
+        public Response<ManagementLockObject> CreateOrUpdate(string lockName, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdate");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
                 if (parameters == null)
                 {
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                return StartCreateOrUpdate(subscriptionId, parameters, cancellationToken: cancellationToken).WaitForCompletion(cancellationToken);
+                return StartCreateOrUpdate(lockName, parameters, cancellationToken: cancellationToken).WaitForCompletion(cancellationToken);
             }
             catch (Exception e)
             {
@@ -74,25 +74,25 @@ namespace Azure.ResourceManager.NewResources
         }
 
         /// <summary> The operation to create or update a ManagementLockObject. Please note some properties can be set only during creation. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The lock name. The lock name can be a maximum of 260 characters. It cannot contain &lt;, &gt; %, &amp;, :, \, ?, /, or any control characters. </param>
         /// <param name="parameters"> The management lock parameters. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<ManagementLockObject>> CreateOrUpdateAsync(string subscriptionId, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
+        public async Task<Response<ManagementLockObject>> CreateOrUpdateAsync(string lockName, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdate");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
                 if (parameters == null)
                 {
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var operation = await StartCreateOrUpdateAsync(subscriptionId, parameters, cancellationToken: cancellationToken).ConfigureAwait(false);
+                var operation = await StartCreateOrUpdateAsync(lockName, parameters, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return await operation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
@@ -103,25 +103,25 @@ namespace Azure.ResourceManager.NewResources
         }
 
         /// <summary> The operation to create or update a ManagementLockObject. Please note some properties can be set only during creation. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The lock name. The lock name can be a maximum of 260 characters. It cannot contain &lt;, &gt; %, &amp;, :, \, ?, /, or any control characters. </param>
         /// <param name="parameters"> The management lock parameters. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation StartCreateOrUpdate(string subscriptionId, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
+        public ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation StartCreateOrUpdate(string lockName, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.StartCreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.StartCreateOrUpdate");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
                 if (parameters == null)
                 {
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var originalResponse = _restClient.CreateOrUpdateAtResourceGroupLevel(Id.ResourceGroupName, Id.Name, subscriptionId, parameters, cancellationToken: cancellationToken);
+                var originalResponse = _restClient.CreateOrUpdateAtResourceGroupLevel(Id.ResourceGroupName, lockName, parameters, cancellationToken: cancellationToken);
                 return new ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation(Parent, originalResponse);
             }
             catch (Exception e)
@@ -132,25 +132,25 @@ namespace Azure.ResourceManager.NewResources
         }
 
         /// <summary> The operation to create or update a ManagementLockObject. Please note some properties can be set only during creation. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The lock name. The lock name can be a maximum of 260 characters. It cannot contain &lt;, &gt; %, &amp;, :, \, ?, /, or any control characters. </param>
         /// <param name="parameters"> The management lock parameters. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation> StartCreateOrUpdateAsync(string subscriptionId, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
+        public async Task<ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation> StartCreateOrUpdateAsync(string lockName, ManagementLockObjectData parameters, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.StartCreateOrUpdate");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.StartCreateOrUpdate");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
                 if (parameters == null)
                 {
                     throw new ArgumentNullException(nameof(parameters));
                 }
 
-                var originalResponse = await _restClient.CreateOrUpdateAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Name, subscriptionId, parameters, cancellationToken: cancellationToken).ConfigureAwait(false);
+                var originalResponse = await _restClient.CreateOrUpdateAtResourceGroupLevelAsync(Id.ResourceGroupName, lockName, parameters, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return new ManagementLocksCreateOrUpdateAtResourceGroupLevelOperation(Parent, originalResponse);
             }
             catch (Exception e)
@@ -161,20 +161,20 @@ namespace Azure.ResourceManager.NewResources
         }
 
         /// <inheritdoc />
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The name of the lock to get. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public override Response<ManagementLockObject> Get(string subscriptionId, CancellationToken cancellationToken = default)
+        public override Response<ManagementLockObject> Get(string lockName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.Get");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.Get");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
 
-                var response = _restClient.GetAtResourceGroupLevel(Id.ResourceGroupName, Id.Name, subscriptionId, cancellationToken: cancellationToken);
+                var response = _restClient.GetAtResourceGroupLevel(Id.ResourceGroupName, lockName, cancellationToken: cancellationToken);
                 return Response.FromValue(new ManagementLockObject(Parent, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -185,20 +185,20 @@ namespace Azure.ResourceManager.NewResources
         }
 
         /// <inheritdoc />
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="lockName"> The name of the lock to get. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async override Task<Response<ManagementLockObject>> GetAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        public async override Task<Response<ManagementLockObject>> GetAsync(string lockName, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.Get");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.Get");
             scope.Start();
             try
             {
-                if (subscriptionId == null)
+                if (lockName == null)
                 {
-                    throw new ArgumentNullException(nameof(subscriptionId));
+                    throw new ArgumentNullException(nameof(lockName));
                 }
 
-                var response = await _restClient.GetAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Name, subscriptionId, cancellationToken: cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.GetAtResourceGroupLevelAsync(Id.ResourceGroupName, lockName, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new ManagementLockObject(Parent, response.Value), response.GetRawResponse());
             }
             catch (Exception e)
@@ -216,11 +216,11 @@ namespace Azure.ResourceManager.NewResources
         {
             Page<ManagementLockObject> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAtResourceGroupLevel");
+                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAtResourceGroupLevel");
                 scope.Start();
                 try
                 {
-                    var response = _restClient.ListAtResourceGroupLevel(Id.ResourceGroupName, Id.Name, filter, cancellationToken: cancellationToken);
+                    var response = _restClient.ListAtResourceGroupLevel(Id.ResourceGroupName, filter, cancellationToken: cancellationToken);
                     return Page.FromValues(response.Value.Value.Select(value => new ManagementLockObject(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -231,11 +231,11 @@ namespace Azure.ResourceManager.NewResources
             }
             Page<ManagementLockObject> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAtResourceGroupLevel");
+                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAtResourceGroupLevel");
                 scope.Start();
                 try
                 {
-                    var response = _restClient.ListAtResourceGroupLevelNextPage(nextLink, Id.ResourceGroupName, Id.Name, filter, cancellationToken: cancellationToken);
+                    var response = _restClient.ListAtResourceGroupLevelNextPage(nextLink, Id.ResourceGroupName, filter, cancellationToken: cancellationToken);
                     return Page.FromValues(response.Value.Value.Select(value => new ManagementLockObject(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -255,11 +255,11 @@ namespace Azure.ResourceManager.NewResources
         {
             async Task<Page<ManagementLockObject>> FirstPageFunc(int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAtResourceGroupLevel");
+                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAtResourceGroupLevel");
                 scope.Start();
                 try
                 {
-                    var response = await _restClient.ListAtResourceGroupLevelAsync(Id.ResourceGroupName, Id.Name, filter, cancellationToken: cancellationToken).ConfigureAwait(false);
+                    var response = await _restClient.ListAtResourceGroupLevelAsync(Id.ResourceGroupName, filter, cancellationToken: cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Value.Select(value => new ManagementLockObject(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -270,11 +270,11 @@ namespace Azure.ResourceManager.NewResources
             }
             async Task<Page<ManagementLockObject>> NextPageFunc(string nextLink, int? pageSizeHint)
             {
-                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAtResourceGroupLevel");
+                using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAtResourceGroupLevel");
                 scope.Start();
                 try
                 {
-                    var response = await _restClient.ListAtResourceGroupLevelNextPageAsync(nextLink, Id.ResourceGroupName, Id.Name, filter, cancellationToken: cancellationToken).ConfigureAwait(false);
+                    var response = await _restClient.ListAtResourceGroupLevelNextPageAsync(nextLink, Id.ResourceGroupName, filter, cancellationToken: cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Value.Select(value => new ManagementLockObject(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -293,11 +293,11 @@ namespace Azure.ResourceManager.NewResources
         /// <returns> A collection of resource that may take multiple service requests to iterate over. </returns>
         public Pageable<Core.GenericResource> ListAsGenericResource(string nameFilter, int? top = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAsGenericResource");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAsGenericResource");
             scope.Start();
             try
             {
-                var filters = new ResourceFilterCollection(ManagementLockObject.ResourceType);
+                var filters = new ResourceFilterCollection(ManagementLockObjectOperations.ResourceType);
                 filters.SubstringFilter = nameFilter;
                 return ResourceListOperations.ListAtContext(Parent as ResourceGroupOperations, filters, top, cancellationToken);
             }
@@ -315,11 +315,11 @@ namespace Azure.ResourceManager.NewResources
         /// <returns> An async collection of resource that may take multiple service requests to iterate over. </returns>
         public AsyncPageable<Core.GenericResource> ListAsGenericResourceAsync(string nameFilter, int? top = null, CancellationToken cancellationToken = default)
         {
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.ListAsGenericResource");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.ListAsGenericResource");
             scope.Start();
             try
             {
-                var filters = new ResourceFilterCollection(ManagementLockObject.ResourceType);
+                var filters = new ResourceFilterCollection(ManagementLockObjectOperations.ResourceType);
                 filters.SubstringFilter = nameFilter;
                 return ResourceListOperations.ListAtContextAsync(Parent as ResourceGroupOperations, filters, top, cancellationToken);
             }
@@ -341,7 +341,7 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateByScope");
             scope.Start();
             try
             {
@@ -366,7 +366,7 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateByScope");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateByScope");
             scope.Start();
             try
             {
@@ -391,11 +391,11 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateAtResourceLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.CreateOrUpdateAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, parameters, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.CreateOrUpdateAtResourceLevelAsync(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, parameters, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -416,11 +416,11 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateAtResourceLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateAtResourceLevel");
             scope.Start();
             try
             {
-                var response = _restClient.CreateOrUpdateAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, parameters, cancellationToken);
+                var response = _restClient.CreateOrUpdateAtResourceLevel(Id.ResourceGroupName, Id.Parent.Parent.Parent.Parent.Name, Id.Parent.Parent.Parent.Name, Id.Parent.Parent.Name, Id.Parent.Name, Id.Name, parameters, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -441,11 +441,11 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = await _restClient.CreateOrUpdateAtSubscriptionLevelAsync(Id.ResourceGroupName, Id.Name, parameters, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.CreateOrUpdateAtSubscriptionLevelAsync(Id.ResourceGroupName, parameters, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -466,11 +466,11 @@ namespace Azure.ResourceManager.NewResources
                 throw new ArgumentNullException(nameof(parameters));
             }
 
-            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectResourceGroupsContainer.CreateOrUpdateAtSubscriptionLevel");
+            using var scope = _clientDiagnostics.CreateScope("ManagementLockObjectContainer.CreateOrUpdateAtSubscriptionLevel");
             scope.Start();
             try
             {
-                var response = _restClient.CreateOrUpdateAtSubscriptionLevel(Id.ResourceGroupName, Id.Name, parameters, cancellationToken);
+                var response = _restClient.CreateOrUpdateAtSubscriptionLevel(Id.ResourceGroupName, parameters, cancellationToken);
                 return response;
             }
             catch (Exception e)

@@ -46,6 +46,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
 
         public MgmtOutputLibrary(CodeModel codeModel, BuildContext<MgmtOutputLibrary> context) : base(codeModel, context)
         {
+            modifyCodeModel(codeModel);
             _codeModel = codeModel;
             _context = context;
             _mgmtConfiguration = context.Configuration.MgmtConfiguration;
@@ -473,7 +474,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
 
         private void AddNonResourceOperationGroupMapping(OperationGroup operationsGroup)
         {
-            foreach (var operation in operationsGroup.Operations.Where(o=>o.Language.Default.Name == "Get"))
+            foreach (var operation in operationsGroup.Operations.Where(o => o.Language.Default.Name == "Get"))
             {
                 var responseSchema = operation.Responses.First().ResponseSchema;
                 if (responseSchema != null)
@@ -492,6 +493,24 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
                 _operationGroups.Add(operationsGroup.Resource(_mgmtConfiguration), result);
             }
             result.Add(operationsGroup);
+        }
+
+        private void modifyCodeModel(CodeModel codeModel)
+        {
+            foreach (var operationGroup in codeModel.OperationGroups)
+            {
+                if (operationGroup.IsScopeResource())
+                {
+                    var subscriptionParameters = operationGroup.Operations
+                        .SelectMany(op => op.Parameters)
+                        .Where(p => p.Language.Default.Name.Equals("subscriptionId"));
+
+                    foreach (var param in subscriptionParameters)
+                    {
+                        param.Implementation = ImplementationLocation.Method;
+                    }
+                }
+            }
         }
     }
 }
