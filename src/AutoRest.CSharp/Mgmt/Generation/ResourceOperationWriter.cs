@@ -897,7 +897,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             else
             {
                 NonLongRunningOperation nonLongRunningOperation = context.Library.GetNonLongRunningOperation(clientMethod.Operation);
-                if (nonLongRunningOperation.ResultType != null)
+                if (nonLongRunningOperation.ResultType != null && !nonLongRunningOperation.ResultType.Name.EndsWith("Data"))
                 {
                     writer.Append($"this, ");
                 }

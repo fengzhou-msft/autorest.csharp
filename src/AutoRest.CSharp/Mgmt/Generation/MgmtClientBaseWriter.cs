@@ -458,6 +458,19 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     paramNameList.Add("Id.Name");
                     pathParamsLength--;
                 }
+                else if (operationGroup.IsScopeResource() && pathParamsLength == 1)
+                {
+                    var request = clientMethod.Operation?.Requests.FirstOrDefault(r => r.Protocol.Http is HttpRequest);
+                    if (request != null)
+                    {
+                        // Example: /{policyAssignmentId}
+                        if ($"/{{{clientMethod.Parameters[0].Name}}}".Equals(((HttpRequest)request.Protocol.Http!).Path))
+                        {
+                            paramNameList.Add("Id");
+                            return paramNameList.ToArray();
+                        }
+                    }
+                }
 
                 BuildPathParameterNames(paramNameList, pathParamsLength, "Id", operationGroup, context);
 
