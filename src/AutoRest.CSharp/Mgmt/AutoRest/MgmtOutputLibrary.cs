@@ -503,7 +503,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
                 {
                     var subscriptionParameters = operationGroup.Operations
                         .SelectMany(op => op.Parameters)
-                        .Where(p => p.Language.Default.Name.Equals("subscriptionId"));
+                        .Where(p => p.Language.Default.Name.Equals("SubscriptionId", StringComparison.OrdinalIgnoreCase));
 
                     foreach (var param in subscriptionParameters)
                     {

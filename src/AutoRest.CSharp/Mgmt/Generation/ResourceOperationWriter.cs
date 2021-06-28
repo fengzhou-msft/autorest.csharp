@@ -126,7 +126,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 {
                     writer.Line($"{ClientDiagnosticsField} = new {typeof(ClientDiagnostics)}(ClientOptions);");
                     var subscriptionValue = "Id.SubscriptionId";
-                    if (resourceOperation.ResourceIdentifierType == typeof(TenantResourceIdentifier))
+                    if (resourceOperation.ResourceIdentifierType == typeof(TenantResourceIdentifier) && !isScope)
                     {
                         subscriptionValue = "subscriptionId";
                         writer.Line($"Id.TryGetSubscriptionId(out var subscriptionId);");

@@ -454,6 +454,10 @@ namespace AutoRest.CSharp.Mgmt.Generation
 
         private bool IsTenantParent(OperationGroup operationGroup, BuildContext<MgmtOutputLibrary> context)
         {
+            if (operationGroup.IsScopeResource())
+            {
+                return true;
+            }
             while (!IsTerminalState(operationGroup, context))
             {
                 var operationGroupTest = ParentOperationGroup(operationGroup, context);
@@ -506,7 +510,14 @@ namespace AutoRest.CSharp.Mgmt.Generation
             else
             {
                 name = $"{name}.Parent";
-                paramNames.Add($"{name}.Name");
+                if (operationGroup.IsScopeResource())
+                {
+                    paramNames.Add($"{name}");
+                }
+                else
+                {
+                    paramNames.Add($"{name}.Name");
+                }
                 paramLength--;
 
                 var parentOperationGroup = ParentOperationGroup(operationGroup, context);
