@@ -47,6 +47,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
         public MgmtOutputLibrary(CodeModel codeModel, BuildContext<MgmtOutputLibrary> context) : base(codeModel, context)
         {
             modifyCodeModel(codeModel);
+            CodeModelValidator.Validate(codeModel);
             _codeModel = codeModel;
             _context = context;
             _mgmtConfiguration = context.Configuration.MgmtConfiguration;
