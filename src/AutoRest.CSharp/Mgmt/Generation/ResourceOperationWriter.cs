@@ -42,7 +42,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
             var cs = resourceOperation.Type;
             var @namespace = cs.Namespace;
             var isSingleton = resourceOperation.OperationGroup.IsSingletonResource(config);
-            var baseClass = isSingleton ? typeof(SingletonOperationsBase) : typeof(ResourceOperationsBase);
+            var isScope = resourceOperation.OperationGroup.IsScopeResource();
+            var baseClass = isSingleton ? typeof(SingletonOperationsBase) : (isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase));
 
             WriteUsings(writer);
 
@@ -55,9 +56,9 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 var resourceData = context.Library.GetResourceData(operationGroup);
                 writer.Append($"{resourceOperation.Declaration.Accessibility} partial class {cs.Name}: ");
 
-                _inheritResourceOperationsBase = resourceOperation.GetMethod != null;
+                _inheritResourceOperationsBase = !isScope && resourceOperation.GetMethod != null;
                 CSharpType[] arguments = { resourceOperation.ResourceIdentifierType, resource.Type };
-                CSharpType type = new CSharpType(baseClass, arguments);
+                CSharpType type = isScope ? new CSharpType(baseClass) : new CSharpType(baseClass, arguments);
                 writer.Append($"{type}, ");
 
                 if (resourceOperation.GetMethod == null && baseClass == typeof(ResourceOperationsBase))
@@ -85,12 +86,12 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
                         WriteClientFields(writer, resourceOperation.RestClient, false);
                         WriteChildRestClients(writer, resourceOperation, context);
                     }
-                    WriteClientCtors(writer, resourceOperation, context, isSingleton);
+                    WriteClientCtors(writer, resourceOperation, context, isSingleton, isScope);
                     WriteClientProperties(writer, resourceOperation, context.Configuration.MgmtConfiguration);
                     // TODO Write singleton operations
                     if (!isSingleton)
                     {
-                        WriteClientMethods(writer, resourceOperation, resource, resourceData, context);
+                        WriteClientMethods(writer, resourceOperation, resource, resourceData, context, isScope);
                     }
                     else
                     {
@@ -120,7 +121,7 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
             return getMethod;
         }
 
-        private void WriteClientCtors(CodeWriter writer, ResourceOperation resourceOperation, BuildContext<MgmtOutputLibrary> context, bool isSingleton = false)
+        private void WriteClientCtors(CodeWriter writer, ResourceOperation resourceOperation, BuildContext<MgmtOutputLibrary> context, bool isSingleton = false, bool isScope = false)
         {
             var typeOfThis = resourceOperation.Type.Name;
             var constructorIdParam = isSingleton ? "" : $", {resourceOperation.ResourceIdentifierType} id";
@@ -140,7 +141,7 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
                 writer.WriteXmlDocumentationParameter("id", "The identifier of the resource that is the target of operations.");
             }
             var baseConstructorCall = isSingleton ? "base(options)" : "base(options, id)";
-            using (writer.Scope($"protected internal {typeOfThis}({typeof(ResourceOperationsBase)} options{constructorIdParam}) : {baseConstructorCall}"))
+            using (writer.Scope($"protected internal {typeOfThis}({(isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase))} options{constructorIdParam}) : {baseConstructorCall}"))
             {
                 if (!isSingleton)
                 {
@@ -162,7 +163,7 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
             writer.Line($"protected override {typeof(ResourceType)} ValidResourceType => ResourceType;");
         }
 
-        private void WriteClientMethods(CodeWriter writer, ResourceOperation resourceOperation, Resource resource, ResourceData resourceData, BuildContext<MgmtOutputLibrary> context)
+        private void WriteClientMethods(CodeWriter writer, ResourceOperation resourceOperation, Resource resource, ResourceData resourceData, BuildContext<MgmtOutputLibrary> context, bool isScope = false)
         {
             var clientMethodsList = new List<RestClientMethod>();
 
@@ -184,6 +185,23 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
 
                 WriteListAvailableLocationsMethod(writer, true);
                 WriteListAvailableLocationsMethod(writer, false);
+            }
+            else if (isScope && resourceOperation.GetMethod != null)
+            {
+                WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);
+                WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, false);
+
+                var nonPathParameters = GetNonPathParameters(resourceOperation.GetMethod.RestClientMethod);
+                if (nonPathParameters.Length > 0)
+                {
+                    // write get method
+                    WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);
+                    WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, false);
+                }
+                clientMethodsList.Add(resourceOperation.GetMethod.RestClientMethod);
+
+                // WriteListAvailableLocationsMethod(writer, true);
+                // WriteListAvailableLocationsMethod(writer, false);
             }
 
             if (_isDeletableResource)
@@ -938,7 +956,7 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
             else
             {
                 NonLongRunningOperation nonLongRunningOperation = context.Library.GetNonLongRunningOperation(clientMethod.Operation);
-                if (nonLongRunningOperation.ResultType != null)
+                if (nonLongRunningOperation.ResultType != null && !nonLongRunningOperation.ResultType.Name.EndsWith("Data"))
                 {
                     writer.Append($"this, ");
                 }

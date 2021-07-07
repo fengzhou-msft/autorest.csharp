@@ -3,6 +3,8 @@
 
 using System;
 using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoRest.CSharp.Generation.Types;
@@ -115,7 +117,11 @@ namespace AutoRest.CSharp.Generation.Writers
                 _ => new CSharpType(typeof(Response)),
             };
             responseType = async ? new CSharpType(typeof(Task<>), responseType) : responseType;
-            var parameters = operation.Parameters;
+            var parameters = operation.Parameters.ToList();
+            if (parameters.Any(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)))
+            {
+                parameters = parameters.Where(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)).ToList();
+            }
             writer.WriteXmlDocumentationSummary(operation.Description);
 
             foreach (Parameter parameter in parameters)

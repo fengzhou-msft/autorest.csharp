@@ -30,8 +30,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             {
                 operationGroup = operationGroup.ParentOperationGroup(context)!;
             }
-
-            return TenantDetection.IsTenantResource(operationGroup, context.Configuration.MgmtConfiguration);
+            return operationGroup.ParentResourceType(context.Configuration.MgmtConfiguration) == TenantDetection.TenantName;
         }
 
         private static bool IsTenantOnly(OperationGroup operationGroup, MgmtConfiguration config)

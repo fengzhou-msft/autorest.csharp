@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using AutoRest.CSharp.Generation.Types;
 using AutoRest.CSharp.Input;
+using AutoRest.CSharp.Mgmt.Decorator;
 using AutoRest.CSharp.Output.Builders;
 using AutoRest.CSharp.Output.Models.Requests;
 using AutoRest.CSharp.Output.Models.Responses;
@@ -34,7 +35,9 @@ namespace AutoRest.CSharp.Output.Models
             _context = context;
             _library = context.BaseLibrary!;
 
+            var method = ParentDetection.GetBestMethod(operationGroup.OperationHttpMethodMapping());
             _parameters = operationGroup.Operations
+                .Where(op => op.Requests.Any(req => req.Protocol?.Http == method))
                 .SelectMany(op => op.Parameters.Concat(op.Requests.SelectMany(r => r.Parameters)))
                 .Where(p => p.Implementation == ImplementationLocation.Client)
                 .Distinct()
@@ -368,7 +371,7 @@ namespace AutoRest.CSharp.Output.Models
         {
             Parameter? parameter = null;
             ReferenceOrConstant constantOrReference;
-            if (requestParameter.Implementation == ImplementationLocation.Method)
+            if (!_parameters.ContainsKey(requestParameter.Language.Default.Name))
             {
                 if (requestParameter.Schema is ConstantSchema constant)
                 {

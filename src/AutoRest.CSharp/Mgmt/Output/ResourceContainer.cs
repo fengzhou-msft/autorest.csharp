@@ -27,8 +27,11 @@ namespace AutoRest.CSharp.Mgmt.Output
         private const string TenantCommentName = "Tenant";
 
         private RestClientMethod? _putMethod;
+        private RestClientMethod? _putByIdMethod;
         private PagingMethod? _listMethod;
+        private List<PagingMethod>? _scopeListMethods;
         private ClientMethod? _getMethod;
+        private RestClientMethod? _getByIdMethod;
 
         public ResourceContainer(OperationGroup operationGroup, BuildContext<MgmtOutputLibrary> context)
             : base(operationGroup, context)
@@ -36,13 +39,19 @@ namespace AutoRest.CSharp.Mgmt.Output
             _context = context;
         }
 
-        public IEnumerable<ClientMethod> RemainingMethods => Methods.Where(m => m.RestClientMethod != PutMethod && m.RestClientMethod != ListMethod?.Method);
+        public IEnumerable<ClientMethod> RemainingMethods => Methods.Where(m => m.RestClientMethod != PutMethod && m.RestClientMethod != ListMethod?.Method && m.RestClientMethod != PutByIdMethod);
 
         public RestClientMethod? PutMethod => _putMethod ??= GetPutMethod();
 
+        public RestClientMethod? PutByIdMethod => _putByIdMethod ??= GetPutByIdMethod();
+
         public PagingMethod? ListMethod => _listMethod ??= FindListPagingMethod();
 
+        public List<PagingMethod>? ScopeListMethods => _scopeListMethods ??= FindScopeListPagingMethods();
+
         public override ClientMethod? GetMethod => _getMethod ??= _context.Library.GetResourceOperation(OperationGroup).GetMethod;
+
+        public RestClientMethod? GetByIdMethod => _getByIdMethod ??= GetGetByIdMethod();
 
         private PagingMethod? FindListPagingMethod()
         {
@@ -51,9 +60,24 @@ namespace AutoRest.CSharp.Mgmt.Output
                 ?? PagingMethods.FirstOrDefault(m => m.Method.Name.StartsWith("List", StringComparison.InvariantCultureIgnoreCase));
         }
 
+        private List<PagingMethod>? FindScopeListPagingMethods()
+        {
+            return PagingMethods.Select(m => m).Where(m => m.Method.Name.StartsWith("List", StringComparison.InvariantCultureIgnoreCase)).ToList();
+        }
+
         private RestClientMethod? GetPutMethod()
         {
             return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Put));
+        }
+
+        private RestClientMethod? GetPutByIdMethod()
+        {
+            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Put) && _restClient?.IsByIdMethod(m) == true);
+        }
+
+        private RestClientMethod? GetGetByIdMethod()
+        {
+            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Get) && _restClient?.IsByIdMethod(m) == true);
         }
 
         protected override string SuffixValue => _suffixValue;

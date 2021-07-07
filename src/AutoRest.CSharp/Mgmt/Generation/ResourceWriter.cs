@@ -49,8 +49,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     writer.Append($"{{ get; private set; }}");
                     writer.Line();
 
-                    // Only write GetResource if it is NOT singleton.
-                    if (!resource.OperationGroup.IsSingletonResource(context.Configuration.MgmtConfiguration))
+                    // Only write GetResource if it is NEITHER singleton NOR scope resource.
+                    if (!resource.OperationGroup.IsSingletonResource(context.Configuration.MgmtConfiguration) && !resource.OperationGroup.IsScopeResource())
                     {
                         // protected override GetResource
                         writer.Line();

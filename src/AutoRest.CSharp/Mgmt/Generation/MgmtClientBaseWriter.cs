@@ -17,6 +17,7 @@ using AutoRest.CSharp.Output.Models;
 using AutoRest.CSharp.Output.Models.Requests;
 using AutoRest.CSharp.Output.Models.Shared;
 using AutoRest.CSharp.Output.Models.Types;
+using AutoRest.CSharp.Utilities;
 using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
@@ -51,20 +52,36 @@ namespace AutoRest.CSharp.Mgmt.Generation
             writer.Line();
         }
 
-        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, string contextArgumentType, string parentArguments)
+        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, string contextArgumentType, string parentArguments, bool isScope = false)
         {
             // write protected default constructor
             writer.WriteXmlDocumentationSummary($"Initializes a new instance of the <see cref=\"{typeOfThis}\"/> class for mocking.");
             using (writer.Scope($"protected {typeOfThis}()"))
             { }
 
-            // write "parent resource" constructor
             writer.Line();
-            writer.WriteXmlDocumentationSummary($"Initializes a new instance of {typeOfThis} class.");
-            writer.WriteXmlDocumentationParameter("parent", "The resource representing the parent resource.");
-            using (writer.Scope($"internal {typeOfThis}({contextArgumentType} parent) : base({parentArguments})"))
+            if (isScope)
             {
-                writer.Line($"{ClientDiagnosticsField} = new {typeof(ClientDiagnostics)}(ClientOptions);");
+                // write "options, credential, baseUri, pipeline" constructor
+                writer.WriteXmlDocumentationSummary($"Initializes a new instance of {typeOfThis} class.");
+                writer.WriteXmlDocumentationParameter("options", "The options to use.");
+                writer.WriteXmlDocumentationParameter("credential", "The credential to use.");
+                writer.WriteXmlDocumentationParameter("baseUri", "The base uri to use.");
+                writer.WriteXmlDocumentationParameter("pipeline", "The http pipeline policy to use.");
+                using (writer.Scope($"internal {typeOfThis}(ArmClientOptions options, TokenCredential credential, Uri baseUri, HttpPipeline pipeline) : base(options, credential, baseUri, pipeline)"))
+                {
+                    writer.Line($"{ClientDiagnosticsField} = new {typeof(ClientDiagnostics)}(ClientOptions);");
+                }
+            }
+            else
+            {
+                // write "parent resource" constructor
+                writer.WriteXmlDocumentationSummary($"Initializes a new instance of {typeOfThis} class.");
+                writer.WriteXmlDocumentationParameter("parent", "The resource representing the parent resource.");
+                using (writer.Scope($"internal {typeOfThis}({contextArgumentType} parent) : base({parentArguments})"))
+                {
+                    writer.Line($"{ClientDiagnosticsField} = new {typeof(ClientDiagnostics)}(ClientOptions);");
+                }
             }
         }
 
@@ -174,13 +191,11 @@ namespace AutoRest.CSharp.Mgmt.Generation
             if (pagingMethod.NextPageMethod != null)
             {
                 nextPageFunctionName = "NextPageFunc";
-                var nextPageParameters = pagingMethod.NextPageMethod.Parameters;
                 using (writer.Scope($"{AsyncKeyword(async)} {returnType} {nextPageFunctionName}({typeof(string)} nextLink, {typeof(int?)} pageSizeHint)"))
                 {
                     WriteDiagnosticScope(writer, pagingMethod.Diagnostics, clientDiagnosticsName, writer =>
                     {
                         writer.Append($"var response = {AwaitKeyword(async)} {restClientName}.{CreateMethodName(pagingMethod.NextPageMethod.Name, async)}(nextLink, ");
-                        BuildAndWriteParameters(writer, pagingMethod.NextPageMethod);
                         writer.Line($"cancellationToken: cancellationToken){configureAwaitText};");
                         writer.Append($"return {typeof(Page)}.FromValues(response.Value.{itemName}");
                         writer.Append($"{converter}");
@@ -272,6 +287,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
             }
 
             MakeResourceNameParamPassThrough(method, parameterMapping, parentNameStack);
+            MakeScopeParamPassThrough(method, parameterMapping, parentNameStack);
+            MakeByIdParamPassThrough(method, parameterMapping, parentNameStack);
 
             // set the arguments for name parameters reversely: Id.Parent.Name, Id.Parent.Parent.Name, ...
             foreach (var parameter in parameterMapping)
@@ -296,6 +313,30 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 {
                     lastString.IsPassThru = true;
                     parentNameStack.Pop();
+                }
+            }
+        }
+
+        protected virtual void MakeScopeParamPassThrough(RestClientMethod method, List<ParameterMapping> parameterMapping, Stack<string> parentNameStack)
+        {
+            var firstString = parameterMapping.FirstOrDefault(parameter => parameter.Parameter.Type.IsStringLike() && IsMandatory(parameter.Parameter) && parameter.Parameter.Name.Equals("scope", StringComparison.InvariantCultureIgnoreCase));
+            if (firstString?.Parameter != null)
+            {
+                firstString.IsPassThru = true;
+                firstString.Parameter = firstString.Parameter with { Name = $"{_restClient?.ClientPrefix.ToSingular().FirstCharToLowerCase()}Scope", Type = typeof(ResourceIdentifier) };
+            }
+        }
+
+        protected virtual void MakeByIdParamPassThrough(RestClientMethod method, List<ParameterMapping> parameterMapping, Stack<string> parentNameStack)
+        {
+            var request = method.Operation?.Requests.FirstOrDefault(r => r.Protocol.Http is HttpRequest);
+            if (_restClient?.IsByIdMethod(method) == true)
+            {
+                var firstString = parameterMapping.FirstOrDefault(parameter => parameter.Parameter.Name.Equals(method.Parameters[0].Name, StringComparison.InvariantCultureIgnoreCase));
+                if (firstString?.Parameter != null)
+                {
+                    firstString.IsPassThru = true;
+                    firstString.Parameter = firstString.Parameter with { Type = typeof(ResourceIdentifier) };
                 }
             }
         }
@@ -430,6 +471,14 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     paramNameList.Add("Id.Name");
                     pathParamsLength--;
                 }
+                else if (operationGroup.IsScopeResource() && pathParamsLength == 1)
+                {
+                    if (_restClient?.IsByIdMethod(clientMethod) == true)
+                    {
+                        paramNameList.Add("Id");
+                        return paramNameList.ToArray();
+                    }
+                }
 
                 BuildPathParameterNames(paramNameList, pathParamsLength, "Id", operationGroup, context);
 
@@ -473,7 +522,14 @@ namespace AutoRest.CSharp.Mgmt.Generation
             else
             {
                 name = $"{name}.Parent";
-                paramNames.Add($"{name}.Name");
+                if (operationGroup.IsScopeResource())
+                {
+                    paramNames.Add($"{name}");
+                }
+                else
+                {
+                    paramNames.Add($"{name}.Name");
+                }
                 paramLength--;
 
                 var parentOperationGroup = operationGroup.ParentOperationGroup(context);

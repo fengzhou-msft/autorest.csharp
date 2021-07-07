@@ -26,8 +26,13 @@ namespace AutoRest.CSharp.Generation.Writers
 
             var methodName = CreateRequestMethodName(clientMethod.Name);
             writer.Append($"{methodAccessibility} {typeof(HttpMessage)} {methodName}(");
+            var hasNextLink = parameters.Any(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase));
             foreach (Parameter clientParameter in parameters)
             {
+                if (hasNextLink && !clientParameter.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    continue;
+                }
                 if (lowLevel)
                 {
                     writer.WriteParameter(clientParameter);
