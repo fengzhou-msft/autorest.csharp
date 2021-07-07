@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoRest.CSharp.Generation.Types;
 using AutoRest.CSharp.Generation.Writers;
+using AutoRest.CSharp.Mgmt.Decorator;
 using AutoRest.CSharp.Mgmt.Output;
 using Azure;
 using Azure.Core;
@@ -52,7 +53,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
                         if (operation.ResultDataType != null)
                         {
                             // todo: programmatically get the type of operationBase from the definition of [Resource]
-                            writer.Append($"{typeof(ResourceOperationsBase)} operationsBase, ");
+                            var isScope = (operation.ResultType.Implementation as Resource)?.OperationGroup.IsScopeResource() == true;
+                            writer.Append($"{(isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase))} operationsBase, ");
                             writer.Append($"{typeof(Response)}<{operation.ResultDataType}> {responseVariable}");
                         }
                         else

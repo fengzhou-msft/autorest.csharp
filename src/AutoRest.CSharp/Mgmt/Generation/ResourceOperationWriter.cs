@@ -191,8 +191,8 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
                 WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);
                 WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, false);
 
-                var nonPathParameters = GetNonPathParameters(resourceOperation.GetMethod.RestClientMethod);
-                if (nonPathParameters.Length > 0)
+                var nonPathParameters = resourceOperation.GetMethod.RestClientMethod.NonPathParameters;
+                if (nonPathParameters.Count > 0)
                 {
                     // write get method
                     WriteGetMethod(writer, resourceOperation.GetMethod, resource, context, false, true);

@@ -12,43 +12,13 @@ namespace Azure.ResourceManager.Resources
     /// <summary> A class to add extension methods to ResourceGroup. </summary>
     public static partial class ResourceGroupExtensions
     {
-        #region ManagementLockObjects
-        /// <summary> Gets an object representing a ManagementLockObjectContainer along with the instance operations that can be performed on it. </summary>
+        #region PolicyAssignment
+        /// <summary> Gets an object representing a PolicyAssignmentContainer along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ManagementLockObjectContainer" /> object. </returns>
-        public static ManagementLockObjectContainer GetManagementLockObjects(this ResourceGroupOperations resourceGroup)
+        /// <returns> Returns a <see cref="PolicyAssignmentContainer" /> object. </returns>
+        public static PolicyAssignmentContainer GetPolicyAssignments(this ResourceGroupOperations resourceGroup)
         {
-            return new ManagementLockObjectContainer(resourceGroup);
-        }
-        #endregion
-
-        #region Applications
-        /// <summary> Gets an object representing a ApplicationContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ApplicationContainer" /> object. </returns>
-        public static ApplicationContainer GetApplications(this ResourceGroupOperations resourceGroup)
-        {
-            return new ApplicationContainer(resourceGroup);
-        }
-        #endregion
-
-        #region ApplicationDefinitions
-        /// <summary> Gets an object representing a ApplicationDefinitionContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ApplicationDefinitionContainer" /> object. </returns>
-        public static ApplicationDefinitionContainer GetApplicationDefinitions(this ResourceGroupOperations resourceGroup)
-        {
-            return new ApplicationDefinitionContainer(resourceGroup);
-        }
-        #endregion
-
-        #region JitRequestDefinitions
-        /// <summary> Gets an object representing a JitRequestDefinitionContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="JitRequestDefinitionContainer" /> object. </returns>
-        public static JitRequestDefinitionContainer GetJitRequestDefinitions(this ResourceGroupOperations resourceGroup)
-        {
-            return new JitRequestDefinitionContainer(resourceGroup);
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) => new PolicyAssignmentContainer(options, credential, baseUri, pipeline));
         }
         #endregion
     }

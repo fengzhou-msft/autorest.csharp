@@ -7,7 +7,7 @@
 
 namespace Azure.ResourceManager.Resources
 {
-    /// <summary> An error response for a resource management request. </summary>
+    /// <summary> An error response from a policy operation. </summary>
     internal partial class CloudError
     {
         /// <summary> Initializes a new instance of CloudError. </summary>

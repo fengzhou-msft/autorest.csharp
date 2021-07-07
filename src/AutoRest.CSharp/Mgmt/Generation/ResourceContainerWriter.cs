@@ -43,6 +43,8 @@ namespace AutoRest.CSharp.Mgmt.Generation
         // Whether the container is for operation groups with "/{scope}" paths
         private readonly bool _isScope;
 
+        private Type _operationBaseType;
+
         protected override string ContextProperty => "Parent";
 
         public ResourceContainerWriter(CodeWriter writer, ResourceContainer resourceContainer, BuildContext<MgmtOutputLibrary> context)
@@ -57,6 +59,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             _resource = context.Library.GetArmResource(operationGroup);
             _resourceOperation = context.Library.GetResourceOperation(operationGroup);
             _context = context;
+            _operationBaseType =  _isScope ? typeof(OperationsBase) : typeof(ResourceOperationsBase);
         }
 
         public void WriteContainer()
@@ -71,7 +74,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 string baseClass = GetBaseType();
                 using (_writer.Scope($"{_resourceContainer.Declaration.Accessibility} partial class {cs.Name:D} : {baseClass}"))
                 {
-                    WriteContainerCtors(_writer, _resourceContainer.Type.Name, "ResourceOperationsBase", "parent", _isScope);
+                    WriteContainerCtors(_writer, _resourceContainer.Type.Name, _operationBaseType, _parentProperty, _isScope);
                     WriteFields(_writer, _restClient!);
                     WriteIdProperty();
                     WriteContainerProperties(_writer, _resourceContainer.GetValidResourceValue());
@@ -304,7 +307,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 }
                 _writer.Line($"cancellationToken: cancellationToken);");
                 _writer.Line($"return {typeof(Response)}.FromValue(new {_resource.Type}({_parentProperty}, response.Value), response.GetRawResponse());");
-            }, isOverride: false);
+            }, isOverride: _operationBaseType == typeof(ResourceOperationsBase));
 
             _writer.Line();
             _writer.WriteXmlDocumentationSummary($"Gets details for this resource from the service.");
@@ -318,7 +321,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 }
                 _writer.Line($"cancellationToken: cancellationToken).ConfigureAwait(false);");
                 _writer.Line($"return {typeof(Response)}.FromValue(new {_resource.Type}({_parentProperty}, response.Value), response.GetRawResponse());");
-            }, isOverride: false);
+            }, isOverride: _operationBaseType == typeof(ResourceOperationsBase));
         }
 
         protected void WriteListAtScope(CodeWriter writer, bool async, CSharpType resourceType, List<PagingMethod> listMethods, FormattableString converter)
@@ -326,7 +329,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             var methodName = CreateMethodName("ListAtScope", async);
             writer.Line();
             Parameter[] scopeParam = { new Parameter($"{_restClient?.ClientPrefix.ToSingular().FirstCharToLowerCase()}Scope", "The scope of the resource.", typeof(ResourceIdentifier), null, true) };
-            Parameter[] nonPathParameters = scopeParam.Concat(GetNonPathParameters(listMethods[0].Method)).ToArray();
+            Parameter[] nonPathParameters = scopeParam.Concat(listMethods[0].Method.NonPathParameters).ToArray();
 
             writer.WriteXmlDocumentationSummary("List resources at the specified scope");
             foreach (var param in nonPathParameters)
@@ -387,7 +390,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                         {
                             using (writer.Scope($"if ({parameters[0].Name}.GetType() == typeof(TenantResourceIdentifier))"))
                             {
-                                using (writer.Scope($"if ({parameters[0].Name}.ResourceType.Equals(\"Microsoft.Management/managementGroups\", StringComparison.InvariantCultureIgnoreCase))"))
+                                using (writer.Scope($"if ({parameters[0].Name}.ResourceType.Equals(\"Microsoft.Management/managementGroups\"))"))
                                 {
                                     writer.Append($"response = {AwaitKeyword(async)} {restClientName}.{CreateMethodName(listForManagementGroupMethod.Method.Name, async)}(");
                                     foreach (var parameter in parameters)
@@ -438,7 +441,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                             using (writer.Scope($"{elseStr}if ({parameters[0].Name:D}.GetType() == typeof(ResourceGroupResourceIdentifier))"))
                             {
                                 writer.Line($"var resourceGroupId = {parameters[0].Name} as ResourceGroupResourceIdentifier;");
-                                using (writer.Scope($"if ({parameters[0].Name:D}.ResourceType.Equals(ResourceGroupOperations.ResourceType, StringComparison.InvariantCultureIgnoreCase))"))
+                                using (writer.Scope($"if ({parameters[0].Name:D}.ResourceType.Equals(ResourceGroupOperations.ResourceType))"))
                                 {
                                     writer.Append($"response = {AwaitKeyword(async)} {restClientName}.{CreateMethodName(listForResourceGroupMethod.Method.Name, async)}(");
                                     foreach (var parameter in parameters)
@@ -461,9 +464,10 @@ namespace AutoRest.CSharp.Mgmt.Generation
                                     if (listForResourceMethod != null)
                                     {
                                         writer.Line($"var resourceProviderNamespace = resourceGroupId.ResourceType.Namespace;");
-                                        writer.Line($"var resourceType = resourceGroupId.ResourceType.Types[s.ResourceType.Types.Count - 1];");
+                                        writer.Line($"var resourceType = resourceGroupId.ResourceType.Types[resourceGroupId.ResourceType.Types.Count - 1];");
                                         writer.Line($"var resourceName = resourceGroupId.Name;");
                                         writer.Line($"var parent = resourceGroupId.Parent;");
+                                        writer.UseNamespace("System.Collections.Generic");
                                         writer.Line($"var parentParts = new List<string>();");
                                         using (writer.Scope($"while (!parent.ResourceType.Equals(ResourceGroupOperations.ResourceType))"))
                                         {

@@ -16,11 +16,5 @@ namespace AutoRest.CSharp.Mgmt.Output
             : base(operationGroup, context, operationGroup.Language.Default.Name)
         {
         }
-
-        public bool IsByIdMethod(RestClientMethod method)
-        {
-            var request = method.Operation?.Requests.FirstOrDefault(r => r.Protocol.Http is HttpRequest);
-            return request != null && method.Parameters.Count() > 0 && $"/{{{method.Parameters[0].Name}}}".Equals(((HttpRequest)request.Protocol.Http!).Path);
-        }
     }
 }

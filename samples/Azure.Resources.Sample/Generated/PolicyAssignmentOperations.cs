@@ -153,7 +153,7 @@ namespace Azure.ResourceManager.Resources
             scope.Start();
             try
             {
-                var response = await _restClient.DeleteByIdAsync(Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.DeleteByIdAsync(Id, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -171,7 +171,7 @@ namespace Azure.ResourceManager.Resources
             scope.Start();
             try
             {
-                var response = _restClient.DeleteById(Id.Name, cancellationToken);
+                var response = _restClient.DeleteById(Id, cancellationToken);
                 return response;
             }
             catch (Exception e)
@@ -189,7 +189,7 @@ namespace Azure.ResourceManager.Resources
             scope.Start();
             try
             {
-                var response = await _restClient.GetByIdAsync(Id.Name, cancellationToken).ConfigureAwait(false);
+                var response = await _restClient.GetByIdAsync(Id, cancellationToken).ConfigureAwait(false);
                 return response;
             }
             catch (Exception e)
@@ -207,7 +207,7 @@ namespace Azure.ResourceManager.Resources
             scope.Start();
             try
             {
-                var response = _restClient.GetById(Id.Name, cancellationToken);
+                var response = _restClient.GetById(Id, cancellationToken);
                 return response;
             }
             catch (Exception e)

@@ -72,12 +72,12 @@ namespace AutoRest.CSharp.Mgmt.Output
 
         private RestClientMethod? GetPutByIdMethod()
         {
-            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Put) && _restClient?.IsByIdMethod(m) == true);
+            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Put) && m.IsByIdMethod());
         }
 
         private RestClientMethod? GetGetByIdMethod()
         {
-            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Get) && _restClient?.IsByIdMethod(m) == true);
+            return RestClient.Methods.FirstOrDefault(m => m.Request.HttpMethod.Equals(RequestMethod.Get) && m.IsByIdMethod());
         }
 
         protected override string SuffixValue => _suffixValue;

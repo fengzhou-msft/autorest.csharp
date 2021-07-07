@@ -7,16 +7,12 @@
 
 namespace Azure.ResourceManager.Resources
 {
-    /// <summary> The identity type. </summary>
+    /// <summary> The identity type. This is the only required field when adding a system assigned identity to a resource. </summary>
     public enum ResourceIdentityType
     {
-        /// <summary> SystemAssigned. </summary>
+        /// <summary> Indicates that a system assigned identity is associated with the resource. </summary>
         SystemAssigned,
-        /// <summary> UserAssigned. </summary>
-        UserAssigned,
-        /// <summary> SystemAssigned, UserAssigned. </summary>
-        SystemAssignedUserAssigned,
-        /// <summary> None. </summary>
+        /// <summary> Indicates that no identity is associated with the resource or that the existing identity should be removed. </summary>
         None
     }
 }

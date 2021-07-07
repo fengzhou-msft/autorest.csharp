@@ -16,10 +16,11 @@ namespace AutoRest.CSharp.Mgmt.Output
             : base(context)
         {
             OperationGroup = operationGroup;
-            // check if this is an extension resource, if so, we need to append the name of its parent to this resource name
+            // check if this is an extension resource, if so, we need to append the name of its parent to this resource name unless it's also a scope resource
             var isExtension = operationGroup.IsExtensionResource(context.Configuration.MgmtConfiguration);
+            var isScope = operationGroup.IsScopeResource();
             string parentValue = "";
-            if (isExtension)
+            if (isExtension && !isScope)
             {
                 var parentArr = operationGroup.ParentResourceType(context.Configuration.MgmtConfiguration).Split('/');
                 parentValue = FirstCharToUpper(parentArr.Last());

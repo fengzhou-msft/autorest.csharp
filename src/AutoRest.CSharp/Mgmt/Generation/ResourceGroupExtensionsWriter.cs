@@ -40,8 +40,21 @@ namespace AutoRest.CSharp.Mgmt.Generation
                             {
                                 if (container.ResourceName == resource.Type.Name)
                                 {
-                                    writer.Line($"#region {resource.Type.Name}s");
+                                    writer.Line($"#region {resource.Type.Name}");
                                     WriteGetContainers(writer, resource, container);
+                                    writer.LineRaw("#endregion");
+                                    writer.Line();
+                                }
+                            }
+                        }
+                        else if (resource.OperationGroup.IsScopeResource())
+                        {
+                            foreach (var container in context.Library.ResourceContainers)
+                            {
+                                if (container.ResourceName == resource.Type.Name)
+                                {
+                                    writer.Line($"#region {resource.Type.Name}");
+                                    WriteGetScopeContainers(writer, resource, container);
                                     writer.LineRaw("#endregion");
                                     writer.Line();
                                 }
@@ -85,6 +98,17 @@ namespace AutoRest.CSharp.Mgmt.Generation
             using (writer.Scope($"public static {container.Type} Get{armResource.Type.Name.ToPlural()} (this {typeof(ResourceGroupOperations)} resourceGroup)"))
             {
                 writer.Line($"return new {container.Type.Name}(resourceGroup);");
+            }
+        }
+
+        private void WriteGetScopeContainers(CodeWriter writer, Resource armResource, ResourceContainer container)
+        {
+            writer.WriteXmlDocumentationSummary($"Gets an object representing a {container.Type.Name} along with the instance operations that can be performed on it.");
+            writer.WriteXmlDocumentationParameter("resourceGroup", $"The <see cref=\"{typeof(ResourceGroupOperations)}\" /> instance the method will execute against.");
+            writer.WriteXmlDocumentationReturns($"Returns a <see cref=\"{container.Type.Name}\" /> object.");
+            using (writer.Scope($"public static {container.Type} Get{armResource.Type.Name.ToPlural()} (this {typeof(ResourceGroupOperations)} resourceGroup)"))
+            {
+                writer.Line($"return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) => new {container.Type.Name}(options, credential, baseUri, pipeline));");
             }
         }
 

@@ -53,7 +53,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             writer.Line();
         }
 
-        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, string contextArgumentType, string parentArguments, bool isScope = false)
+        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, Type contextArgumentType, string parentArguments, bool isScope = false)
         {
             // write protected default constructor
             writer.WriteXmlDocumentationSummary($"Initializes a new instance of the <see cref=\"{typeOfThis}\"/> class for mocking.");
@@ -347,7 +347,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
         protected virtual void MakeByIdParamPassThrough(RestClientMethod method, List<ParameterMapping> parameterMapping, Stack<string> parentNameStack)
         {
             var request = method.Operation?.Requests.FirstOrDefault(r => r.Protocol.Http is HttpRequest);
-            if (_restClient?.IsByIdMethod(method) == true)
+            if (method.IsByIdMethod())
             {
                 var firstString = parameterMapping.FirstOrDefault(parameter => parameter.Parameter.Name.Equals(method.Parameters[0].Name, StringComparison.InvariantCultureIgnoreCase));
                 if (firstString?.Parameter != null)
@@ -490,7 +490,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 }
                 else if (operationGroup.IsScopeResource() && pathParamsLength == 1)
                 {
-                    if (_restClient?.IsByIdMethod(clientMethod) == true)
+                    if (clientMethod.IsByIdMethod())
                     {
                         paramNameList.Add("Id");
                         return paramNameList.ToArray();

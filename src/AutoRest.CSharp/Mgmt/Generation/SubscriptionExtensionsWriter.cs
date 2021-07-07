@@ -49,6 +49,13 @@ namespace AutoRest.CSharp.Mgmt.Generation
                                 writer.LineRaw("#endregion");
                             }
                         }
+                        else if (resource.OperationGroup.IsScopeResource())
+                        {
+                            writer.Line($"#region {resource.Type.Name}");
+                            var resourceContainer = context.Library.GetResourceContainer(resource.OperationGroup);
+                            WriteGetScopeResourceContainerMethod(writer, resourceContainer!);
+                            writer.LineRaw("#endregion");
+                        }
                         else
                         {
                             var resourceOperation = context.Library.GetResourceOperation(resource.OperationGroup);
@@ -110,10 +117,23 @@ namespace AutoRest.CSharp.Mgmt.Generation
         {
             writer.WriteXmlDocumentationSummary($"Gets an object representing a {resourceContainer.Type.Name} along with the instance operations that can be performed on it.");
             writer.WriteXmlDocumentationParameter("subscription", $"The <see cref=\"{typeof(SubscriptionOperations)}\" /> instance the method will execute against.");
+            writer.WriteXmlDocumentationReturns($"Returns a <see cref=\"{resourceContainer.Type.Name}\" /> object.");
 
             using (writer.Scope($"public static {resourceContainer.Type} Get{resourceContainer.Type.Name}(this {typeof(SubscriptionOperations)} subscription)"))
             {
                 writer.Line($"return new {resourceContainer.Type}(subscription);");
+            }
+        }
+
+        private void WriteGetScopeResourceContainerMethod(CodeWriter writer, ResourceContainer resourceContainer)
+        {
+            writer.WriteXmlDocumentationSummary($"Gets an object representing a {resourceContainer.Type.Name} along with the instance operations that can be performed on it.");
+            writer.WriteXmlDocumentationParameter("subscription", $"The <see cref=\"{typeof(SubscriptionOperations)}\" /> instance the method will execute against.");
+            writer.WriteXmlDocumentationReturns($"Returns a <see cref=\"{resourceContainer.Type.Name}\" /> object.");
+
+            using (writer.Scope($"public static {resourceContainer.Type} Get{resourceContainer.Type.Name}(this {typeof(SubscriptionOperations)} subscription)"))
+            {
+                writer.Line($"return subscription.UseClientContext((baseUri, credential, options, pipeline) => new {resourceContainer.Type}(options, credential, baseUri, pipeline));");
             }
         }
 

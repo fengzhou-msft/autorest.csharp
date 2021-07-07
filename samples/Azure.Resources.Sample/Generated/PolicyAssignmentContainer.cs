@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -425,7 +426,7 @@ namespace Azure.ResourceManager.Resources
                     Response<PolicyAssignmentListResult> response;
                     if (policyAssignmentScope.GetType() == typeof(TenantResourceIdentifier))
                     {
-                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups", StringComparison.InvariantCultureIgnoreCase))
+                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups"))
                         {
                             response = _restClient.ListForManagementGroup(policyAssignmentScope.Name, filter, top, cancellationToken: cancellationToken);
                         }
@@ -442,14 +443,14 @@ namespace Azure.ResourceManager.Resources
                     else if (policyAssignmentScope.GetType() == typeof(ResourceGroupResourceIdentifier))
                     {
                         var resourceGroupId = policyAssignmentScope as ResourceGroupResourceIdentifier;
-                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType, StringComparison.InvariantCultureIgnoreCase))
+                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType))
                         {
                             response = _restClient.ListForResourceGroup(resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, filter, top, cancellationToken: cancellationToken);
                         }
                         else
                         {
                             var resourceProviderNamespace = resourceGroupId.ResourceType.Namespace;
-                            var resourceType = resourceGroupId.ResourceType.Types[s.ResourceType.Types.Count - 1];
+                            var resourceType = resourceGroupId.ResourceType.Types[resourceGroupId.ResourceType.Types.Count - 1];
                             var resourceName = resourceGroupId.Name;
                             var parent = resourceGroupId.Parent;
                             var parentParts = new List<string>();
@@ -514,7 +515,7 @@ namespace Azure.ResourceManager.Resources
                     Response<PolicyAssignmentListResult> response;
                     if (policyAssignmentScope.GetType() == typeof(TenantResourceIdentifier))
                     {
-                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups", StringComparison.InvariantCultureIgnoreCase))
+                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups"))
                         {
                             response = await _restClient.ListForManagementGroupAsync(policyAssignmentScope.Name, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
                         }
@@ -531,14 +532,14 @@ namespace Azure.ResourceManager.Resources
                     else if (policyAssignmentScope.GetType() == typeof(ResourceGroupResourceIdentifier))
                     {
                         var resourceGroupId = policyAssignmentScope as ResourceGroupResourceIdentifier;
-                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType, StringComparison.InvariantCultureIgnoreCase))
+                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType))
                         {
                             response = await _restClient.ListForResourceGroupAsync(resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
                         }
                         else
                         {
                             var resourceProviderNamespace = resourceGroupId.ResourceType.Namespace;
-                            var resourceType = resourceGroupId.ResourceType.Types[s.ResourceType.Types.Count - 1];
+                            var resourceType = resourceGroupId.ResourceType.Types[resourceGroupId.ResourceType.Types.Count - 1];
                             var resourceName = resourceGroupId.Name;
                             var parent = resourceGroupId.Parent;
                             var parentParts = new List<string>();

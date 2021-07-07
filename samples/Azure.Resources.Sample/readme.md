@@ -23,6 +23,7 @@ namespace: Azure.ResourceManager.Resources
 model-namespace: false
 public-clients: false
 head-as-boolean: false
+clear-output-folder: true
 modelerfour:
     lenient-model-deduplication: true
 skip-csproj: true
