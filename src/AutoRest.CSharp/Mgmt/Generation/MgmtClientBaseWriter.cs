@@ -53,7 +53,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             writer.Line();
         }
 
-        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, Type contextArgumentType, string parentArguments, bool isScope = false)
+        protected void WriteContainerCtors(CodeWriter writer, string typeOfThis, Type contextArgumentType, bool isScope = false)
         {
             // write protected default constructor
             writer.WriteXmlDocumentationSummary($"Initializes a new instance of the <see cref=\"{typeOfThis}\"/> class for mocking.");
@@ -79,7 +79,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 // write "parent resource" constructor
                 writer.WriteXmlDocumentationSummary($"Initializes a new instance of {typeOfThis} class.");
                 writer.WriteXmlDocumentationParameter("parent", "The resource representing the parent resource.");
-                using (writer.Scope($"internal {typeOfThis}({contextArgumentType} parent) : base({parentArguments})"))
+                using (writer.Scope($"internal {typeOfThis}({contextArgumentType} parent) : base(parent)"))
                 {
                     writer.Line($"{ClientDiagnosticsField} = new {typeof(ClientDiagnostics)}(ClientOptions);");
                 }
@@ -197,6 +197,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     WriteDiagnosticScope(writer, pagingMethod.Diagnostics, clientDiagnosticsName, writer =>
                     {
                         writer.Append($"var response = {AwaitKeyword(async)} {restClientName}.{CreateMethodName(pagingMethod.NextPageMethod.Name, async)}(nextLink, ");
+                        BuildAndWriteParameters(writer, pagingMethod.NextPageMethod);
                         writer.Line($"cancellationToken: cancellationToken){configureAwaitText};");
                         writer.Append($"return {typeof(Page)}.FromValues(response.Value.{itemName}");
                         writer.Append($"{converter}");

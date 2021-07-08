@@ -29,15 +29,16 @@ namespace AutoRest.CSharp.Output.Models
         private readonly OutputLibrary _library;
         private readonly Dictionary<string, Parameter> _parameters;
 
+        private readonly OperationGroup _operationGroup;
+
         public RestClientBuilder (OperationGroup operationGroup, BuildContext context)
         {
             _serializationBuilder = new SerializationBuilder ();
             _context = context;
             _library = context.BaseLibrary!;
+            _operationGroup = operationGroup;
 
-            var method = ParentDetection.GetBestMethod(operationGroup.OperationHttpMethodMapping());
             _parameters = operationGroup.Operations
-                .Where(op => op.Requests.Any(req => req.Protocol?.Http == method))
                 .SelectMany(op => op.Parameters.Concat(op.Requests.SelectMany(r => r.Parameters)))
                 .Where(p => p.Implementation == ImplementationLocation.Client)
                 .Distinct()
@@ -67,8 +68,8 @@ namespace AutoRest.CSharp.Output.Models
         public RestClientMethod BuildMethod(Operation operation, HttpRequest httpRequest, IEnumerable<RequestParameter> requestParameters, DataPlaneResponseHeaderGroupType? responseHeaderModel, string accessibility)
         {
             Dictionary<RequestParameter, ConstructedParameter> allParameters = new();
-
-            List<RequestParameter> parameters = operation.Parameters.OrderBy(p => p.Implementation != ImplementationLocation.Client).Concat(requestParameters).ToList();
+            var isScope = _operationGroup.IsScopeResource();
+            List<RequestParameter> parameters = (isScope ? operation.Parameters.OrderBy(p => !p.Language.Default.Name.Equals("subscriptionId", StringComparison.InvariantCultureIgnoreCase)).ToList() : operation.Parameters).Concat(requestParameters).ToList();
             // Remove ignored headers
             parameters.RemoveAll(requestParameter =>
                 requestParameter.In == ParameterLocation.Header &&

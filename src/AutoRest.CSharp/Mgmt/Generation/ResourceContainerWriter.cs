@@ -74,7 +74,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 string baseClass = GetBaseType();
                 using (_writer.Scope($"{_resourceContainer.Declaration.Accessibility} partial class {cs.Name:D} : {baseClass}"))
                 {
-                    WriteContainerCtors(_writer, _resourceContainer.Type.Name, _operationBaseType, _parentProperty, _isScope);
+                    WriteContainerCtors(_writer, _resourceContainer.Type.Name, _operationBaseType, _isScope);
                     WriteFields(_writer, _restClient!);
                     WriteIdProperty();
                     WriteContainerProperties(_writer, _resourceContainer.GetValidResourceValue());
@@ -307,7 +307,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 }
                 _writer.Line($"cancellationToken: cancellationToken);");
                 _writer.Line($"return {typeof(Response)}.FromValue(new {_resource.Type}({_parentProperty}, response.Value), response.GetRawResponse());");
-            }, isOverride: _operationBaseType == typeof(ResourceOperationsBase));
+            }, isOverride: false);
 
             _writer.Line();
             _writer.WriteXmlDocumentationSummary($"Gets details for this resource from the service.");
@@ -321,7 +321,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 }
                 _writer.Line($"cancellationToken: cancellationToken).ConfigureAwait(false);");
                 _writer.Line($"return {typeof(Response)}.FromValue(new {_resource.Type}({_parentProperty}, response.Value), response.GetRawResponse());");
-            }, isOverride: _operationBaseType == typeof(ResourceOperationsBase));
+            }, isOverride: false);
         }
 
         protected void WriteListAtScope(CodeWriter writer, bool async, CSharpType resourceType, List<PagingMethod> listMethods, FormattableString converter)

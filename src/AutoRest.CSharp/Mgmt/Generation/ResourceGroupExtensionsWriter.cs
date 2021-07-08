@@ -40,7 +40,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                             {
                                 if (container.ResourceName == resource.Type.Name)
                                 {
-                                    writer.Line($"#region {resource.Type.Name}");
+                                    writer.Line($"#region {resource.Type.Name}s");
                                     WriteGetContainers(writer, resource, container);
                                     writer.LineRaw("#endregion");
                                     writer.Line();

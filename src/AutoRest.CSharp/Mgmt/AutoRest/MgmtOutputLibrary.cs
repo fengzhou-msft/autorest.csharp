@@ -54,6 +54,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
         {
             CodeModelValidator.Validate(codeModel);
             RemoveOperations(codeModel);
+            UpdateSubscriptionIdForScopeResource(codeModel);
             _codeModel = codeModel;
             _context = context;
             _mgmtConfiguration = context.Configuration.MgmtConfiguration;
@@ -84,6 +85,24 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
                     codeModel.Schemas.Objects.Remove(listModel as ObjectSchema);
                 }
                 codeModel.OperationGroups.Remove(operations);
+            }
+        }
+
+        private void UpdateSubscriptionIdForScopeResource(CodeModel codeModel)
+        {
+            foreach (var operationGroup in codeModel.OperationGroups)
+            {
+                if (operationGroup.IsScopeResource())
+                {
+                    var subscriptionParameters = operationGroup.Operations
+                        .SelectMany(op => op.Parameters)
+                        .Where(p => p.Language.Default.Name.Equals("subscriptionId", StringComparison.InvariantCultureIgnoreCase));
+
+                    foreach (var param in subscriptionParameters)
+                    {
+                        param.Implementation = ImplementationLocation.Method;
+                    }
+                }
             }
         }
 
