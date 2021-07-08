@@ -333,7 +333,7 @@ namespace AutoRest.CSharp.Generation.Writers
                         WriteDiagnosticScope(writer, pagingMethod.Diagnostics, ClientDiagnosticsField, writer =>
                         {
                             writer.Append($"var response = {awaitText} RestClient.{CreateMethodName(pagingMethod.NextPageMethod.Name, async)}(");
-                            foreach (Parameter parameter in nextPageParameters)
+                            foreach (Parameter parameter in nextPageParameters.Where(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase) || p.In == ParameterLocation.Header))
                             {
                                 writer.Append($"{parameter.Name}, ");
                             }

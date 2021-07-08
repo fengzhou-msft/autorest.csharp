@@ -226,7 +226,7 @@ namespace Azure.Network.Management.Interface
                 scope.Start();
                 try
                 {
-                    var response = await RestClient.ListNextPageAsync(nextLink, resourceGroupName, cancellationToken).ConfigureAwait(false);
+                    var response = await RestClient.ListNextPageAsync(nextLink, cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Value, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -270,7 +270,7 @@ namespace Azure.Network.Management.Interface
                 scope.Start();
                 try
                 {
-                    var response = RestClient.ListNextPage(nextLink, resourceGroupName, cancellationToken);
+                    var response = RestClient.ListNextPage(nextLink, cancellationToken);
                     return Page.FromValues(response.Value.Value, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)

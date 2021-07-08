@@ -17,30 +17,25 @@ namespace azure_parameter_grouping
 {
     internal partial class ParameterGroupingRestClient
     {
-        private Uri endpoint;
         private ClientDiagnostics _clientDiagnostics;
         private HttpPipeline _pipeline;
 
         /// <summary> Initializes a new instance of ParameterGroupingRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
-        public ParameterGroupingRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        public ParameterGroupingRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline)
         {
-            endpoint ??= new Uri("http://localhost:3000");
-
-            this.endpoint = endpoint;
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreatePostRequiredRequest(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters)
+        internal HttpMessage CreatePostRequiredRequest(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/parameterGrouping/postRequired/", false);
             uri.AppendPath(parameterGroupingPostRequiredParameters.Path, true);
             if (parameterGroupingPostRequiredParameters?.Query != null)
@@ -62,16 +57,21 @@ namespace azure_parameter_grouping
 
         /// <summary> Post a bunch of required parameters grouped. </summary>
         /// <param name="parameterGroupingPostRequiredParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="parameterGroupingPostRequiredParameters"/> is null. </exception>
-        public async Task<Response> PostRequiredAsync(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="parameterGroupingPostRequiredParameters"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostRequiredAsync(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             if (parameterGroupingPostRequiredParameters == null)
             {
                 throw new ArgumentNullException(nameof(parameterGroupingPostRequiredParameters));
             }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
 
-            using var message = CreatePostRequiredRequest(parameterGroupingPostRequiredParameters);
+            using var message = CreatePostRequiredRequest(parameterGroupingPostRequiredParameters, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -84,16 +84,21 @@ namespace azure_parameter_grouping
 
         /// <summary> Post a bunch of required parameters grouped. </summary>
         /// <param name="parameterGroupingPostRequiredParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="parameterGroupingPostRequiredParameters"/> is null. </exception>
-        public Response PostRequired(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="parameterGroupingPostRequiredParameters"/> or <paramref name="host"/> is null. </exception>
+        public Response PostRequired(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             if (parameterGroupingPostRequiredParameters == null)
             {
                 throw new ArgumentNullException(nameof(parameterGroupingPostRequiredParameters));
             }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
 
-            using var message = CreatePostRequiredRequest(parameterGroupingPostRequiredParameters);
+            using var message = CreatePostRequiredRequest(parameterGroupingPostRequiredParameters, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -104,13 +109,13 @@ namespace azure_parameter_grouping
             }
         }
 
-        internal HttpMessage CreatePostOptionalRequest(ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters)
+        internal HttpMessage CreatePostOptionalRequest(string host, ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/parameterGrouping/postOptional", false);
             if (parameterGroupingPostOptionalParameters?.Query != null)
             {
@@ -126,11 +131,18 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post a bunch of optional parameters grouped. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="parameterGroupingPostOptionalParameters"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostOptionalAsync(ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostOptionalAsync(string host = "http://localhost:3000", ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostOptionalRequest(parameterGroupingPostOptionalParameters);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostOptionalRequest(host, parameterGroupingPostOptionalParameters);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -142,11 +154,18 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post a bunch of optional parameters grouped. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="parameterGroupingPostOptionalParameters"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostOptional(ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public Response PostOptional(string host = "http://localhost:3000", ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostOptionalRequest(parameterGroupingPostOptionalParameters);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostOptionalRequest(host, parameterGroupingPostOptionalParameters);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -157,13 +176,13 @@ namespace azure_parameter_grouping
             }
         }
 
-        internal HttpMessage CreatePostMultiParamGroupsRequest(FirstParameterGroup firstParameterGroup, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup)
+        internal HttpMessage CreatePostMultiParamGroupsRequest(string host, FirstParameterGroup firstParameterGroup, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/parameterGrouping/postMultipleParameterGroups", false);
             if (firstParameterGroup?.QueryOne != null)
             {
@@ -187,12 +206,19 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters from multiple different parameter groups. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="parameterGroupingPostMultiParamGroupsSecondParamGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostMultiParamGroupsAsync(FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostMultiParamGroupsAsync(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMultiParamGroupsRequest(firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMultiParamGroupsRequest(host, firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -204,12 +230,19 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters from multiple different parameter groups. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="parameterGroupingPostMultiParamGroupsSecondParamGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostMultiParamGroups(FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public Response PostMultiParamGroups(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMultiParamGroupsRequest(firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMultiParamGroupsRequest(host, firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -220,13 +253,13 @@ namespace azure_parameter_grouping
             }
         }
 
-        internal HttpMessage CreatePostSharedParameterGroupObjectRequest(FirstParameterGroup firstParameterGroup)
+        internal HttpMessage CreatePostSharedParameterGroupObjectRequest(string host, FirstParameterGroup firstParameterGroup)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/parameterGrouping/sharedParameterGroupObject", false);
             if (firstParameterGroup?.QueryOne != null)
             {
@@ -242,11 +275,18 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters with a shared parameter group object. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostSharedParameterGroupObjectAsync(FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostSharedParameterGroupObjectAsync(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostSharedParameterGroupObjectRequest(firstParameterGroup);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostSharedParameterGroupObjectRequest(host, firstParameterGroup);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -258,11 +298,18 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters with a shared parameter group object. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostSharedParameterGroupObject(FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="host"/> is null. </exception>
+        public Response PostSharedParameterGroupObject(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostSharedParameterGroupObjectRequest(firstParameterGroup);
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostSharedParameterGroupObjectRequest(host, firstParameterGroup);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

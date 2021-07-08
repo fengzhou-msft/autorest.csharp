@@ -499,7 +499,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = await RestClient.GetKeysNextPageAsync(nextLink, name, after, acceptDatetime, cancellationToken).ConfigureAwait(false);
+                    var response = await RestClient.GetKeysNextPageAsync(nextLink, acceptDatetime, cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -539,7 +539,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = RestClient.GetKeysNextPage(nextLink, name, after, acceptDatetime, cancellationToken);
+                    var response = RestClient.GetKeysNextPage(nextLink, acceptDatetime, cancellationToken);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -581,7 +581,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = await RestClient.GetKeyValuesNextPageAsync(nextLink, key, label, after, acceptDatetime, select, cancellationToken).ConfigureAwait(false);
+                    var response = await RestClient.GetKeyValuesNextPageAsync(nextLink, acceptDatetime, cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -623,7 +623,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = RestClient.GetKeyValuesNextPage(nextLink, key, label, after, acceptDatetime, select, cancellationToken);
+                    var response = RestClient.GetKeyValuesNextPage(nextLink, acceptDatetime, cancellationToken);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -664,7 +664,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = await RestClient.GetLabelsNextPageAsync(nextLink, name, after, acceptDatetime, select, cancellationToken).ConfigureAwait(false);
+                    var response = await RestClient.GetLabelsNextPageAsync(nextLink, acceptDatetime, cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -705,7 +705,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = RestClient.GetLabelsNextPage(nextLink, name, after, acceptDatetime, select, cancellationToken);
+                    var response = RestClient.GetLabelsNextPage(nextLink, acceptDatetime, cancellationToken);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -747,7 +747,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = await RestClient.GetRevisionsNextPageAsync(nextLink, key, label, after, acceptDatetime, select, cancellationToken).ConfigureAwait(false);
+                    var response = await RestClient.GetRevisionsNextPageAsync(nextLink, acceptDatetime, cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -789,7 +789,7 @@ namespace AppConfiguration
                 scope.Start();
                 try
                 {
-                    var response = RestClient.GetRevisionsNextPage(nextLink, key, label, after, acceptDatetime, select, cancellationToken);
+                    var response = RestClient.GetRevisionsNextPage(nextLink, acceptDatetime, cancellationToken);
                     return Page.FromValues(response.Value.Items, response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)

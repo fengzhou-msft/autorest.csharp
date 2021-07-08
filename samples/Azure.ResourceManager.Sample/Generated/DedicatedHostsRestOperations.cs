@@ -352,8 +352,8 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath(hostGroupName, true);
             uri.AppendPath("/hosts/", false);
             uri.AppendPath(hostName, true);
-            uri.AppendQuery("$expand", "instanceView", true);
             uri.AppendQuery("api-version", apiVersion, true);
+            uri.AppendQuery("$expand", "instanceView", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -517,7 +517,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateListByHostGroupNextPageRequest(string nextLink, string resourceGroupName, string hostGroupName)
+        internal HttpMessage CreateListByHostGroupNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -532,26 +532,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
-        /// <param name="hostGroupName"> The name of the dedicated host group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="hostGroupName"/> is null. </exception>
-        public async Task<Response<DedicatedHostListResult>> ListByHostGroupNextPageAsync(string nextLink, string resourceGroupName, string hostGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<DedicatedHostListResult>> ListByHostGroupNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (hostGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(hostGroupName));
-            }
 
-            using var message = CreateListByHostGroupNextPageRequest(nextLink, resourceGroupName, hostGroupName);
+            using var message = CreateListByHostGroupNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -569,26 +559,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in the response to get the next page of dedicated hosts. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
-        /// <param name="hostGroupName"> The name of the dedicated host group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="hostGroupName"/> is null. </exception>
-        public Response<DedicatedHostListResult> ListByHostGroupNextPage(string nextLink, string resourceGroupName, string hostGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<DedicatedHostListResult> ListByHostGroupNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (hostGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(hostGroupName));
-            }
 
-            using var message = CreateListByHostGroupNextPageRequest(nextLink, resourceGroupName, hostGroupName);
+            using var message = CreateListByHostGroupNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

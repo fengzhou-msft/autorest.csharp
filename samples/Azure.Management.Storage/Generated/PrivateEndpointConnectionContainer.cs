@@ -26,7 +26,7 @@ namespace Azure.Management.Storage
 
         /// <summary> Initializes a new instance of PrivateEndpointConnectionContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal PrivateEndpointConnectionContainer(ResourceOperationsBase parent) : base(parent)
+        internal PrivateEndpointConnectionContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -160,9 +160,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="privateEndpointConnectionName"> The name of the private endpoint connection associated with the Storage Account. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<PrivateEndpointConnection> Get(string privateEndpointConnectionName, CancellationToken cancellationToken = default)
+        public override Response<PrivateEndpointConnection> Get(string privateEndpointConnectionName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("PrivateEndpointConnectionContainer.Get");
             scope.Start();
@@ -184,9 +185,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="privateEndpointConnectionName"> The name of the private endpoint connection associated with the Storage Account. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<PrivateEndpointConnection>> GetAsync(string privateEndpointConnectionName, CancellationToken cancellationToken = default)
+        public async override Task<Response<PrivateEndpointConnection>> GetAsync(string privateEndpointConnectionName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("PrivateEndpointConnectionContainer.Get");
             scope.Start();

@@ -187,6 +187,7 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/skus/", false);
             uri.AppendPath(skus, true);
             uri.AppendPath("/versions", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (expand != null)
             {
                 uri.AppendQuery("$expand", expand, true);
@@ -199,7 +200,6 @@ namespace Azure.ResourceManager.Sample
             {
                 uri.AppendQuery("$orderby", orderby, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;

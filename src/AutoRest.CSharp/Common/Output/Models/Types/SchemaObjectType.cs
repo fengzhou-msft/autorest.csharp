@@ -114,7 +114,8 @@ namespace AutoRest.CSharp.Output.Models.Types
                     property.Description,
                     type,
                     null,
-                    false
+                    false,
+                    ParameterLocation.Body
                 );
 
                 ownsDiscriminatorProperty |= property == Discriminator?.Property;
@@ -211,7 +212,8 @@ namespace AutoRest.CSharp.Output.Models.Types
                         property.Description,
                         inputType,
                         defaultParameterValue,
-                        property.SchemaProperty?.Nullable != true
+                        property.SchemaProperty?.Nullable != true,
+                        ParameterLocation.Path
                     );
 
                     defaultCtorParameters.Add(defaultCtorParameter);

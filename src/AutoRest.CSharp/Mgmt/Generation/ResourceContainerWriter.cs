@@ -328,7 +328,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
         {
             var methodName = CreateMethodName("ListAtScope", async);
             writer.Line();
-            Parameter[] scopeParam = { new Parameter($"{_restClient?.ClientPrefix.ToSingular().FirstCharToLowerCase()}Scope", "The scope of the resource.", typeof(ResourceIdentifier), null, true) };
+            Parameter[] scopeParam = { new Parameter($"{_restClient?.ClientPrefix.ToSingular().FirstCharToLowerCase()}Scope", "The scope of the resource.", typeof(ResourceIdentifier), null, true, Input.ParameterLocation.Path) };
             Parameter[] nonPathParameters = scopeParam.Concat(listMethods[0].Method.NonPathParameters).ToArray();
 
             writer.WriteXmlDocumentationSummary("List resources at the specified scope");

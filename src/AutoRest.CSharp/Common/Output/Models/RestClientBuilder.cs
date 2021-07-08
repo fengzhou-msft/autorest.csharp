@@ -535,7 +535,8 @@ namespace AutoRest.CSharp.Output.Models
                     parameter.Description,
                     typeof(Uri),
                     parameter.DefaultValue,
-                    parameter.ValidateNotNull
+                    parameter.ValidateNotNull,
+                    parameter.In
                 );
             }
 
@@ -565,6 +566,7 @@ namespace AutoRest.CSharp.Output.Models
                 TypeFactory.GetInputType(type),
                 defaultValue,
                 isRequired,
+                requestParameter.In,
                 requestParameter.Origin == "modelerfour:synthesized/api-version");
         }
 
@@ -642,7 +644,8 @@ namespace AutoRest.CSharp.Output.Models
                     "A credential used to authenticate to an Azure Service.",
                     credentialType!,
                     null,
-                    true);
+                    true,
+                    ParameterLocation.Query);
                 constructorParameters.Add(credentialParam);
             }
 

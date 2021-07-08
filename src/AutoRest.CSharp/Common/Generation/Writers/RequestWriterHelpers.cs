@@ -29,7 +29,7 @@ namespace AutoRest.CSharp.Generation.Writers
             var hasNextLink = parameters.Any(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase));
             foreach (Parameter clientParameter in parameters)
             {
-                if (hasNextLink && !clientParameter.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase))
+                if (hasNextLink && !clientParameter.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase) && clientParameter.In != Input.ParameterLocation.Header)
                 {
                     continue;
                 }

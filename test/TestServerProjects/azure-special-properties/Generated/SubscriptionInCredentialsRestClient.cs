@@ -16,45 +16,25 @@ namespace azure_special_properties
 {
     internal partial class SubscriptionInCredentialsRestClient
     {
-        private string subscriptionId;
-        private Uri endpoint;
-        private string apiVersion;
         private ClientDiagnostics _clientDiagnostics;
         private HttpPipeline _pipeline;
 
         /// <summary> Initializes a new instance of SubscriptionInCredentialsRestClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
-        /// <param name="endpoint"> server parameter. </param>
-        /// <param name="apiVersion"> Api Version. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="apiVersion"/> is null. </exception>
-        public SubscriptionInCredentialsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null, string apiVersion = "2015-07-01-preview")
+        public SubscriptionInCredentialsRestClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline)
         {
-            if (subscriptionId == null)
-            {
-                throw new ArgumentNullException(nameof(subscriptionId));
-            }
-            endpoint ??= new Uri("http://localhost:3000");
-            if (apiVersion == null)
-            {
-                throw new ArgumentNullException(nameof(apiVersion));
-            }
-
-            this.subscriptionId = subscriptionId;
-            this.endpoint = endpoint;
-            this.apiVersion = apiVersion;
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
-        internal HttpMessage CreatePostMethodGlobalValidRequest()
+        internal HttpMessage CreatePostMethodGlobalValidRequest(string subscriptionId, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/azurespecials/subscriptionId/method/string/none/path/global/1234-5678-9012-3456/", false);
             uri.AppendPath(subscriptionId, true);
             request.Uri = uri;
@@ -63,10 +43,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostMethodGlobalValidAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostMethodGlobalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalValidRequest(subscriptionId, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -78,10 +70,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostMethodGlobalValid(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public Response PostMethodGlobalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalValidRequest(subscriptionId, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -92,13 +96,13 @@ namespace azure_special_properties
             }
         }
 
-        internal HttpMessage CreatePostMethodGlobalNullRequest()
+        internal HttpMessage CreatePostMethodGlobalNullRequest(string subscriptionId, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/azurespecials/subscriptionId/method/string/none/path/global/null/", false);
             uri.AppendPath(subscriptionId, true);
             request.Uri = uri;
@@ -107,10 +111,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to null, and client-side validation should prevent you from making this call. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostMethodGlobalNullAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostMethodGlobalNullAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalNullRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalNullRequest(subscriptionId, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -122,10 +138,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to null, and client-side validation should prevent you from making this call. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostMethodGlobalNull(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public Response PostMethodGlobalNull(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalNullRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalNullRequest(subscriptionId, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -136,26 +164,38 @@ namespace azure_special_properties
             }
         }
 
-        internal HttpMessage CreatePostMethodGlobalNotProvidedValidRequest()
+        internal HttpMessage CreatePostMethodGlobalNotProvidedValidRequest(string subscriptionId, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/azurespecials/subscriptionId/method/string/none/path/globalNotProvided/1234-5678-9012-3456/", false);
             uri.AppendPath(subscriptionId, true);
-            uri.AppendQuery("api-version", apiVersion, true);
+            uri.AppendQuery("api-version", "2015-07-01-preview", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostMethodGlobalNotProvidedValidAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostMethodGlobalNotProvidedValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalNotProvidedValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalNotProvidedValidRequest(subscriptionId, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -167,10 +207,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostMethodGlobalNotProvidedValid(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public Response PostMethodGlobalNotProvidedValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostMethodGlobalNotProvidedValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostMethodGlobalNotProvidedValidRequest(subscriptionId, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -181,13 +233,13 @@ namespace azure_special_properties
             }
         }
 
-        internal HttpMessage CreatePostPathGlobalValidRequest()
+        internal HttpMessage CreatePostPathGlobalValidRequest(string subscriptionId, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/azurespecials/subscriptionId/path/string/none/path/global/1234-5678-9012-3456/", false);
             uri.AppendPath(subscriptionId, true);
             request.Uri = uri;
@@ -196,10 +248,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostPathGlobalValidAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostPathGlobalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostPathGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostPathGlobalValidRequest(subscriptionId, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -211,10 +275,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostPathGlobalValid(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public Response PostPathGlobalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostPathGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostPathGlobalValidRequest(subscriptionId, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -225,13 +301,13 @@ namespace azure_special_properties
             }
         }
 
-        internal HttpMessage CreatePostSwaggerGlobalValidRequest()
+        internal HttpMessage CreatePostSwaggerGlobalValidRequest(string subscriptionId, string host)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
             request.Method = RequestMethod.Post;
             var uri = new RawRequestUriBuilder();
-            uri.Reset(endpoint);
+            uri.AppendRaw(host, false);
             uri.AppendPath("/azurespecials/subscriptionId/swagger/string/none/path/global/1234-5678-9012-3456/", false);
             uri.AppendPath(subscriptionId, true);
             request.Uri = uri;
@@ -240,10 +316,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public async Task<Response> PostSwaggerGlobalValidAsync(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public async Task<Response> PostSwaggerGlobalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostSwaggerGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostSwaggerGlobalValidRequest(subscriptionId, host);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -255,10 +343,22 @@ namespace azure_special_properties
         }
 
         /// <summary> POST method with subscriptionId modeled in credentials.  Set the credential subscriptionId to &apos;1234-5678-9012-3456&apos; to succeed. </summary>
+        /// <param name="subscriptionId"> The subscription id, which appears in the path, always modeled in credentials. The value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public Response PostSwaggerGlobalValid(CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="subscriptionId"/> or <paramref name="host"/> is null. </exception>
+        public Response PostSwaggerGlobalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
-            using var message = CreatePostSwaggerGlobalValidRequest();
+            if (subscriptionId == null)
+            {
+                throw new ArgumentNullException(nameof(subscriptionId));
+            }
+            if (host == null)
+            {
+                throw new ArgumentNullException(nameof(host));
+            }
+
+            using var message = CreatePostSwaggerGlobalValidRequest(subscriptionId, host);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

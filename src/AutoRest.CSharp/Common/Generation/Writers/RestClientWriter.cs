@@ -120,7 +120,7 @@ namespace AutoRest.CSharp.Generation.Writers
             var parameters = operation.Parameters.ToList();
             if (parameters.Any(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)))
             {
-                parameters = parameters.Where(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)).ToList();
+                parameters = parameters.Where(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase) || p.In == Input.ParameterLocation.Header).ToList();
             }
             writer.WriteXmlDocumentationSummary(operation.Description);
 

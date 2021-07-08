@@ -57,11 +57,11 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/keys", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (name != null)
             {
                 uri.AppendQuery("name", name, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -135,11 +135,11 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/keys", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (name != null)
             {
                 uri.AppendQuery("name", name, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -202,6 +202,7 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (key != null)
             {
                 uri.AppendQuery("key", key, true);
@@ -210,7 +211,6 @@ namespace AppConfiguration
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -292,6 +292,7 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (key != null)
             {
                 uri.AppendQuery("key", key, true);
@@ -300,7 +301,6 @@ namespace AppConfiguration
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -372,11 +372,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (select != null)
             {
                 uri.AppendQueryDelimited("$Select", select, ",", true);
@@ -477,11 +477,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             if (syncToken != null)
             {
@@ -579,11 +579,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             if (syncToken != null)
             {
@@ -670,11 +670,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/kv/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (select != null)
             {
                 uri.AppendQueryDelimited("$Select", select, ",", true);
@@ -763,11 +763,11 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/labels", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (name != null)
             {
                 uri.AppendQuery("name", name, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -847,11 +847,11 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/labels", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (name != null)
             {
                 uri.AppendQuery("name", name, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -921,11 +921,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/locks/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             if (syncToken != null)
             {
@@ -1014,11 +1014,11 @@ namespace AppConfiguration
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/locks/", false);
             uri.AppendPath(key, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (label != null)
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             if (syncToken != null)
             {
@@ -1106,6 +1106,7 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/revisions", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (key != null)
             {
                 uri.AppendQuery("key", key, true);
@@ -1114,7 +1115,6 @@ namespace AppConfiguration
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -1196,6 +1196,7 @@ namespace AppConfiguration
             var uri = new RawRequestUriBuilder();
             uri.AppendRaw(endpoint, false);
             uri.AppendPath("/revisions", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (key != null)
             {
                 uri.AppendQuery("key", key, true);
@@ -1204,7 +1205,6 @@ namespace AppConfiguration
             {
                 uri.AppendQuery("label", label, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             if (after != null)
             {
                 uri.AppendQuery("After", after, true);
@@ -1267,7 +1267,7 @@ namespace AppConfiguration
             }
         }
 
-        internal HttpMessage CreateGetKeysNextPageRequest(string nextLink, string name, string after, string acceptDatetime)
+        internal HttpMessage CreateGetKeysNextPageRequest(string nextLink, string acceptDatetime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1290,19 +1290,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of keys. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="name"> A filter for the name of the returned keys. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<ResponseWithHeaders<KeyListResult, AppConfigurationGetKeysHeaders>> GetKeysNextPageAsync(string nextLink, string name = null, string after = null, string acceptDatetime = null, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeaders<KeyListResult, AppConfigurationGetKeysHeaders>> GetKeysNextPageAsync(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetKeysNextPageRequest(nextLink, name, after, acceptDatetime);
+            using var message = CreateGetKeysNextPageRequest(nextLink, acceptDatetime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             var headers = new AppConfigurationGetKeysHeaders(message.Response);
             switch (message.Response.Status)
@@ -1321,19 +1319,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of keys. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="name"> A filter for the name of the returned keys. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public ResponseWithHeaders<KeyListResult, AppConfigurationGetKeysHeaders> GetKeysNextPage(string nextLink, string name = null, string after = null, string acceptDatetime = null, CancellationToken cancellationToken = default)
+        public ResponseWithHeaders<KeyListResult, AppConfigurationGetKeysHeaders> GetKeysNextPage(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetKeysNextPageRequest(nextLink, name, after, acceptDatetime);
+            using var message = CreateGetKeysNextPageRequest(nextLink, acceptDatetime);
             _pipeline.Send(message, cancellationToken);
             var headers = new AppConfigurationGetKeysHeaders(message.Response);
             switch (message.Response.Status)
@@ -1350,7 +1346,7 @@ namespace AppConfiguration
             }
         }
 
-        internal HttpMessage CreateGetKeyValuesNextPageRequest(string nextLink, string key, string label, string after, string acceptDatetime, IEnumerable<Get6ItemsItem> select)
+        internal HttpMessage CreateGetKeyValuesNextPageRequest(string nextLink, string acceptDatetime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1373,21 +1369,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of key-values. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="key"> A filter used to match keys. </param>
-        /// <param name="label"> A filter used to match labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<ResponseWithHeaders<KeyValueListResult, AppConfigurationGetKeyValuesHeaders>> GetKeyValuesNextPageAsync(string nextLink, string key = null, string label = null, string after = null, string acceptDatetime = null, IEnumerable<Get6ItemsItem> select = null, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeaders<KeyValueListResult, AppConfigurationGetKeyValuesHeaders>> GetKeyValuesNextPageAsync(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetKeyValuesNextPageRequest(nextLink, key, label, after, acceptDatetime, select);
+            using var message = CreateGetKeyValuesNextPageRequest(nextLink, acceptDatetime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             var headers = new AppConfigurationGetKeyValuesHeaders(message.Response);
             switch (message.Response.Status)
@@ -1406,21 +1398,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of key-values. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="key"> A filter used to match keys. </param>
-        /// <param name="label"> A filter used to match labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public ResponseWithHeaders<KeyValueListResult, AppConfigurationGetKeyValuesHeaders> GetKeyValuesNextPage(string nextLink, string key = null, string label = null, string after = null, string acceptDatetime = null, IEnumerable<Get6ItemsItem> select = null, CancellationToken cancellationToken = default)
+        public ResponseWithHeaders<KeyValueListResult, AppConfigurationGetKeyValuesHeaders> GetKeyValuesNextPage(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetKeyValuesNextPageRequest(nextLink, key, label, after, acceptDatetime, select);
+            using var message = CreateGetKeyValuesNextPageRequest(nextLink, acceptDatetime);
             _pipeline.Send(message, cancellationToken);
             var headers = new AppConfigurationGetKeyValuesHeaders(message.Response);
             switch (message.Response.Status)
@@ -1437,7 +1425,7 @@ namespace AppConfiguration
             }
         }
 
-        internal HttpMessage CreateGetLabelsNextPageRequest(string nextLink, string name, string after, string acceptDatetime, IEnumerable<string> select)
+        internal HttpMessage CreateGetLabelsNextPageRequest(string nextLink, string acceptDatetime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1460,20 +1448,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of labels. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="name"> A filter for the name of the returned labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<ResponseWithHeaders<LabelListResult, AppConfigurationGetLabelsHeaders>> GetLabelsNextPageAsync(string nextLink, string name = null, string after = null, string acceptDatetime = null, IEnumerable<string> select = null, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeaders<LabelListResult, AppConfigurationGetLabelsHeaders>> GetLabelsNextPageAsync(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetLabelsNextPageRequest(nextLink, name, after, acceptDatetime, select);
+            using var message = CreateGetLabelsNextPageRequest(nextLink, acceptDatetime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             var headers = new AppConfigurationGetLabelsHeaders(message.Response);
             switch (message.Response.Status)
@@ -1492,20 +1477,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of labels. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="name"> A filter for the name of the returned labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public ResponseWithHeaders<LabelListResult, AppConfigurationGetLabelsHeaders> GetLabelsNextPage(string nextLink, string name = null, string after = null, string acceptDatetime = null, IEnumerable<string> select = null, CancellationToken cancellationToken = default)
+        public ResponseWithHeaders<LabelListResult, AppConfigurationGetLabelsHeaders> GetLabelsNextPage(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetLabelsNextPageRequest(nextLink, name, after, acceptDatetime, select);
+            using var message = CreateGetLabelsNextPageRequest(nextLink, acceptDatetime);
             _pipeline.Send(message, cancellationToken);
             var headers = new AppConfigurationGetLabelsHeaders(message.Response);
             switch (message.Response.Status)
@@ -1522,7 +1504,7 @@ namespace AppConfiguration
             }
         }
 
-        internal HttpMessage CreateGetRevisionsNextPageRequest(string nextLink, string key, string label, string after, string acceptDatetime, IEnumerable<Enum4> select)
+        internal HttpMessage CreateGetRevisionsNextPageRequest(string nextLink, string acceptDatetime)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1545,21 +1527,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of key-value revisions. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="key"> A filter used to match keys. </param>
-        /// <param name="label"> A filter used to match labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<ResponseWithHeaders<KeyValueListResult, AppConfigurationGetRevisionsHeaders>> GetRevisionsNextPageAsync(string nextLink, string key = null, string label = null, string after = null, string acceptDatetime = null, IEnumerable<Enum4> select = null, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeaders<KeyValueListResult, AppConfigurationGetRevisionsHeaders>> GetRevisionsNextPageAsync(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetRevisionsNextPageRequest(nextLink, key, label, after, acceptDatetime, select);
+            using var message = CreateGetRevisionsNextPageRequest(nextLink, acceptDatetime);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             var headers = new AppConfigurationGetRevisionsHeaders(message.Response);
             switch (message.Response.Status)
@@ -1578,21 +1556,17 @@ namespace AppConfiguration
 
         /// <summary> Gets a list of key-value revisions. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="key"> A filter used to match keys. </param>
-        /// <param name="label"> A filter used to match labels. </param>
-        /// <param name="after"> Instructs the server to return elements that appear after the element referred to by the specified token. </param>
         /// <param name="acceptDatetime"> Requests the server to respond with the state of the resource at the specified time. </param>
-        /// <param name="select"> Used to select what fields are present in the returned resource(s). </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public ResponseWithHeaders<KeyValueListResult, AppConfigurationGetRevisionsHeaders> GetRevisionsNextPage(string nextLink, string key = null, string label = null, string after = null, string acceptDatetime = null, IEnumerable<Enum4> select = null, CancellationToken cancellationToken = default)
+        public ResponseWithHeaders<KeyValueListResult, AppConfigurationGetRevisionsHeaders> GetRevisionsNextPage(string nextLink, string acceptDatetime = null, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateGetRevisionsNextPageRequest(nextLink, key, label, after, acceptDatetime, select);
+            using var message = CreateGetRevisionsNextPageRequest(nextLink, acceptDatetime);
             _pipeline.Send(message, cancellationToken);
             var headers = new AppConfigurationGetRevisionsHeaders(message.Response);
             switch (message.Response.Status)

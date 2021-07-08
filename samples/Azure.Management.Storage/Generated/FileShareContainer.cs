@@ -27,7 +27,7 @@ namespace Azure.Management.Storage
 
         /// <summary> Initializes a new instance of FileShareContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal FileShareContainer(ResourceOperationsBase parent) : base(parent)
+        internal FileShareContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -161,9 +161,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="shareName"> The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<FileShare> Get(string shareName, CancellationToken cancellationToken = default)
+        public override Response<FileShare> Get(string shareName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("FileShareContainer.Get");
             scope.Start();
@@ -185,9 +186,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="shareName"> The name of the file share within the specified storage account. File share names must be between 3 and 63 characters in length and use numbers, lower-case letters and dash (-) only. Every dash (-) character must be immediately preceded and followed by a letter or number. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<FileShare>> GetAsync(string shareName, CancellationToken cancellationToken = default)
+        public async override Task<Response<FileShare>> GetAsync(string shareName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("FileShareContainer.Get");
             scope.Start();
@@ -235,7 +237,7 @@ namespace Azure.Management.Storage
                 scope.Start();
                 try
                 {
-                    var response = _restClient.ListNextPage(nextLink, Id.ResourceGroupName, Id.Name, pageSizeHint, filter, cancellationToken: cancellationToken);
+                    var response = _restClient.ListNextPage(nextLink, cancellationToken: cancellationToken);
                     return Page.FromValues(response.Value.Value.Select(value => new FileShare(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -274,7 +276,7 @@ namespace Azure.Management.Storage
                 scope.Start();
                 try
                 {
-                    var response = await _restClient.ListNextPageAsync(nextLink, Id.ResourceGroupName, Id.Name, pageSizeHint, filter, cancellationToken: cancellationToken).ConfigureAwait(false);
+                    var response = await _restClient.ListNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
                     return Page.FromValues(response.Value.Value.Select(value => new FileShare(Parent, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)

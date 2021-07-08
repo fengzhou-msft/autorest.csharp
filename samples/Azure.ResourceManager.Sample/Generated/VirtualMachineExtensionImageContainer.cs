@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Initializes a new instance of VirtualMachineExtensionImageContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal VirtualMachineExtensionImageContainer(ResourceOperationsBase parent) : base(parent)
+        internal VirtualMachineExtensionImageContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -45,12 +45,13 @@ namespace Azure.ResourceManager.Sample
         // Container level operations.
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="location"> The name of a supported Azure region. </param>
         /// <param name="publisherName"> The String to use. </param>
         /// <param name="type"> The String to use. </param>
         /// <param name="version"> The String to use. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<VirtualMachineExtensionImage> Get(string location, string publisherName, string type, string version, CancellationToken cancellationToken = default)
+        public override Response<VirtualMachineExtensionImage> Get(string location, string publisherName, string type, string version, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("VirtualMachineExtensionImageContainer.Get");
             scope.Start();
@@ -84,12 +85,13 @@ namespace Azure.ResourceManager.Sample
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="location"> The name of a supported Azure region. </param>
         /// <param name="publisherName"> The String to use. </param>
         /// <param name="type"> The String to use. </param>
         /// <param name="version"> The String to use. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<VirtualMachineExtensionImage>> GetAsync(string location, string publisherName, string type, string version, CancellationToken cancellationToken = default)
+        public async override Task<Response<VirtualMachineExtensionImage>> GetAsync(string location, string publisherName, string type, string version, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("VirtualMachineExtensionImageContainer.Get");
             scope.Start();

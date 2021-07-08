@@ -75,7 +75,7 @@ namespace AutoRest.CSharp.Output.Models.Types
         private ObjectTypeConstructor BuildConstructor(IEnumerable<ParameterInfo> paramInfos)
         {
             var parameters = paramInfos
-                .Select(param => new Parameter(ToCamelCase(param.Name!), $"The {param.Name}", new CSharpType(param.ParameterType), null, false))
+                .Select(param => new Parameter(ToCamelCase(param.Name!), $"The {param.Name}", new CSharpType(param.ParameterType), null, false, ParameterLocation.Path))
                 .ToArray();
 
             List<ObjectPropertyInitializer> initializers = new List<ObjectPropertyInitializer>();

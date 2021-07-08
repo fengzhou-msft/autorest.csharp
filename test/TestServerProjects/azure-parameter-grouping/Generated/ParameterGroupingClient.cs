@@ -29,24 +29,24 @@ namespace azure_parameter_grouping
         /// <summary> Initializes a new instance of ParameterGroupingClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
-        internal ParameterGroupingClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        internal ParameterGroupingClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline)
         {
-            RestClient = new ParameterGroupingRestClient(clientDiagnostics, pipeline, endpoint);
+            RestClient = new ParameterGroupingRestClient(clientDiagnostics, pipeline);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
         /// <summary> Post a bunch of required parameters grouped. </summary>
         /// <param name="parameterGroupingPostRequiredParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostRequiredAsync(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostRequiredAsync(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostRequired");
             scope.Start();
             try
             {
-                return await RestClient.PostRequiredAsync(parameterGroupingPostRequiredParameters, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostRequiredAsync(parameterGroupingPostRequiredParameters, host, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -57,14 +57,15 @@ namespace azure_parameter_grouping
 
         /// <summary> Post a bunch of required parameters grouped. </summary>
         /// <param name="parameterGroupingPostRequiredParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostRequired(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, CancellationToken cancellationToken = default)
+        public virtual Response PostRequired(ParameterGroupingPostRequiredParameters parameterGroupingPostRequiredParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostRequired");
             scope.Start();
             try
             {
-                return RestClient.PostRequired(parameterGroupingPostRequiredParameters, cancellationToken);
+                return RestClient.PostRequired(parameterGroupingPostRequiredParameters, host, cancellationToken);
             }
             catch (Exception e)
             {
@@ -74,15 +75,16 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post a bunch of optional parameters grouped. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="parameterGroupingPostOptionalParameters"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostOptionalAsync(ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostOptionalAsync(string host = "http://localhost:3000", ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostOptional");
             scope.Start();
             try
             {
-                return await RestClient.PostOptionalAsync(parameterGroupingPostOptionalParameters, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostOptionalAsync(host, parameterGroupingPostOptionalParameters, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -92,15 +94,16 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post a bunch of optional parameters grouped. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="parameterGroupingPostOptionalParameters"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostOptional(ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
+        public virtual Response PostOptional(string host = "http://localhost:3000", ParameterGroupingPostOptionalParameters parameterGroupingPostOptionalParameters = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostOptional");
             scope.Start();
             try
             {
-                return RestClient.PostOptional(parameterGroupingPostOptionalParameters, cancellationToken);
+                return RestClient.PostOptional(host, parameterGroupingPostOptionalParameters, cancellationToken);
             }
             catch (Exception e)
             {
@@ -110,16 +113,17 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters from multiple different parameter groups. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="parameterGroupingPostMultiParamGroupsSecondParamGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostMultiParamGroupsAsync(FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostMultiParamGroupsAsync(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostMultiParamGroups");
             scope.Start();
             try
             {
-                return await RestClient.PostMultiParamGroupsAsync(firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostMultiParamGroupsAsync(host, firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -129,16 +133,17 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters from multiple different parameter groups. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="parameterGroupingPostMultiParamGroupsSecondParamGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostMultiParamGroups(FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
+        public virtual Response PostMultiParamGroups(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, ParameterGroupingPostMultiParamGroupsSecondParamGroup parameterGroupingPostMultiParamGroupsSecondParamGroup = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostMultiParamGroups");
             scope.Start();
             try
             {
-                return RestClient.PostMultiParamGroups(firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup, cancellationToken);
+                return RestClient.PostMultiParamGroups(host, firstParameterGroup, parameterGroupingPostMultiParamGroupsSecondParamGroup, cancellationToken);
             }
             catch (Exception e)
             {
@@ -148,15 +153,16 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters with a shared parameter group object. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostSharedParameterGroupObjectAsync(FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostSharedParameterGroupObjectAsync(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostSharedParameterGroupObject");
             scope.Start();
             try
             {
-                return await RestClient.PostSharedParameterGroupObjectAsync(firstParameterGroup, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostSharedParameterGroupObjectAsync(host, firstParameterGroup, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -166,15 +172,16 @@ namespace azure_parameter_grouping
         }
 
         /// <summary> Post parameters with a shared parameter group object. </summary>
+        /// <param name="host"> server parameter. </param>
         /// <param name="firstParameterGroup"> Parameter group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostSharedParameterGroupObject(FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
+        public virtual Response PostSharedParameterGroupObject(string host = "http://localhost:3000", FirstParameterGroup firstParameterGroup = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ParameterGroupingClient.PostSharedParameterGroupObject");
             scope.Start();
             try
             {
-                return RestClient.PostSharedParameterGroupObject(firstParameterGroup, cancellationToken);
+                return RestClient.PostSharedParameterGroupObject(host, firstParameterGroup, cancellationToken);
             }
             catch (Exception e)
             {

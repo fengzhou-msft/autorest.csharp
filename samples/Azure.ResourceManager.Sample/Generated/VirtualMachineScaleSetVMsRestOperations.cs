@@ -523,8 +523,8 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath(vmScaleSetName, true);
             uri.AppendPath("/virtualmachines/", false);
             uri.AppendPath(instanceId, true);
-            uri.AppendQuery("$expand", "instanceView", true);
             uri.AppendQuery("api-version", apiVersion, true);
+            uri.AppendQuery("$expand", "instanceView", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -714,6 +714,7 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/providers/Microsoft.Compute/virtualMachineScaleSets/", false);
             uri.AppendPath(virtualMachineScaleSetName, true);
             uri.AppendPath("/virtualMachines", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (filter != null)
             {
                 uri.AppendQuery("$filter", filter, true);
@@ -726,7 +727,6 @@ namespace Azure.ResourceManager.Sample
             {
                 uri.AppendQuery("$expand", expand, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -818,11 +818,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/virtualmachines/", false);
             uri.AppendPath(instanceId, true);
             uri.AppendPath("/poweroff", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (skipShutdown != null)
             {
                 uri.AppendQuery("skipShutdown", skipShutdown.Value, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             return message;
         }
@@ -1172,11 +1172,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/virtualmachines/", false);
             uri.AppendPath(instanceId, true);
             uri.AppendPath("/retrieveBootDiagnosticsData", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (sasUriExpirationTimeInMinutes != null)
             {
                 uri.AppendQuery("sasUriExpirationTimeInMinutes", sasUriExpirationTimeInMinutes.Value, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1430,7 +1430,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateListNextPageRequest(string nextLink, string resourceGroupName, string virtualMachineScaleSetName, string filter, string select, string expand)
+        internal HttpMessage CreateListNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1445,29 +1445,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Gets a list of all virtual machines in a VM scale sets. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
-        /// <param name="virtualMachineScaleSetName"> The name of the VM scale set. </param>
-        /// <param name="filter"> The filter to apply to the operation. Allowed values are &apos;startswith(instanceView/statuses/code, &apos;PowerState&apos;) eq true&apos;, &apos;properties/latestModelApplied eq true&apos;, &apos;properties/latestModelApplied eq false&apos;. </param>
-        /// <param name="select"> The list parameters. Allowed values are &apos;instanceView&apos;, &apos;instanceView/statuses&apos;. </param>
-        /// <param name="expand"> The expand expression to apply to the operation. Allowed values are &apos;instanceView&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="virtualMachineScaleSetName"/> is null. </exception>
-        public async Task<Response<VirtualMachineScaleSetVMListResult>> ListNextPageAsync(string nextLink, string resourceGroupName, string virtualMachineScaleSetName, string filter = null, string select = null, string expand = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<VirtualMachineScaleSetVMListResult>> ListNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (virtualMachineScaleSetName == null)
-            {
-                throw new ArgumentNullException(nameof(virtualMachineScaleSetName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName, virtualMachineScaleSetName, filter, select, expand);
+            using var message = CreateListNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1485,29 +1472,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Gets a list of all virtual machines in a VM scale sets. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
-        /// <param name="virtualMachineScaleSetName"> The name of the VM scale set. </param>
-        /// <param name="filter"> The filter to apply to the operation. Allowed values are &apos;startswith(instanceView/statuses/code, &apos;PowerState&apos;) eq true&apos;, &apos;properties/latestModelApplied eq true&apos;, &apos;properties/latestModelApplied eq false&apos;. </param>
-        /// <param name="select"> The list parameters. Allowed values are &apos;instanceView&apos;, &apos;instanceView/statuses&apos;. </param>
-        /// <param name="expand"> The expand expression to apply to the operation. Allowed values are &apos;instanceView&apos;. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/>, <paramref name="resourceGroupName"/>, or <paramref name="virtualMachineScaleSetName"/> is null. </exception>
-        public Response<VirtualMachineScaleSetVMListResult> ListNextPage(string nextLink, string resourceGroupName, string virtualMachineScaleSetName, string filter = null, string select = null, string expand = null, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<VirtualMachineScaleSetVMListResult> ListNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
-            if (virtualMachineScaleSetName == null)
-            {
-                throw new ArgumentNullException(nameof(virtualMachineScaleSetName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName, virtualMachineScaleSetName, filter, select, expand);
+            using var message = CreateListNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

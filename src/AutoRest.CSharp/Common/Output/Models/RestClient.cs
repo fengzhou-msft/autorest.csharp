@@ -135,7 +135,8 @@ namespace AutoRest.CSharp.Output.Models
                 "The URL to the next page of results.",
                 typeof(string),
                 DefaultValue: null,
-                ValidateNotNull: true);
+                ValidateNotNull: true,
+                In: ParameterLocation.Uri);
 
             PathSegment[] pathSegments = method.Request.PathSegments
                 .Where(ps => ps.IsRaw)

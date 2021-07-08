@@ -28,24 +28,24 @@ namespace azure_special_properties
         /// <summary> Initializes a new instance of SubscriptionInMethodClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
-        internal SubscriptionInMethodClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        internal SubscriptionInMethodClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline)
         {
-            RestClient = new SubscriptionInMethodRestClient(clientDiagnostics, pipeline, endpoint);
+            RestClient = new SubscriptionInMethodRestClient(clientDiagnostics, pipeline);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> This should appear as a method parameter, use value &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostMethodLocalValidAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostMethodLocalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostMethodLocalValid");
             scope.Start();
             try
             {
-                return await RestClient.PostMethodLocalValidAsync(subscriptionId, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostMethodLocalValidAsync(subscriptionId, host, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -56,14 +56,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> This should appear as a method parameter, use value &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostMethodLocalValid(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual Response PostMethodLocalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostMethodLocalValid");
             scope.Start();
             try
             {
-                return RestClient.PostMethodLocalValid(subscriptionId, cancellationToken);
+                return RestClient.PostMethodLocalValid(subscriptionId, host, cancellationToken);
             }
             catch (Exception e)
             {
@@ -74,14 +75,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = null, client-side validation should prevent you from making this call. </summary>
         /// <param name="subscriptionId"> This should appear as a method parameter, use value null, client-side validation should prvenet the call. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostMethodLocalNullAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostMethodLocalNullAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostMethodLocalNull");
             scope.Start();
             try
             {
-                return await RestClient.PostMethodLocalNullAsync(subscriptionId, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostMethodLocalNullAsync(subscriptionId, host, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -92,14 +94,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = null, client-side validation should prevent you from making this call. </summary>
         /// <param name="subscriptionId"> This should appear as a method parameter, use value null, client-side validation should prvenet the call. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostMethodLocalNull(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual Response PostMethodLocalNull(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostMethodLocalNull");
             scope.Start();
             try
             {
-                return RestClient.PostMethodLocalNull(subscriptionId, cancellationToken);
+                return RestClient.PostMethodLocalNull(subscriptionId, host, cancellationToken);
             }
             catch (Exception e)
             {
@@ -110,14 +113,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> Should appear as a method parameter -use value &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostPathLocalValidAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostPathLocalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostPathLocalValid");
             scope.Start();
             try
             {
-                return await RestClient.PostPathLocalValidAsync(subscriptionId, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostPathLocalValidAsync(subscriptionId, host, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -128,14 +132,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> Should appear as a method parameter -use value &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostPathLocalValid(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual Response PostPathLocalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostPathLocalValid");
             scope.Start();
             try
             {
-                return RestClient.PostPathLocalValid(subscriptionId, cancellationToken);
+                return RestClient.PostPathLocalValid(subscriptionId, host, cancellationToken);
             }
             catch (Exception e)
             {
@@ -146,14 +151,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> The subscriptionId, which appears in the path, the value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> PostSwaggerLocalValidAsync(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> PostSwaggerLocalValidAsync(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostSwaggerLocalValid");
             scope.Start();
             try
             {
-                return await RestClient.PostSwaggerLocalValidAsync(subscriptionId, cancellationToken).ConfigureAwait(false);
+                return await RestClient.PostSwaggerLocalValidAsync(subscriptionId, host, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception e)
             {
@@ -164,14 +170,15 @@ namespace azure_special_properties
 
         /// <summary> POST method with subscriptionId modeled in the method.  pass in subscription id = &apos;1234-5678-9012-3456&apos; to succeed. </summary>
         /// <param name="subscriptionId"> The subscriptionId, which appears in the path, the value is always &apos;1234-5678-9012-3456&apos;. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response PostSwaggerLocalValid(string subscriptionId, CancellationToken cancellationToken = default)
+        public virtual Response PostSwaggerLocalValid(string subscriptionId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("SubscriptionInMethodClient.PostSwaggerLocalValid");
             scope.Start();
             try
             {
-                return RestClient.PostSwaggerLocalValid(subscriptionId, cancellationToken);
+                return RestClient.PostSwaggerLocalValid(subscriptionId, host, cancellationToken);
             }
             catch (Exception e)
             {

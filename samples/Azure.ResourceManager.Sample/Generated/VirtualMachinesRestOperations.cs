@@ -402,11 +402,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Compute/virtualMachines/", false);
             uri.AppendPath(vmName, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (forceDeletion != null)
             {
                 uri.AppendQuery("forceDeletion", forceDeletion.Value, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             return message;
         }
@@ -484,8 +484,8 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Compute/virtualMachines/", false);
             uri.AppendPath(vmName, true);
-            uri.AppendQuery("$expand", "instanceView", true);
             uri.AppendQuery("api-version", apiVersion, true);
+            uri.AppendQuery("$expand", "instanceView", true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1094,11 +1094,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/providers/Microsoft.Compute/virtualMachines/", false);
             uri.AppendPath(vmName, true);
             uri.AppendPath("/powerOff", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (skipShutdown != null)
             {
                 uri.AppendQuery("skipShutdown", skipShutdown.Value, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             return message;
         }
@@ -1560,11 +1560,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/providers/Microsoft.Compute/virtualMachines/", false);
             uri.AppendPath(vmName, true);
             uri.AppendPath("/retrieveBootDiagnosticsData", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (sasUriExpirationTimeInMinutes != null)
             {
                 uri.AppendQuery("sasUriExpirationTimeInMinutes", sasUriExpirationTimeInMinutes.Value, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -1860,7 +1860,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateListByLocationNextPageRequest(string nextLink, string location)
+        internal HttpMessage CreateListByLocationNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1875,21 +1875,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Gets all the virtual machines under the specified subscription for the specified location. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="location"> The location for which virtual machines under the subscription are queried. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="location"/> is null. </exception>
-        public async Task<Response<VirtualMachineListResult>> ListByLocationNextPageAsync(string nextLink, string location, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<VirtualMachineListResult>> ListByLocationNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (location == null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
 
-            using var message = CreateListByLocationNextPageRequest(nextLink, location);
+            using var message = CreateListByLocationNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1907,21 +1902,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Gets all the virtual machines under the specified subscription for the specified location. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="location"> The location for which virtual machines under the subscription are queried. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="location"/> is null. </exception>
-        public Response<VirtualMachineListResult> ListByLocationNextPage(string nextLink, string location, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<VirtualMachineListResult> ListByLocationNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (location == null)
-            {
-                throw new ArgumentNullException(nameof(location));
-            }
 
-            using var message = CreateListByLocationNextPageRequest(nextLink, location);
+            using var message = CreateListByLocationNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -1937,7 +1927,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateListNextPageRequest(string nextLink, string resourceGroupName)
+        internal HttpMessage CreateListNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -1952,21 +1942,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        public async Task<Response<VirtualMachineListResult>> ListNextPageAsync(string nextLink, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public async Task<Response<VirtualMachineListResult>> ListNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName);
+            using var message = CreateListNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -1984,21 +1969,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="resourceGroupName"> The name of the resource group. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> or <paramref name="resourceGroupName"/> is null. </exception>
-        public Response<VirtualMachineListResult> ListNextPage(string nextLink, string resourceGroupName, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
+        public Response<VirtualMachineListResult> ListNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
-            if (resourceGroupName == null)
-            {
-                throw new ArgumentNullException(nameof(resourceGroupName));
-            }
 
-            using var message = CreateListNextPageRequest(nextLink, resourceGroupName);
+            using var message = CreateListNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {
@@ -2014,7 +1994,7 @@ namespace Azure.ResourceManager.Sample
             }
         }
 
-        internal HttpMessage CreateListAllNextPageRequest(string nextLink, string statusOnly)
+        internal HttpMessage CreateListAllNextPageRequest(string nextLink)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -2029,17 +2009,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="statusOnly"> statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public async Task<Response<VirtualMachineListResult>> ListAllNextPageAsync(string nextLink, string statusOnly = null, CancellationToken cancellationToken = default)
+        public async Task<Response<VirtualMachineListResult>> ListAllNextPageAsync(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAllNextPageRequest(nextLink, statusOnly);
+            using var message = CreateListAllNextPageRequest(nextLink);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -2057,17 +2036,16 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Lists all of the virtual machines in the specified subscription. Use the nextLink property in the response to get the next page of virtual machines. </summary>
         /// <param name="nextLink"> The URL to the next page of results. </param>
-        /// <param name="statusOnly"> statusOnly=true enables fetching run time status of all Virtual Machines in the subscription. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         /// <exception cref="ArgumentNullException"> <paramref name="nextLink"/> is null. </exception>
-        public Response<VirtualMachineListResult> ListAllNextPage(string nextLink, string statusOnly = null, CancellationToken cancellationToken = default)
+        public Response<VirtualMachineListResult> ListAllNextPage(string nextLink, CancellationToken cancellationToken = default)
         {
             if (nextLink == null)
             {
                 throw new ArgumentNullException(nameof(nextLink));
             }
 
-            using var message = CreateListAllNextPageRequest(nextLink, statusOnly);
+            using var message = CreateListAllNextPageRequest(nextLink);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

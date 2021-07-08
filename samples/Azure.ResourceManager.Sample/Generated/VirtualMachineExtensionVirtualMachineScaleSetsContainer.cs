@@ -26,7 +26,7 @@ namespace Azure.ResourceManager.Sample
 
         /// <summary> Initializes a new instance of VirtualMachineExtensionVirtualMachineScaleSetsContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal VirtualMachineExtensionVirtualMachineScaleSetsContainer(ResourceOperationsBase parent) : base(parent)
+        internal VirtualMachineExtensionVirtualMachineScaleSetsContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -160,10 +160,11 @@ namespace Azure.ResourceManager.Sample
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="vmExtensionName"> The name of the virtual machine extension. </param>
         /// <param name="expand"> The expand expression to apply on the operation. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<VirtualMachineExtensionVirtualMachineScaleSets> Get(string vmExtensionName, string expand = null, CancellationToken cancellationToken = default)
+        public override Response<VirtualMachineExtensionVirtualMachineScaleSets> Get(string vmExtensionName, string expand = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("VirtualMachineExtensionVirtualMachineScaleSetsContainer.Get");
             scope.Start();
@@ -185,10 +186,11 @@ namespace Azure.ResourceManager.Sample
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="vmExtensionName"> The name of the virtual machine extension. </param>
         /// <param name="expand"> The expand expression to apply on the operation. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<VirtualMachineExtensionVirtualMachineScaleSets>> GetAsync(string vmExtensionName, string expand = null, CancellationToken cancellationToken = default)
+        public async override Task<Response<VirtualMachineExtensionVirtualMachineScaleSets>> GetAsync(string vmExtensionName, string expand = null, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("VirtualMachineExtensionVirtualMachineScaleSetsContainer.Get");
             scope.Start();

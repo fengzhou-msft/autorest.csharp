@@ -26,7 +26,7 @@ namespace Azure.Management.Storage
 
         /// <summary> Initializes a new instance of ManagementPolicyContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal ManagementPolicyContainer(ResourceOperationsBase parent) : base(parent)
+        internal ManagementPolicyContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -144,9 +144,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<ManagementPolicy> Get(ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
+        public override Response<ManagementPolicy> Get(ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ManagementPolicyContainer.Get");
             scope.Start();
@@ -163,9 +164,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="managementPolicyName"> The name of the Storage Account Management Policy. It should always be &apos;default&apos;. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<ManagementPolicy>> GetAsync(ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
+        public async override Task<Response<ManagementPolicy>> GetAsync(ManagementPolicyName managementPolicyName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("ManagementPolicyContainer.Get");
             scope.Start();

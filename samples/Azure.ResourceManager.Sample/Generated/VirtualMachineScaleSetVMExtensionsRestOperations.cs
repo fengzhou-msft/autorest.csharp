@@ -391,11 +391,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath(instanceId, true);
             uri.AppendPath("/extensions/", false);
             uri.AppendPath(vmExtensionName, true);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (expand != null)
             {
                 uri.AppendQuery("$expand", expand, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -503,11 +503,11 @@ namespace Azure.ResourceManager.Sample
             uri.AppendPath("/virtualMachines/", false);
             uri.AppendPath(instanceId, true);
             uri.AppendPath("/extensions", false);
+            uri.AppendQuery("api-version", apiVersion, true);
             if (expand != null)
             {
                 uri.AppendQuery("$expand", expand, true);
             }
-            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;

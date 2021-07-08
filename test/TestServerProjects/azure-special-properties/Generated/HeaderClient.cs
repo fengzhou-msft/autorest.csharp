@@ -29,24 +29,24 @@ namespace azure_special_properties
         /// <summary> Initializes a new instance of HeaderClient. </summary>
         /// <param name="clientDiagnostics"> The handler for diagnostic messaging in the client. </param>
         /// <param name="pipeline"> The HTTP pipeline for sending and receiving REST requests and responses. </param>
-        /// <param name="endpoint"> server parameter. </param>
-        internal HeaderClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline, Uri endpoint = null)
+        internal HeaderClient(ClientDiagnostics clientDiagnostics, HttpPipeline pipeline)
         {
-            RestClient = new HeaderRestClient(clientDiagnostics, pipeline, endpoint);
+            RestClient = new HeaderRestClient(clientDiagnostics, pipeline);
             _clientDiagnostics = clientDiagnostics;
             _pipeline = pipeline;
         }
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request. </summary>
         /// <param name="fooClientRequestId"> The fooRequestId. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> CustomNamedRequestIdAsync(string fooClientRequestId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> CustomNamedRequestIdAsync(string fooClientRequestId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestId");
             scope.Start();
             try
             {
-                return (await RestClient.CustomNamedRequestIdAsync(fooClientRequestId, cancellationToken).ConfigureAwait(false)).GetRawResponse();
+                return (await RestClient.CustomNamedRequestIdAsync(fooClientRequestId, host, cancellationToken).ConfigureAwait(false)).GetRawResponse();
             }
             catch (Exception e)
             {
@@ -57,14 +57,15 @@ namespace azure_special_properties
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request. </summary>
         /// <param name="fooClientRequestId"> The fooRequestId. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response CustomNamedRequestId(string fooClientRequestId, CancellationToken cancellationToken = default)
+        public virtual Response CustomNamedRequestId(string fooClientRequestId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestId");
             scope.Start();
             try
             {
-                return RestClient.CustomNamedRequestId(fooClientRequestId, cancellationToken).GetRawResponse();
+                return RestClient.CustomNamedRequestId(fooClientRequestId, host, cancellationToken).GetRawResponse();
             }
             catch (Exception e)
             {
@@ -75,14 +76,15 @@ namespace azure_special_properties
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request, via a parameter group. </summary>
         /// <param name="headerCustomNamedRequestIdParamGroupingParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> CustomNamedRequestIdParamGroupingAsync(HeaderCustomNamedRequestIdParamGroupingParameters headerCustomNamedRequestIdParamGroupingParameters, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> CustomNamedRequestIdParamGroupingAsync(HeaderCustomNamedRequestIdParamGroupingParameters headerCustomNamedRequestIdParamGroupingParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestIdParamGrouping");
             scope.Start();
             try
             {
-                return (await RestClient.CustomNamedRequestIdParamGroupingAsync(headerCustomNamedRequestIdParamGroupingParameters, cancellationToken).ConfigureAwait(false)).GetRawResponse();
+                return (await RestClient.CustomNamedRequestIdParamGroupingAsync(headerCustomNamedRequestIdParamGroupingParameters, host, cancellationToken).ConfigureAwait(false)).GetRawResponse();
             }
             catch (Exception e)
             {
@@ -93,14 +95,15 @@ namespace azure_special_properties
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request, via a parameter group. </summary>
         /// <param name="headerCustomNamedRequestIdParamGroupingParameters"> Parameter group. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response CustomNamedRequestIdParamGrouping(HeaderCustomNamedRequestIdParamGroupingParameters headerCustomNamedRequestIdParamGroupingParameters, CancellationToken cancellationToken = default)
+        public virtual Response CustomNamedRequestIdParamGrouping(HeaderCustomNamedRequestIdParamGroupingParameters headerCustomNamedRequestIdParamGroupingParameters, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestIdParamGrouping");
             scope.Start();
             try
             {
-                return RestClient.CustomNamedRequestIdParamGrouping(headerCustomNamedRequestIdParamGroupingParameters, cancellationToken).GetRawResponse();
+                return RestClient.CustomNamedRequestIdParamGrouping(headerCustomNamedRequestIdParamGroupingParameters, host, cancellationToken).GetRawResponse();
             }
             catch (Exception e)
             {
@@ -111,14 +114,15 @@ namespace azure_special_properties
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request. </summary>
         /// <param name="fooClientRequestId"> The fooRequestId. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response> CustomNamedRequestIdHeadAsync(string fooClientRequestId, CancellationToken cancellationToken = default)
+        public virtual async Task<Response> CustomNamedRequestIdHeadAsync(string fooClientRequestId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestIdHead");
             scope.Start();
             try
             {
-                return (await RestClient.CustomNamedRequestIdHeadAsync(fooClientRequestId, cancellationToken).ConfigureAwait(false)).GetRawResponse();
+                return (await RestClient.CustomNamedRequestIdHeadAsync(fooClientRequestId, host, cancellationToken).ConfigureAwait(false)).GetRawResponse();
             }
             catch (Exception e)
             {
@@ -129,14 +133,15 @@ namespace azure_special_properties
 
         /// <summary> Send foo-client-request-id = 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0 in the header of the request. </summary>
         /// <param name="fooClientRequestId"> The fooRequestId. </param>
+        /// <param name="host"> server parameter. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response CustomNamedRequestIdHead(string fooClientRequestId, CancellationToken cancellationToken = default)
+        public virtual Response CustomNamedRequestIdHead(string fooClientRequestId, string host = "http://localhost:3000", CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("HeaderClient.CustomNamedRequestIdHead");
             scope.Start();
             try
             {
-                return RestClient.CustomNamedRequestIdHead(fooClientRequestId, cancellationToken).GetRawResponse();
+                return RestClient.CustomNamedRequestIdHead(fooClientRequestId, host, cancellationToken).GetRawResponse();
             }
             catch (Exception e)
             {

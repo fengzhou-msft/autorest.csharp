@@ -27,7 +27,7 @@ namespace Azure.Management.Storage
 
         /// <summary> Initializes a new instance of FileServiceContainer class. </summary>
         /// <param name="parent"> The resource representing the parent resource. </param>
-        internal FileServiceContainer(ResourceOperationsBase parent) : base(parent)
+        internal FileServiceContainer(ResourceOperationsBase parent) : base(Parent)
         {
             _clientDiagnostics = new ClientDiagnostics(ClientOptions);
         }
@@ -161,9 +161,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public Response<FileService> Get(string accountName, CancellationToken cancellationToken = default)
+        public override Response<FileService> Get(string accountName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("FileServiceContainer.Get");
             scope.Start();
@@ -185,9 +186,10 @@ namespace Azure.Management.Storage
         }
 
         /// <summary> Gets details for this resource from the service. </summary>
+        /// <inheritdoc />
         /// <param name="accountName"> The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only. </param>
         /// <param name="cancellationToken"> A token to allow the caller to cancel the call to the service. The default value is <see cref="CancellationToken.None" />. </param>
-        public async Task<Response<FileService>> GetAsync(string accountName, CancellationToken cancellationToken = default)
+        public async override Task<Response<FileService>> GetAsync(string accountName, CancellationToken cancellationToken = default)
         {
             using var scope = _clientDiagnostics.CreateScope("FileServiceContainer.Get");
             scope.Start();

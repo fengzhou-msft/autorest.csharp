@@ -3,6 +3,7 @@
 
 using System;
 using NUnit.Framework;
+using AutoRest.CSharp.Input;
 using AutoRest.CSharp.Output.Models.Shared;
 
 namespace AutoRest.CSharp.Output.Models.Requests.Tests
@@ -60,6 +61,7 @@ namespace AutoRest.CSharp.Output.Models.Requests.Tests
                 inputType,
                 null,
                 false,
+                ParameterLocation.None,
                 false
             ));
         }
