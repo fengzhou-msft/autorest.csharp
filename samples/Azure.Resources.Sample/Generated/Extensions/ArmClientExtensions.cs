@@ -7,7 +7,7 @@
 
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A class to add extension methods to ArmClient. </summary>
     public static partial class ArmClientExtensions

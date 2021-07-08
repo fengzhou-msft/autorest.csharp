@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Azure;
 using Azure.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> This operation deletes the policy with the given ID. Policy assignment IDs have this format: &apos;{scope}/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}&apos;. Valid formats for {scope} are: &apos;/providers/Microsoft.Management/managementGroups/{managementGroup}&apos; (management group), &apos;/subscriptions/{subscriptionId}&apos; (subscription), &apos;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}&apos; (resource group), or &apos;/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}&apos; (resource). </summary>
     public partial class PolicyAssignmentsDeleteByIdOperation : Operation<PolicyAssignmentData>

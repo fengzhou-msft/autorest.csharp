@@ -7,7 +7,7 @@
 
 using System;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     internal static partial class ResourceIdentityTypeExtensions
     {

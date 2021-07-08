@@ -13,7 +13,7 @@ using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     internal partial class PolicyAssignmentsRestOperations
     {
@@ -315,7 +315,6 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/resourceGroups/", false);
             uri.AppendPath(resourceGroupName, true);
             uri.AppendPath("/providers/Microsoft.Authorization/policyAssignments", false);
-            uri.AppendQuery("api-version", apiVersion, true);
             if (filter != null)
             {
                 uri.AppendQuery("$filter", filter, false);
@@ -324,6 +323,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
+            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -417,7 +417,6 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/", false);
             uri.AppendPath(resourceName, true);
             uri.AppendPath("/providers/Microsoft.Authorization/policyAssignments", false);
-            uri.AppendQuery("api-version", apiVersion, true);
             if (filter != null)
             {
                 uri.AppendQuery("$filter", filter, false);
@@ -426,6 +425,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
+            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -549,7 +549,6 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/providers/Microsoft.Management/managementGroups/", false);
             uri.AppendPath(managementGroupId, true);
             uri.AppendPath("/providers/Microsoft.Authorization/policyAssignments", false);
-            uri.AppendQuery("api-version", apiVersion, true);
             if (filter != null)
             {
                 uri.AppendQuery("$filter", filter, false);
@@ -558,6 +557,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
+            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;
@@ -631,7 +631,6 @@ namespace Azure.ResourceManager.Resources
             uri.AppendPath("/subscriptions/", false);
             uri.AppendPath(subscriptionId, true);
             uri.AppendPath("/providers/Microsoft.Authorization/policyAssignments", false);
-            uri.AppendQuery("api-version", apiVersion, true);
             if (filter != null)
             {
                 uri.AppendQuery("$filter", filter, false);
@@ -640,6 +639,7 @@ namespace Azure.ResourceManager.Resources
             {
                 uri.AppendQuery("$top", top.Value, true);
             }
+            uri.AppendQuery("api-version", apiVersion, true);
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             return message;

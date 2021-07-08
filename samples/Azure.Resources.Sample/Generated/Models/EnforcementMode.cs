@@ -8,7 +8,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> The policy assignment enforcement mode. Possible values are Default and DoNotEnforce. </summary>
     public readonly partial struct EnforcementMode : IEquatable<EnforcementMode>

@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> Identity for the resource. </summary>
     public partial class Identity

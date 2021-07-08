@@ -13,7 +13,7 @@ using Azure;
 using Azure.Core.Pipeline;
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A class representing the operations that can be performed over a specific PolicyAssignment. </summary>
     public partial class PolicyAssignmentOperations : OperationsBase

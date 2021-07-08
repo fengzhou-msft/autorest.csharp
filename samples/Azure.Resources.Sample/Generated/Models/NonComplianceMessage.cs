@@ -7,7 +7,7 @@
 
 using System;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A message that describes why a resource is non-compliant with the policy. This is shown in &apos;deny&apos; error messages and on resource&apos;s non-compliant compliance results. </summary>
     public partial class NonComplianceMessage

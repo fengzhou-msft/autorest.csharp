@@ -15,7 +15,7 @@ using Azure.Core;
 using Azure.Core.Pipeline;
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A class representing collection of PolicyAssignment and their operations over a Tenant. </summary>
     public partial class PolicyAssignmentContainer : ContainerBase

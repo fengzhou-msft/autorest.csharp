@@ -12,7 +12,7 @@ using Azure;
 using Azure.Core;
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary>  This operation creates or updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group. </summary>
     public partial class PolicyAssignmentsCreateOperation : Operation<PolicyAssignment>

@@ -7,7 +7,7 @@
 
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A class to add extension methods to Subscription. </summary>
     public static partial class SubscriptionExtensions

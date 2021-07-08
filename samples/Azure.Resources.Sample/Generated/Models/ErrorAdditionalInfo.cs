@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> The resource management error additional info. </summary>
     internal partial class ErrorAdditionalInfo

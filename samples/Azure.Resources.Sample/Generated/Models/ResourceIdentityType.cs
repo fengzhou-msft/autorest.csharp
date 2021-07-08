@@ -5,7 +5,7 @@
 
 #nullable disable
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> The identity type. This is the only required field when adding a system assigned identity to a resource. </summary>
     public enum ResourceIdentityType

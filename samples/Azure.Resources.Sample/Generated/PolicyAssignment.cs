@@ -7,7 +7,7 @@
 
 using Azure.ResourceManager.Core;
 
-namespace Azure.ResourceManager.Resources
+namespace Azure.Resources.Sample
 {
     /// <summary> A Class representing a PolicyAssignment along with the instance operations that can be performed on it. </summary>
     public class PolicyAssignment : PolicyAssignmentOperations
