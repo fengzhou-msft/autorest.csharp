@@ -117,11 +117,7 @@ namespace AutoRest.CSharp.Generation.Writers
                 _ => new CSharpType(typeof(Response)),
             };
             responseType = async ? new CSharpType(typeof(Task<>), responseType) : responseType;
-            var parameters = operation.Parameters.ToList();
-            if (parameters.Any(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)))
-            {
-                parameters = parameters.Where(p => p.Name.Equals("nextLink", StringComparison.InvariantCultureIgnoreCase)).ToList();
-            }
+            var parameters = operation.Parameters;
             writer.WriteXmlDocumentationSummary(operation.Description);
 
             foreach (Parameter parameter in parameters)

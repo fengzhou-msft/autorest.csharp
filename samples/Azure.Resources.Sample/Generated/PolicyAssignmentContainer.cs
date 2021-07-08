@@ -481,7 +481,55 @@ namespace Azure.ResourceManager.Resources
                 scope.Start();
                 try
                 {
-                    var response = _restClient.ListForResourceGroupNextPage(nextLink, cancellationToken: cancellationToken);
+                    if (policyAssignmentScope == null)
+                    {
+                        throw new ArgumentNullException(nameof(policyAssignmentScope));
+                    }
+
+                    Response<PolicyAssignmentListResult> response;
+                    if (policyAssignmentScope.GetType() == typeof(TenantResourceIdentifier))
+                    {
+                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups"))
+                        {
+                            response = _restClient.ListForManagementGroupNextPage(nextLink, policyAssignmentScope.Name, filter, top, cancellationToken: cancellationToken);
+                        }
+                        else
+                        {
+                            throw new ArgumentException($"Invalid scope: {policyAssignmentScope}.", nameof(policyAssignmentScope));
+                        }
+                    }
+                    else if (policyAssignmentScope.GetType() == typeof(SubscriptionResourceIdentifier))
+                    {
+                        var subscription = policyAssignmentScope as SubscriptionResourceIdentifier;
+                        response = _restClient.ListNextPage(nextLink, subscription.SubscriptionId, filter, top, cancellationToken: cancellationToken);
+                    }
+                    else if (policyAssignmentScope.GetType() == typeof(ResourceGroupResourceIdentifier))
+                    {
+                        var resourceGroupId = policyAssignmentScope as ResourceGroupResourceIdentifier;
+                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType))
+                        {
+                            response = _restClient.ListForResourceGroupNextPage(nextLink, resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, filter, top, cancellationToken: cancellationToken);
+                        }
+                        else
+                        {
+                            var resourceProviderNamespace = resourceGroupId.ResourceType.Namespace;
+                            var resourceType = resourceGroupId.ResourceType.Types[resourceGroupId.ResourceType.Types.Count - 1];
+                            var resourceName = resourceGroupId.Name;
+                            var parent = resourceGroupId.Parent;
+                            var parentParts = new List<string>();
+                            while (!parent.ResourceType.Equals(ResourceGroupOperations.ResourceType))
+                            {
+                                parentParts.Insert(0, $"{parent.ResourceType.Types[parent.ResourceType.Types.Count - 1]}/{parent.Name}");
+                                parent = parent.Parent;
+                            }
+                            var parentResourcePath = parentParts.Count > 0 ? string.Join("/", parentParts) : "";
+                            response = _restClient.ListForResourceNextPage(nextLink, resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter, top, cancellationToken: cancellationToken);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Invalid scope: {policyAssignmentScope}.", nameof(policyAssignmentScope));
+                    }
                     return Page.FromValues(response.Value.Value.Select(value => new PolicyAssignment(this, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -570,7 +618,55 @@ namespace Azure.ResourceManager.Resources
                 scope.Start();
                 try
                 {
-                    var response = await _restClient.ListForResourceGroupNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
+                    if (policyAssignmentScope == null)
+                    {
+                        throw new ArgumentNullException(nameof(policyAssignmentScope));
+                    }
+
+                    Response<PolicyAssignmentListResult> response;
+                    if (policyAssignmentScope.GetType() == typeof(TenantResourceIdentifier))
+                    {
+                        if (policyAssignmentScope.ResourceType.Equals("Microsoft.Management/managementGroups"))
+                        {
+                            response = await _restClient.ListForManagementGroupNextPageAsync(nextLink, policyAssignmentScope.Name, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            throw new ArgumentException($"Invalid scope: {policyAssignmentScope}.", nameof(policyAssignmentScope));
+                        }
+                    }
+                    else if (policyAssignmentScope.GetType() == typeof(SubscriptionResourceIdentifier))
+                    {
+                        var subscription = policyAssignmentScope as SubscriptionResourceIdentifier;
+                        response = await _restClient.ListNextPageAsync(nextLink, subscription.SubscriptionId, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
+                    }
+                    else if (policyAssignmentScope.GetType() == typeof(ResourceGroupResourceIdentifier))
+                    {
+                        var resourceGroupId = policyAssignmentScope as ResourceGroupResourceIdentifier;
+                        if (policyAssignmentScope.ResourceType.Equals(ResourceGroupOperations.ResourceType))
+                        {
+                            response = await _restClient.ListForResourceGroupNextPageAsync(nextLink, resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var resourceProviderNamespace = resourceGroupId.ResourceType.Namespace;
+                            var resourceType = resourceGroupId.ResourceType.Types[resourceGroupId.ResourceType.Types.Count - 1];
+                            var resourceName = resourceGroupId.Name;
+                            var parent = resourceGroupId.Parent;
+                            var parentParts = new List<string>();
+                            while (!parent.ResourceType.Equals(ResourceGroupOperations.ResourceType))
+                            {
+                                parentParts.Insert(0, $"{parent.ResourceType.Types[parent.ResourceType.Types.Count - 1]}/{parent.Name}");
+                                parent = parent.Parent;
+                            }
+                            var parentResourcePath = parentParts.Count > 0 ? string.Join("/", parentParts) : "";
+                            response = await _restClient.ListForResourceNextPageAsync(nextLink, resourceGroupId.SubscriptionId, resourceGroupId.ResourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter, top, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        }
+                    }
+                    else
+                    {
+                        throw new ArgumentException($"Invalid scope: {policyAssignmentScope}.", nameof(policyAssignmentScope));
+                    }
                     return Page.FromValues(response.Value.Value.Select(value => new PolicyAssignment(this, value)), response.Value.NextLink, response.GetRawResponse());
                 }
                 catch (Exception e)
