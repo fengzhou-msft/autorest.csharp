@@ -5,7 +5,6 @@
 
 #nullable disable
 
-using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
 
@@ -15,60 +14,28 @@ namespace Azure.ResourceManager.Resources.Models
     {
         internal static ErrorResponse DeserializeErrorResponse(JsonElement element)
         {
-            Optional<string> code = default;
-            Optional<string> message = default;
-            Optional<string> target = default;
-            Optional<IReadOnlyList<ErrorResponse>> details = default;
-            Optional<IReadOnlyList<ErrorAdditionalInfo>> additionalInfo = default;
+            Optional<string> httpStatus = default;
+            Optional<string> errorCode = default;
+            Optional<string> errorMessage = default;
             foreach (var property in element.EnumerateObject())
             {
-                if (property.NameEquals("code"))
+                if (property.NameEquals("httpStatus"))
                 {
-                    code = property.Value.GetString();
+                    httpStatus = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("message"))
+                if (property.NameEquals("errorCode"))
                 {
-                    message = property.Value.GetString();
+                    errorCode = property.Value.GetString();
                     continue;
                 }
-                if (property.NameEquals("target"))
+                if (property.NameEquals("errorMessage"))
                 {
-                    target = property.Value.GetString();
-                    continue;
-                }
-                if (property.NameEquals("details"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    List<ErrorResponse> array = new List<ErrorResponse>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(item.());
-                    }
-                    details = array;
-                    continue;
-                }
-                if (property.NameEquals("additionalInfo"))
-                {
-                    if (property.Value.ValueKind == JsonValueKind.Null)
-                    {
-                        property.ThrowNonNullablePropertyIsNull();
-                        continue;
-                    }
-                    List<ErrorAdditionalInfo> array = new List<ErrorAdditionalInfo>();
-                    foreach (var item in property.Value.EnumerateArray())
-                    {
-                        array.Add(item.());
-                    }
-                    additionalInfo = array;
+                    errorMessage = property.Value.GetString();
                     continue;
                 }
             }
-            return new ErrorResponse(code.Value, message.Value, target.Value, Optional.ToList(details), Optional.ToList(additionalInfo));
+            return new ErrorResponse(httpStatus.Value, errorCode.Value, errorMessage.Value);
         }
     }
 }

@@ -21,6 +21,216 @@ namespace Azure.ResourceManager.Resources
     /// <summary> A class to add extension methods to Subscription. </summary>
     public static partial class SubscriptionExtensions
     {
+        #region Application
+        private static ApplicationsRestOperations GetApplicationsRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
+        {
+            return new ApplicationsRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint);
+        }
+
+        /// <summary> Lists the Applications for this <see cref="SubscriptionOperations" />. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static AsyncPageable<Application> GetApplicationsAsync(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
+        {
+            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetApplicationsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                async Task<Page<Application>> FirstPageFunc(int? pageSizeHint)
+                {
+                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
+                    scope.Start();
+                    try
+                    {
+                        var response = await restOperations.GetBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
+                    }
+                    catch (Exception e)
+                    {
+                        scope.Failed(e);
+                        throw;
+                    }
+                }
+                async Task<Page<Application>> NextPageFunc(string nextLink, int? pageSizeHint)
+                {
+                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
+                    scope.Start();
+                    try
+                    {
+                        var response = await restOperations.GetBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
+                    }
+                    catch (Exception e)
+                    {
+                        scope.Failed(e);
+                        throw;
+                    }
+                }
+                return PageableHelpers.CreateAsyncEnumerable(FirstPageFunc, NextPageFunc);
+            }
+            );
+        }
+
+        /// <summary> Lists the Applications for this <see cref="SubscriptionOperations" />. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static Pageable<Application> GetApplications(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
+        {
+            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetApplicationsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                Page<Application> FirstPageFunc(int? pageSizeHint)
+                {
+                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
+                    scope.Start();
+                    try
+                    {
+                        var response = restOperations.GetBySubscription(cancellationToken: cancellationToken);
+                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
+                    }
+                    catch (Exception e)
+                    {
+                        scope.Failed(e);
+                        throw;
+                    }
+                }
+                Page<Application> NextPageFunc(string nextLink, int? pageSizeHint)
+                {
+                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
+                    scope.Start();
+                    try
+                    {
+                        var response = restOperations.GetBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
+                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
+                    }
+                    catch (Exception e)
+                    {
+                        scope.Failed(e);
+                        throw;
+                    }
+                }
+                return PageableHelpers.CreateEnumerable(FirstPageFunc, NextPageFunc);
+            }
+            );
+        }
+
+        /// <summary> Filters the list of Applications for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="filter"> The string to filter the list. </param>
+        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
+        /// <param name="top"> The number of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static AsyncPageable<GenericResourceExpanded> GetApplicationByNameAsync(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
+        {
+            ResourceFilterCollection filters = new(ApplicationOperations.ResourceType);
+            filters.SubstringFilter = filter;
+            return ResourceListOperations.GetAtContextAsync(subscription, filters, expand, top, cancellationToken);
+        }
+
+        /// <summary> Filters the list of Applications for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="filter"> The string to filter the list. </param>
+        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
+        /// <param name="top"> The number of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static Pageable<GenericResourceExpanded> GetApplicationByName(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
+        {
+            ResourceFilterCollection filters = new(ApplicationOperations.ResourceType);
+            filters.SubstringFilter = filter;
+            return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
+        }
+        #endregion
+
+        #region JitRequestDefinition
+        private static JitRequestsRestOperations GetJitRequestsRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
+        {
+            return new JitRequestsRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint);
+        }
+
+        /// <summary> Retrieves all JIT requests within the subscription. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<JitRequestDefinition>>> GetJitRequestDefinitionsAsync(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
+        {
+            return await subscription.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetJitRequestsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetJitRequestDefinitions");
+                scope.Start();
+                try
+                {
+                    var response = await restOperations.GetBySubscriptionAsync(cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// <summary> Retrieves all JIT requests within the subscription. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<JitRequestDefinition>> GetJitRequestDefinitions(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
+        {
+            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                var restOperations = GetJitRequestsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
+                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetJitRequestDefinitions");
+                scope.Start();
+                try
+                {
+                    var response = restOperations.GetBySubscription(cancellationToken);
+                    return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// <summary> Filters the list of JitRequestDefinitions for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="filter"> The string to filter the list. </param>
+        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
+        /// <param name="top"> The number of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static AsyncPageable<GenericResourceExpanded> GetJitRequestDefinitionByNameAsync(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
+        {
+            ResourceFilterCollection filters = new(JitRequestDefinitionOperations.ResourceType);
+            filters.SubstringFilter = filter;
+            return ResourceListOperations.GetAtContextAsync(subscription, filters, expand, top, cancellationToken);
+        }
+
+        /// <summary> Filters the list of JitRequestDefinitions for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
+        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
+        /// <param name="filter"> The string to filter the list. </param>
+        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
+        /// <param name="top"> The number of results to return. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
+        public static Pageable<GenericResourceExpanded> GetJitRequestDefinitionByName(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
+        {
+            ResourceFilterCollection filters = new(JitRequestDefinitionOperations.ResourceType);
+            filters.SubstringFilter = filter;
+            return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
+        }
+        #endregion
+
         #region PolicyDefinition
         /// <summary> Gets an object representing a PolicyDefinitionContainer along with the instance operations that can be performed on it. </summary>
         /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
@@ -265,216 +475,6 @@ namespace Azure.ResourceManager.Resources
         public static Pageable<GenericResourceExpanded> GetDeploymentScriptByName(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
         {
             ResourceFilterCollection filters = new(DeploymentScriptOperations.ResourceType);
-            filters.SubstringFilter = filter;
-            return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
-        }
-        #endregion
-
-        #region Application
-        private static ApplicationsRestOperations GetApplicationsRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
-        {
-            return new ApplicationsRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint);
-        }
-
-        /// <summary> Lists the Applications for this <see cref="SubscriptionOperations" />. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static AsyncPageable<Application> GetApplicationsAsync(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
-        {
-            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
-            {
-                var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetApplicationsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                async Task<Page<Application>> FirstPageFunc(int? pageSizeHint)
-                {
-                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
-                    scope.Start();
-                    try
-                    {
-                        var response = await restOperations.GetBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
-                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
-                    }
-                    catch (Exception e)
-                    {
-                        scope.Failed(e);
-                        throw;
-                    }
-                }
-                async Task<Page<Application>> NextPageFunc(string nextLink, int? pageSizeHint)
-                {
-                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
-                    scope.Start();
-                    try
-                    {
-                        var response = await restOperations.GetBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
-                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
-                    }
-                    catch (Exception e)
-                    {
-                        scope.Failed(e);
-                        throw;
-                    }
-                }
-                return PageableHelpers.CreateAsyncEnumerable(FirstPageFunc, NextPageFunc);
-            }
-            );
-        }
-
-        /// <summary> Lists the Applications for this <see cref="SubscriptionOperations" />. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static Pageable<Application> GetApplications(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
-        {
-            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
-            {
-                var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetApplicationsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                Page<Application> FirstPageFunc(int? pageSizeHint)
-                {
-                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
-                    scope.Start();
-                    try
-                    {
-                        var response = restOperations.GetBySubscription(cancellationToken: cancellationToken);
-                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
-                    }
-                    catch (Exception e)
-                    {
-                        scope.Failed(e);
-                        throw;
-                    }
-                }
-                Page<Application> NextPageFunc(string nextLink, int? pageSizeHint)
-                {
-                    using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetApplications");
-                    scope.Start();
-                    try
-                    {
-                        var response = restOperations.GetBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
-                        return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
-                    }
-                    catch (Exception e)
-                    {
-                        scope.Failed(e);
-                        throw;
-                    }
-                }
-                return PageableHelpers.CreateEnumerable(FirstPageFunc, NextPageFunc);
-            }
-            );
-        }
-
-        /// <summary> Filters the list of Applications for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="filter"> The string to filter the list. </param>
-        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
-        /// <param name="top"> The number of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static AsyncPageable<GenericResourceExpanded> GetApplicationByNameAsync(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
-        {
-            ResourceFilterCollection filters = new(ApplicationOperations.ResourceType);
-            filters.SubstringFilter = filter;
-            return ResourceListOperations.GetAtContextAsync(subscription, filters, expand, top, cancellationToken);
-        }
-
-        /// <summary> Filters the list of Applications for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="filter"> The string to filter the list. </param>
-        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
-        /// <param name="top"> The number of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static Pageable<GenericResourceExpanded> GetApplicationByName(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
-        {
-            ResourceFilterCollection filters = new(ApplicationOperations.ResourceType);
-            filters.SubstringFilter = filter;
-            return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
-        }
-        #endregion
-
-        #region JitRequestDefinition
-        private static JitRequestsRestOperations GetJitRequestsRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
-        {
-            return new JitRequestsRestOperations(clientDiagnostics, pipeline, subscriptionId, endpoint);
-        }
-
-        /// <summary> Retrieves all JIT requests within the subscription. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public static async Task<Response<IReadOnlyList<JitRequestDefinition>>> GetJitRequestDefinitionsAsync(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
-        {
-            return await subscription.UseClientContext(async (baseUri, credential, options, pipeline) =>
-            {
-                var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetJitRequestsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetJitRequestDefinitions");
-                scope.Start();
-                try
-                {
-                    var response = await restOperations.GetBySubscriptionAsync(cancellationToken).ConfigureAwait(false);
-                    return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
-                }
-                catch (Exception e)
-                {
-                    scope.Failed(e);
-                    throw;
-                }
-            }
-            ).ConfigureAwait(false);
-        }
-
-        /// <summary> Retrieves all JIT requests within the subscription. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public static Response<IReadOnlyList<JitRequestDefinition>> GetJitRequestDefinitions(this SubscriptionOperations subscription, CancellationToken cancellationToken = default)
-        {
-            return subscription.UseClientContext((baseUri, credential, options, pipeline) =>
-            {
-                var clientDiagnostics = new ClientDiagnostics(options);
-                var restOperations = GetJitRequestsRestOperations(clientDiagnostics, credential, options, pipeline, subscription.Id.SubscriptionId, baseUri);
-                using var scope = clientDiagnostics.CreateScope("SubscriptionExtensions.GetJitRequestDefinitions");
-                scope.Start();
-                try
-                {
-                    var response = restOperations.GetBySubscription(cancellationToken);
-                    return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
-                }
-                catch (Exception e)
-                {
-                    scope.Failed(e);
-                    throw;
-                }
-            }
-            );
-        }
-
-        /// <summary> Filters the list of JitRequestDefinitions for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="filter"> The string to filter the list. </param>
-        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
-        /// <param name="top"> The number of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static AsyncPageable<GenericResourceExpanded> GetJitRequestDefinitionByNameAsync(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
-        {
-            ResourceFilterCollection filters = new(JitRequestDefinitionOperations.ResourceType);
-            filters.SubstringFilter = filter;
-            return ResourceListOperations.GetAtContextAsync(subscription, filters, expand, top, cancellationToken);
-        }
-
-        /// <summary> Filters the list of JitRequestDefinitions for a <see cref="SubscriptionOperations" /> represented as generic resources. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <param name="filter"> The string to filter the list. </param>
-        /// <param name="expand"> Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. </param>
-        /// <param name="top"> The number of results to return. </param>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <returns> A collection of resource operations that may take multiple service requests to iterate over. </returns>
-        public static Pageable<GenericResourceExpanded> GetJitRequestDefinitionByName(this SubscriptionOperations subscription, string filter, string expand, int? top, CancellationToken cancellationToken = default)
-        {
-            ResourceFilterCollection filters = new(JitRequestDefinitionOperations.ResourceType);
             filters.SubstringFilter = filter;
             return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
         }

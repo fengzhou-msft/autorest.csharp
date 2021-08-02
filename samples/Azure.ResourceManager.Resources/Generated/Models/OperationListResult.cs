@@ -10,7 +10,7 @@ using Azure.Core;
 
 namespace Azure.ResourceManager.Resources.Models
 {
-    /// <summary> Result of the request to list Microsoft.Resources operations. It contains a list of operations and a URL link to get the next set of results. </summary>
+    /// <summary> Result of the request to list Microsoft.Solutions operations. It contains a list of operations and a URL link to get the next set of results. </summary>
     internal partial class OperationListResult
     {
         /// <summary> Initializes a new instance of OperationListResult. </summary>
@@ -19,7 +19,7 @@ namespace Azure.ResourceManager.Resources.Models
             Value = new ChangeTrackingList<Operation>();
         }
 
-        /// <summary> List of Microsoft.Resources operations. </summary>
+        /// <summary> List of Microsoft.Solutions operations. </summary>
         public IReadOnlyList<Operation> Value { get; }
         /// <summary> URL to get the next set of operation list results if there are any. </summary>
         public string NextLink { get; }

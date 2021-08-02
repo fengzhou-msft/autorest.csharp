@@ -886,7 +886,7 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Returns changes that will be made by the deployment if executed at the scope of the subscription. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="deploymentName"> The name of the deployment. </param>
         /// <param name="properties"> The deployment properties. </param>
         /// <param name="location"> The location to store the deployment data. </param>
@@ -920,7 +920,7 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Returns changes that will be made by the deployment if executed at the scope of the subscription. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="deploymentName"> The name of the deployment. </param>
         /// <param name="properties"> The deployment properties. </param>
         /// <param name="location"> The location to store the deployment data. </param>
@@ -982,7 +982,7 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Returns changes that will be made by the deployment if executed at the scope of the resource group. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group the template will be deployed to. The name is case insensitive. </param>
         /// <param name="deploymentName"> The name of the deployment. </param>
         /// <param name="properties"> The deployment properties. </param>
@@ -1021,7 +1021,7 @@ namespace Azure.ResourceManager.Resources
         }
 
         /// <summary> Returns changes that will be made by the deployment if executed at the scope of the resource group. </summary>
-        /// <param name="subscriptionId"> The Microsoft Azure subscription ID. </param>
+        /// <param name="subscriptionId"> The ID of the target subscription. </param>
         /// <param name="resourceGroupName"> The name of the resource group the template will be deployed to. The name is case insensitive. </param>
         /// <param name="deploymentName"> The name of the deployment. </param>
         /// <param name="properties"> The deployment properties. </param>

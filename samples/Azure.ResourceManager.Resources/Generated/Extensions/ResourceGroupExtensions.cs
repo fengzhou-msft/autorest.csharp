@@ -10,16 +10,6 @@ namespace Azure.ResourceManager.Resources
     /// <summary> A class to add extension methods to ResourceGroup. </summary>
     public static partial class ResourceGroupExtensions
     {
-        #region DeploymentScript
-        /// <summary> Gets an object representing a DeploymentScriptContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="DeploymentScriptContainer" /> object. </returns>
-        public static DeploymentScriptContainer GetDeploymentScripts(this ResourceGroupOperations resourceGroup)
-        {
-            return new DeploymentScriptContainer(resourceGroup);
-        }
-        #endregion
-
         #region Application
         /// <summary> Gets an object representing a ApplicationContainer along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
@@ -47,6 +37,16 @@ namespace Azure.ResourceManager.Resources
         public static JitRequestDefinitionContainer GetJitRequestDefinitions(this ResourceGroupOperations resourceGroup)
         {
             return new JitRequestDefinitionContainer(resourceGroup);
+        }
+        #endregion
+
+        #region DeploymentScript
+        /// <summary> Gets an object representing a DeploymentScriptContainer along with the instance operations that can be performed on it. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroupOperations" /> instance the method will execute against. </param>
+        /// <returns> Returns a <see cref="DeploymentScriptContainer" /> object. </returns>
+        public static DeploymentScriptContainer GetDeploymentScripts(this ResourceGroupOperations resourceGroup)
+        {
+            return new DeploymentScriptContainer(resourceGroup);
         }
         #endregion
 

@@ -7,7 +7,7 @@
 
 namespace Azure.ResourceManager.Resources.Models
 {
-    /// <summary> Microsoft.Resources operation. </summary>
+    /// <summary> Microsoft.Solutions operation. </summary>
     internal partial class Operation
     {
         /// <summary> Initializes a new instance of Operation. </summary>

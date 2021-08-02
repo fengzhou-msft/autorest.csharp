@@ -42,5 +42,14 @@
       "Deployments_WhatIfAtManagementGroupScope_POST",
       "Deployments_WhatIfAtSubscriptionScope_POST"
     ]
-  }
+  },
+  "OperationGroupsToOmit": [
+    "Providers",
+    "ProviderResourceTypes",
+    "Resources",
+    "ResourceGroups",
+    "Tags",
+    "Subscriptions",
+    "Tenants"
+  ]
 }

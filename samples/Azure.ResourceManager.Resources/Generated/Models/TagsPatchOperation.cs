@@ -11,7 +11,7 @@ using System.ComponentModel;
 namespace Azure.ResourceManager.Resources.Models
 {
     /// <summary> The operation type for the patch API. </summary>
-    internal readonly partial struct TagsPatchOperation : IEquatable<TagsPatchOperation>
+    public readonly partial struct TagsPatchOperation : IEquatable<TagsPatchOperation>
     {
         private readonly string _value;
 

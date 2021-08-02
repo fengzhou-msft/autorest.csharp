@@ -5,45 +5,32 @@
 
 #nullable disable
 
-using System.Collections.Generic;
-using Azure.Core;
-
 namespace Azure.ResourceManager.Resources.Models
 {
-    /// <summary> Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). </summary>
+    /// <summary> Error response indicates managed application is not able to process the incoming request. The reason is provided in the error message. </summary>
     public partial class ErrorResponse
     {
         /// <summary> Initializes a new instance of ErrorResponse. </summary>
         internal ErrorResponse()
         {
-            Details = new ChangeTrackingList<ErrorResponse>();
-            AdditionalInfo = new ChangeTrackingList<ErrorAdditionalInfo>();
         }
 
         /// <summary> Initializes a new instance of ErrorResponse. </summary>
-        /// <param name="code"> The error code. </param>
-        /// <param name="message"> The error message. </param>
-        /// <param name="target"> The error target. </param>
-        /// <param name="details"> The error details. </param>
-        /// <param name="additionalInfo"> The error additional info. </param>
-        internal ErrorResponse(string code, string message, string target, IReadOnlyList<ErrorResponse> details, IReadOnlyList<ErrorAdditionalInfo> additionalInfo)
+        /// <param name="httpStatus"> Http status code. </param>
+        /// <param name="errorCode"> Error code. </param>
+        /// <param name="errorMessage"> Error message indicating why the operation failed. </param>
+        internal ErrorResponse(string httpStatus, string errorCode, string errorMessage)
         {
-            Code = code;
-            Message = message;
-            Target = target;
-            Details = details;
-            AdditionalInfo = additionalInfo;
+            HttpStatus = httpStatus;
+            ErrorCode = errorCode;
+            ErrorMessage = errorMessage;
         }
 
-        /// <summary> The error code. </summary>
-        public string Code { get; }
-        /// <summary> The error message. </summary>
-        public string Message { get; }
-        /// <summary> The error target. </summary>
-        public string Target { get; }
-        /// <summary> The error details. </summary>
-        public IReadOnlyList<ErrorResponse> Details { get; }
-        /// <summary> The error additional info. </summary>
-        public IReadOnlyList<ErrorAdditionalInfo> AdditionalInfo { get; }
+        /// <summary> Http status code. </summary>
+        public string HttpStatus { get; }
+        /// <summary> Error code. </summary>
+        public string ErrorCode { get; }
+        /// <summary> Error message indicating why the operation failed. </summary>
+        public string ErrorMessage { get; }
     }
 }
