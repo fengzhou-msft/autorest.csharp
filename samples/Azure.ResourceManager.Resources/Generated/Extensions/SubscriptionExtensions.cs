@@ -231,26 +231,6 @@ namespace Azure.ResourceManager.Resources
         }
         #endregion
 
-        #region PolicyDefinition
-        /// <summary> Gets an object representing a PolicyDefinitionContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="PolicyDefinitionContainer" /> object. </returns>
-        public static PolicyDefinitionContainer GetPolicyDefinitionContainer(this SubscriptionOperations subscription)
-        {
-            return new PolicyDefinitionContainer(subscription);
-        }
-        #endregion
-
-        #region PolicySetDefinition
-        /// <summary> Gets an object representing a PolicySetDefinitionContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="PolicySetDefinitionContainer" /> object. </returns>
-        public static PolicySetDefinitionContainer GetPolicySetDefinitionContainer(this SubscriptionOperations subscription)
-        {
-            return new PolicySetDefinitionContainer(subscription);
-        }
-        #endregion
-
         #region DeploymentScript
         private static DeploymentScriptsRestOperations GetDeploymentScriptsRestOperations(ClientDiagnostics clientDiagnostics, TokenCredential credential, ArmClientOptions clientOptions, HttpPipeline pipeline, string subscriptionId, Uri endpoint = null)
         {
@@ -477,16 +457,6 @@ namespace Azure.ResourceManager.Resources
             ResourceFilterCollection filters = new(DeploymentScriptOperations.ResourceType);
             filters.SubstringFilter = filter;
             return ResourceListOperations.GetAtContext(subscription, filters, expand, top, cancellationToken);
-        }
-        #endregion
-
-        #region PolicyAssignment
-        /// <summary> Gets an object representing a PolicyAssignmentContainer along with the instance operations that can be performed on it. </summary>
-        /// <param name="subscription"> The <see cref="SubscriptionOperations" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="PolicyAssignmentContainer" /> object. </returns>
-        public static PolicyAssignmentContainer GetPolicyAssignmentContainer(this SubscriptionOperations subscription)
-        {
-            return new PolicyAssignmentContainer(subscription);
         }
         #endregion
     }
