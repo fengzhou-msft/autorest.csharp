@@ -1,7 +1,7 @@
 {
   "OutputFolder": ".",
   "Namespace": "Azure.ResourceManager.Resources",
-  "LibraryName": null,
+  "LibraryName": "Resources",
   "SharedSourceFolders": [
     "..\\..\\..\\artifacts\\bin\\AutoRest.CSharp\\Debug\\netcoreapp3.1\\Generator.Shared",
     "..\\..\\..\\artifacts\\bin\\AutoRest.CSharp\\Debug\\netcoreapp3.1\\Azure.Core.Shared"

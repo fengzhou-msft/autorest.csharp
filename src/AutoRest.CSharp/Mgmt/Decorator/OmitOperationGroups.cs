@@ -16,6 +16,25 @@ namespace AutoRest.CSharp.Mgmt.Decorator
         private static HashSet<Schema> _schemasToOmit = new HashSet<Schema>();
         private static HashSet<Schema> _schemasToKeep = new HashSet<Schema>();
 
+        private static HashSet<string>? _modelsInCore = null;
+
+        public static bool ShouldSkipModel(string namespaceName, string name, BuildContext<MgmtOutputLibrary> context)
+        {
+            if (_modelsInCore == null)
+            {
+                _modelsInCore = new HashSet<string>();
+                foreach (var schema in _schemasToKeep)
+                {
+                    if (context.SourceInputModel?.FindForType($"{context.Configuration.Namespace!}.Models", schema.Language.Default.Name) != null)
+                    {
+                        _modelsInCore.Add($"{context.Configuration.Namespace!}.Models.{schema.Language.Default.Name}");
+                    }
+                }
+                _modelsInCore.Add("Azure.ResourceManager.Resources.Models.SubResource");
+            }
+            return _modelsInCore.Contains($"{namespaceName}.{name}");
+        }
+
         public static void RemoveOperationGroups(CodeModel codeModel, BuildContext<MgmtOutputLibrary> context)
         {
             var operationGroupsToOmit = context.Configuration.MgmtConfiguration.OperationGroupsToOmit;
@@ -38,7 +57,20 @@ namespace AutoRest.CSharp.Mgmt.Decorator
                         DetectSchemasToOmit(codeModel, operationGroup);
                     }
                 }
-                _schemasToOmit = _schemasToOmit.Except(_schemasToKeep).ToHashSet();
+                var schemasToRemove = _schemasToOmit.Except(_schemasToKeep).ToHashSet();
+                // if (context.Configuration.LibraryName != null && context.Configuration.LibraryName == "Resources")
+                // {
+                //     var sharedSchemas =_schemasToOmit.Intersect(_schemasToKeep);
+                //     foreach (var schema in sharedSchemas)
+                //     {
+                //         if (context.SourceInputModel?.FindForType($"{context.Configuration.Namespace!}.Models", schema.Language.Default.Name) != null)
+                //         {
+                //             SkipCoreModels.Add($"{context.Configuration.Namespace!}.Models.{schema.Language.Default.Name}");
+                //         }
+                //     }
+                // }
+                _schemasToOmit = schemasToRemove;
+                var names = _schemasToOmit.Select(s => s.Name).ToList();
                 RemoveSchemas(codeModel);
             }
         }

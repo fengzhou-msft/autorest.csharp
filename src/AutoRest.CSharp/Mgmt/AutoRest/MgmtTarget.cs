@@ -26,6 +26,10 @@ namespace AutoRest.CSharp.AutoRest.Plugins
 
             foreach (var model in context.Library.Models)
             {
+                if (OmitOperationGroups.ShouldSkipModel(model.Declaration.Namespace, model.Declaration.Name, context))
+                {
+                    continue;
+                }
                 var codeWriter = new CodeWriter();
                 modelWriter.WriteModel(codeWriter, model);
 

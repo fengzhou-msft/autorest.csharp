@@ -15,11 +15,13 @@ namespace Azure.ResourceManager.Resources.Models
         {
         }
 
-        /// <summary> Service provider: Microsoft.Solutions. </summary>
+        /// <summary> Service provider: Microsoft.Resources. </summary>
         public string Provider { get; }
-        /// <summary> Resource on which the operation is performed: Application, JitRequest, etc. </summary>
+        /// <summary> Resource on which the operation is performed: Profile, endpoint, etc. </summary>
         public string Resource { get; }
         /// <summary> Operation type: Read, write, delete, etc. </summary>
         public string Operation { get; }
+        /// <summary> Description of the operation. </summary>
+        public string Description { get; }
     }
 }
