@@ -30,11 +30,11 @@ namespace Azure.ResourceManager.Resources.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    error = ErrorResponse.DeserializeErrorResponse(property.Value);
+                    error = JsonSerializer.Deserialize<ErrorResponse>(property.Value.ToString());
                     continue;
                 }
             }
-            return new StatusMessage(status.Value, error.Value);
+            return new StatusMessage(status.Value, error);
         }
     }
 }

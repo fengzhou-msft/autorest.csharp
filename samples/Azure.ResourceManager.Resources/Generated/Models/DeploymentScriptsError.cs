@@ -16,13 +16,13 @@ namespace Azure.ResourceManager.Resources.Models
         }
 
         /// <summary> Initializes a new instance of DeploymentScriptsError. </summary>
-        /// <param name="error"> Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). </param>
-        internal DeploymentScriptsError(ErrorResponse error)
+        /// <param name="errorResponse"> Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). </param>
+        internal DeploymentScriptsError(ErrorResponse errorResponse)
         {
-            Error = error;
+            ErrorResponse = errorResponse;
         }
 
         /// <summary> Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). </summary>
-        public ErrorResponse Error { get; }
+        public ErrorResponse ErrorResponse { get; }
     }
 }

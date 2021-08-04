@@ -25,7 +25,7 @@ namespace Azure.ResourceManager.Resources.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    error = ErrorResponse.DeserializeErrorResponse(property.Value);
+                    error = JsonSerializer.Deserialize<ErrorResponse>(property.Value.ToString());
                     continue;
                 }
                 if (property.NameEquals("properties"))
@@ -39,7 +39,7 @@ namespace Azure.ResourceManager.Resources.Models
                     continue;
                 }
             }
-            return new DeploymentValidateResult(error.Value, properties.Value);
+            return new DeploymentValidateResult(error, properties.Value);
         }
     }
 }

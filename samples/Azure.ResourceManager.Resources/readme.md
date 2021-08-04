@@ -57,8 +57,6 @@ operation-groups-to-omit:
    Providers;ProviderResourceTypes;Resources;ResourceGroups;Tags;Subscriptions;Tenants
 merge-operations:
   WhatIf: Deployments_WhatIf_POST;Deployments_WhatIfAtTenantScope_POST;Deployments_WhatIfAtManagementGroupScope_POST;Deployments_WhatIfAtSubscriptionScope_POST
-skip-models:
-  Azure.ResourceManager.Resources: ProviderOperations
 directive:
   - from: swagger-document
     where: $.paths

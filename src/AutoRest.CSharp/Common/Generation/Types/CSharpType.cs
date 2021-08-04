@@ -3,6 +3,7 @@
 
 using System;
 using System.Buffers;
+using System.Collections;
 using System.Diagnostics;
 using System.Linq;
 using AutoRest.CSharp.Generation.Writers;
@@ -61,6 +62,10 @@ namespace AutoRest.CSharp.Generation.Types
         public Type FrameworkType => _type ?? throw new InvalidOperationException("Not a framework type");
         public TypeProvider Implementation => _implementation ?? throw new InvalidOperationException($"Not implemented type: '{Namespace}.{Name}'");
         public bool IsNullable { get; }
+        public bool IsEnumerableType()
+        {
+            return (_type?.GetInterface(nameof(IEnumerable)) != null);
+        }
 
         protected bool Equals(CSharpType other, bool ignoreNullable)
             => Equals(_implementation, other._implementation) &&

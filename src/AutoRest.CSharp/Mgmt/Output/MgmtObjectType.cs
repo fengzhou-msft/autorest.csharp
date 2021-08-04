@@ -77,6 +77,22 @@ namespace AutoRest.CSharp.Mgmt.Output
 
         private ObjectTypeProperty CreatePropertyType(ObjectTypeProperty objectTypeProperty)
         {
+            if (objectTypeProperty.ValueType.IsEnumerableType())
+            {
+                for (int i = 0; i < objectTypeProperty.ValueType.Arguments.Length; i++)
+                {
+                    var type = objectTypeProperty.ValueType.Arguments[i];
+                    if (!type.IsFrameworkType)
+                    {
+                        var typeToRep = type.Implementation as MgmtObjectType;
+                        if (typeToRep != null)
+                        {
+                            var mh = ReferenceTypePropertyChooser.GetExactMatch(typeToRep);
+                            objectTypeProperty.ValueType.Arguments[i] = mh ?? type;
+                        }
+                    }
+                }
+            }
             ObjectTypeProperty propertyType = objectTypeProperty;
             var typeToReplace = objectTypeProperty.ValueType?.IsFrameworkType == false ? objectTypeProperty.ValueType.Implementation as MgmtObjectType : null;
             if (typeToReplace != null)
