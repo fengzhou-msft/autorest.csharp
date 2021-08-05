@@ -18,7 +18,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
 
         private static HashSet<string>? _modelsInCore = null;
 
-        public static bool ShouldSkipModel(string namespaceName, string name, BuildContext<MgmtOutputLibrary> context)
+        public static bool ShouldSkipModelWrite(string namespaceName, string name, BuildContext<MgmtOutputLibrary> context)
         {
             if (_modelsInCore == null)
             {
@@ -30,10 +30,8 @@ namespace AutoRest.CSharp.Mgmt.Decorator
                         _modelsInCore.Add($"{context.Configuration.Namespace!}.Models.{schema.Language.Default.Name}");
                     }
                 }
+                // SubResource is not referenced by other models in Resources, need to add it explicitly.
                 _modelsInCore.Add("Azure.ResourceManager.Resources.Models.SubResource");
-                _modelsInCore.Add("Azure.ResourceManager.Resources.Models.UserAssignedIdentity");
-                _modelsInCore.Add("Azure.ResourceManager.Resources.Models.ProviderAuthorizationConsentState");
-                // _modelsInCore.Add("Azure.ResourceManager.Resources.Models.Provider");
             }
             return _modelsInCore.Contains($"{namespaceName}.{name}");
         }
