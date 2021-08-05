@@ -32,6 +32,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
                 }
                 _modelsInCore.Add("Azure.ResourceManager.Resources.Models.SubResource");
                 _modelsInCore.Add("Azure.ResourceManager.Resources.Models.UserAssignedIdentity");
+                _modelsInCore.Add("Azure.ResourceManager.Resources.Models.ProviderAuthorizationConsentState");
                 // _modelsInCore.Add("Azure.ResourceManager.Resources.Models.Provider");
             }
             return _modelsInCore.Contains($"{namespaceName}.{name}");
