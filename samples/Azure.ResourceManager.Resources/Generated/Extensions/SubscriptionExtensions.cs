@@ -43,7 +43,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -58,7 +58,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -88,7 +88,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetBySubscription(cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllBySubscription(cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -103,7 +103,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new Application(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -165,7 +165,7 @@ namespace Azure.ResourceManager.Resources
                 scope.Start();
                 try
                 {
-                    var response = await restOperations.GetBySubscriptionAsync(cancellationToken).ConfigureAwait(false);
+                    var response = await restOperations.GetAllBySubscriptionAsync(cancellationToken).ConfigureAwait(false);
                     return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -190,7 +190,7 @@ namespace Azure.ResourceManager.Resources
                 scope.Start();
                 try
                 {
-                    var response = restOperations.GetBySubscription(cancellationToken);
+                    var response = restOperations.GetAllBySubscription(cancellationToken);
                     return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(subscription, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
                 }
                 catch (Exception e)
@@ -253,7 +253,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllBySubscriptionAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -268,7 +268,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllBySubscriptionNextPageAsync(nextLink, cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -298,7 +298,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetBySubscription(cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllBySubscription(cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -313,7 +313,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllBySubscriptionNextPage(nextLink, cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -350,7 +350,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetByResourceGroupAsync(resourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllByResourceGroupAsync(resourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -365,7 +365,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = await restOperations.GetByResourceGroupNextPageAsync(nextLink, resourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
+                        var response = await restOperations.GetAllByResourceGroupNextPageAsync(nextLink, resourceGroupName, cancellationToken: cancellationToken).ConfigureAwait(false);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -402,7 +402,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetByResourceGroup(resourceGroupName, cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllByResourceGroup(resourceGroupName, cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)
@@ -417,7 +417,7 @@ namespace Azure.ResourceManager.Resources
                     scope.Start();
                     try
                     {
-                        var response = restOperations.GetByResourceGroupNextPage(nextLink, resourceGroupName, cancellationToken: cancellationToken);
+                        var response = restOperations.GetAllByResourceGroupNextPage(nextLink, resourceGroupName, cancellationToken: cancellationToken);
                         return Page.FromValues(response.Value.Value.Select(value => new DeploymentScript(subscription, value)), response.Value.NextLink, response.GetRawResponse());
                     }
                     catch (Exception e)

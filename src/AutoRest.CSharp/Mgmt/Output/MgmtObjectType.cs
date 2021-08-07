@@ -77,6 +77,8 @@ namespace AutoRest.CSharp.Mgmt.Output
 
         private ObjectTypeProperty CreatePropertyType(ObjectTypeProperty objectTypeProperty)
         {
+            if (_context.Configuration.LibraryName == "Core")
+                return objectTypeProperty;
             if (objectTypeProperty.ValueType.IsEnumerableType())
             {
                 for (int i = 0; i < objectTypeProperty.ValueType.Arguments.Length; i++)
@@ -92,12 +94,13 @@ namespace AutoRest.CSharp.Mgmt.Output
                         }
                     }
                 }
+                return objectTypeProperty;
             }
             ObjectTypeProperty propertyType = objectTypeProperty;
             var typeToReplace = objectTypeProperty.ValueType?.IsFrameworkType == false ? objectTypeProperty.ValueType.Implementation as MgmtObjectType : null;
             if (typeToReplace != null)
             {
-                var match = ReferenceTypePropertyChooser.GetExactMatch(objectTypeProperty, typeToReplace, typeToReplace.MyProperties);
+                var match = ReferenceTypePropertyChooser.GetExactMatch(objectTypeProperty, typeToReplace);
                 if (match != null)
                 {
                     propertyType = match;

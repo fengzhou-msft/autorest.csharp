@@ -6,6 +6,8 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -305,6 +307,42 @@ namespace Azure.ResourceManager.Resources
 
                 var response = await GetIfExistsAsync(jitRequestName, cancellationToken: cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(response.Value != null, response.GetRawResponse());
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Retrieves all JIT requests within the resource group. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual async Task<Response<IReadOnlyList<JitRequestDefinition>>> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionContainer.GetAll");
+            scope.Start();
+            try
+            {
+                var response = await _restClient.GetAllByResourceGroupAsync(Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(Parent, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
+            }
+            catch (Exception e)
+            {
+                scope.Failed(e);
+                throw;
+            }
+        }
+
+        /// <summary> Retrieves all JIT requests within the resource group. </summary>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public virtual Response<IReadOnlyList<JitRequestDefinition>> GetAll(CancellationToken cancellationToken = default)
+        {
+            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionContainer.GetAll");
+            scope.Start();
+            try
+            {
+                var response = _restClient.GetAllByResourceGroup(Id.ResourceGroupName, cancellationToken);
+                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(Parent, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
             }
             catch (Exception e)
             {

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Nullable>annotations</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IncludeManagementSharedCode>true</IncludeManagementSharedCode>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../azure-sdk-for-net/sdk/resourcemanager/Azure.ResourceManager/src/Azure.ResourceManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Core" Version="1.17.0" />
+  </ItemGroup>
+
+</Project>

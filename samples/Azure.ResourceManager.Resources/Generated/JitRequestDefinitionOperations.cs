@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -372,78 +371,6 @@ namespace Azure.ResourceManager.Resources
             {
                 var response = _restClient.Update(Id.ResourceGroupName, Id.Name, tags, cancellationToken);
                 return Response.FromValue(new JitRequestDefinition(this, response.Value), response.GetRawResponse());
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Retrieves all JIT requests within the subscription. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<IReadOnlyList<JitRequestDefinition>>> GetBySubscriptionAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionOperations.GetBySubscription");
-            scope.Start();
-            try
-            {
-                var response = await _restClient.GetBySubscriptionAsync(cancellationToken).ConfigureAwait(false);
-                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(this, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Retrieves all JIT requests within the subscription. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<IReadOnlyList<JitRequestDefinition>> GetBySubscription(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionOperations.GetBySubscription");
-            scope.Start();
-            try
-            {
-                var response = _restClient.GetBySubscription(cancellationToken);
-                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(this, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Retrieves all JIT requests within the resource group. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual async Task<Response<IReadOnlyList<JitRequestDefinition>>> GetByResourceGroupAsync(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionOperations.GetByResourceGroup");
-            scope.Start();
-            try
-            {
-                var response = await _restClient.GetByResourceGroupAsync(Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
-                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(this, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
-            }
-            catch (Exception e)
-            {
-                scope.Failed(e);
-                throw;
-            }
-        }
-
-        /// <summary> Retrieves all JIT requests within the resource group. </summary>
-        /// <param name="cancellationToken"> The cancellation token to use. </param>
-        public virtual Response<IReadOnlyList<JitRequestDefinition>> GetByResourceGroup(CancellationToken cancellationToken = default)
-        {
-            using var scope = _clientDiagnostics.CreateScope("JitRequestDefinitionOperations.GetByResourceGroup");
-            scope.Start();
-            try
-            {
-                var response = _restClient.GetByResourceGroup(Id.ResourceGroupName, cancellationToken);
-                return Response.FromValue(response.Value.Value.Select(data => new JitRequestDefinition(this, data)).ToArray() as IReadOnlyList<JitRequestDefinition>, response.GetRawResponse());
             }
             catch (Exception e)
             {

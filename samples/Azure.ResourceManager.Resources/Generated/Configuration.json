@@ -11,29 +11,19 @@
   "skip-csproj-packagereference": true,
   "OperationGroupToResourceType": {
     "DeploymentOperations": "Microsoft.Resources/deployments/operations",
-    "ResourceLinks": "Microsoft.Resources/links",
     "Deployments": "Microsoft.Resources/deployments",
-    "DataPolicyManifests": "Microsoft.Authorization/dataPolicyManifests",
     "DeploymentScriptLogs": "Microsoft.Resources/deploymentScripts/logs"
   },
   "OperationGroupToResource": {
     "DeploymentOperations": "DeploymentOperation",
-    "ResourceLinks": "ResourceLink",
     "Deployments": "DeploymentExtended",
     "DeploymentScripts": "DeploymentScript",
     "ApplicationDefinitions": "ApplicationDefinition",
-    "DataPolicyManifests": "DataPolicyManifest",
     "DeploymentScriptLogs": "ScriptLog"
   },
   "OperationGroupToParent": {
     "Deployments": "tenant",
-    "PolicyAssignments": "tenant",
-    "PolicyDefinitions": "tenant",
-    "PolicySetDefinitions": "tenant",
-    "PolicyExemptions": "tenant",
-    "DeploymentScripts": "resourceGroups",
-    "ManagementLocks": "tenant",
-    "ResourceLinks": "tenant"
+    "DeploymentScripts": "resourceGroups"
   },
   "MergeOperations": {
     "WhatIf": [

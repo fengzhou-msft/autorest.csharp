@@ -33,39 +33,34 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             return list;
         }
 
-        public static ObjectTypeProperty? GetExactMatch(ObjectTypeProperty originalType, MgmtObjectType typeToReplace, ObjectTypeProperty[] properties)
+        public static ObjectTypeProperty? GetExactMatch(ObjectTypeProperty originalTypeToReplace, MgmtObjectType typeToReplace)
         {
             foreach (System.Type replacementType in GetReferenceClassCollection())
             {
+                if ($"{typeToReplace.Type.Namespace}.{typeToReplace.Type.Name}" == $"{replacementType.Namespace}.{replacementType.Name}")
+                    return GetObjectTypeProperty(originalTypeToReplace, typeToReplace, replacementType);
+                var attributeObj = replacementType.GetCustomAttributes()?.Where(a => a.GetType().Name == PropertyReferenceAttributeName).First();
+                var propertiesToSkipArray = attributeObj?.GetType().GetProperty("SkipTypes")?.GetValue(attributeObj) as Type[];
+                var propertiesToSkip = new HashSet<string>(propertiesToSkipArray!.Select(p => p.Name));
                 // flatten properties
-                List<PropertyInfo> replacementTypeProperties = replacementType.GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
-                List<PropertyInfo> flattenedReplacementTypeProperties = new List<PropertyInfo>();
-                foreach (var parentProperty in replacementTypeProperties)
-                {
+                List<PropertyInfo> replacementTypeProperties = replacementType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => !propertiesToSkip.Contains(p.PropertyType.Name)).ToList();
+                // List<PropertyInfo> flattenedReplacementTypeProperties = new List<PropertyInfo>();
+                // foreach (var parentProperty in replacementTypeProperties)
+                // {
                     // if (parentProperty.PropertyType.IsClass)
                     // {
                     //     flattenedReplacementTypeProperties.AddRange(parentProperty.PropertyType.GetProperties());
                     // }
                     // else
                     // {
-                    flattenedReplacementTypeProperties.Add(parentProperty);
+                    // flattenedReplacementTypeProperties.Add(parentProperty);
                     // }
-                }
+                // }
+                List<ObjectTypeProperty> typeToReplaceProperties = typeToReplace.MyProperties.Where(p => !propertiesToSkip.Contains(p.ValueType.Name)).ToList();
 
-                var attributeObj = replacementType.GetCustomAttributes()?.First();
-                var propertiesToSkip = attributeObj?.GetType().GetProperty("SkipTypes")?.GetValue(attributeObj) as Type[];
-                List<ObjectTypeProperty> typeToReplaceProperties = new List<ObjectTypeProperty>();
-                foreach (var property in properties)
+                if (PropertyMatchDetection.IsEqual(replacementTypeProperties, typeToReplaceProperties))
                 {
-                    if (propertiesToSkip != null && !propertiesToSkip.Any(p => p.Name == property.ValueType.Name))
-                    {
-                        typeToReplaceProperties.Add(property);
-                    }
-                }
-
-                if (PropertyMatchDetection.IsEqual(flattenedReplacementTypeProperties, typeToReplaceProperties))
-                {
-                    return GetObjectTypeProperty(originalType, typeToReplace, replacementType);
+                    return GetObjectTypeProperty(originalTypeToReplace, typeToReplace, replacementType);
                 }
             }
             return null;
@@ -75,35 +70,14 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             var properties = typeToReplace.MyProperties;
             foreach (System.Type replacementType in GetReferenceClassCollection())
             {
-                // flatten properties
-                List<PropertyInfo> replacementTypeProperties = replacementType.GetProperties(BindingFlags.Public | BindingFlags.Instance).ToList();
-                List<PropertyInfo> flattenedReplacementTypeProperties = new List<PropertyInfo>();
-                foreach (var parentProperty in replacementTypeProperties)
-                {
-                    // if (parentProperty.PropertyType.IsClass)
-                    // {
-                    //     flattenedReplacementTypeProperties.AddRange(parentProperty.PropertyType.GetProperties());
-                    // }
-                    // else
-                    // {
-                    flattenedReplacementTypeProperties.Add(parentProperty);
-                    // }
-                }
+                var attributeObj = replacementType.GetCustomAttributes()?.Where(a => a.GetType().Name == PropertyReferenceAttributeName).First();
+                var propertiesToSkipArray = attributeObj?.GetType().GetProperty("SkipTypes")?.GetValue(attributeObj) as Type[];
+                var propertiesToSkip = new HashSet<string>(propertiesToSkipArray!.Select(p => p.Name));
+                List<PropertyInfo> replacementTypeProperties = replacementType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => !propertiesToSkip.Contains(p.PropertyType.Name)).ToList();
+                List<ObjectTypeProperty> typeToReplaceProperties = typeToReplace.MyProperties.Where(p => !propertiesToSkip.Contains(p.ValueType.Name)).ToList();
 
-                var attributeObj = replacementType.GetCustomAttributes()?.Where(a => a.GetType().Name == "PropertyReferenceTypeAttribute").First();
-                var propertiesToSkip = attributeObj?.GetType().GetProperty("SkipTypes")?.GetValue(attributeObj) as Type[];
-                List<ObjectTypeProperty> typeToReplaceProperties = new List<ObjectTypeProperty>();
-                foreach (var property in properties)
+                if (PropertyMatchDetection.IsEqual(replacementTypeProperties, typeToReplaceProperties))
                 {
-                    if (propertiesToSkip != null && !propertiesToSkip.Any(p => p.Name == property.ValueType.Name))
-                    {
-                        typeToReplaceProperties.Add(property);
-                    }
-                }
-
-                if (PropertyMatchDetection.IsEqual(flattenedReplacementTypeProperties, typeToReplaceProperties))
-                {
-                    // return GetObjectTypeProperty(originalType, typeToReplace, replacementType);
                     return CSharpType.FromSystemType(typeToReplace.Context, replacementType);
                 }
             }

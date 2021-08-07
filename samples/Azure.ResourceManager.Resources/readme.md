@@ -11,16 +11,6 @@ input-file:
     - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/resources.json
     - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Solutions/stable/2019-07-01/managedapplications.json
     - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Resources/stable/2020-10-01/deploymentScripts.json
-    # The below has been moved to core.
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/stable/2020-09-01/policyDefinitions.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/stable/2020-09-01/policySetDefinitions.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/stable/2020-09-01/policyAssignments.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/policyExemptions.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/stable/2020-09-01/dataPolicyManifests.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Authorization/stable/2016-09-01/locks.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Resources/stable/2016-09-01/links.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Resources/stable/2021-01-01/subscriptions.json
-    # - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/91ac14531f0d05b3d6fcf4a817ea0defde59fe63/specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/features.json
 namespace: Azure.ResourceManager.Resources
 model-namespace: false
 public-clients: false
@@ -32,27 +22,17 @@ skip-csproj: true
 payload-flattening-threshold: 2
 operation-group-to-resource-type:
   DeploymentOperations: Microsoft.Resources/deployments/operations
-  ResourceLinks: Microsoft.Resources/links
   Deployments: Microsoft.Resources/deployments
-  DataPolicyManifests: Microsoft.Authorization/dataPolicyManifests
   DeploymentScriptLogs: Microsoft.Resources/deploymentScripts/logs
 operation-group-to-resource:
   DeploymentOperations: DeploymentOperation
-  ResourceLinks: ResourceLink
   Deployments: DeploymentExtended
   DeploymentScripts: DeploymentScript
   ApplicationDefinitions: ApplicationDefinition
-  DataPolicyManifests: DataPolicyManifest
   DeploymentScriptLogs: ScriptLog
 operation-group-to-parent:
   Deployments: tenant
-  PolicyAssignments: tenant
-  PolicyDefinitions: tenant
-  PolicySetDefinitions: tenant
-  PolicyExemptions: tenant
   DeploymentScripts: resourceGroups
-  ManagementLocks: tenant
-  ResourceLinks: tenant
 operation-groups-to-omit:
    Providers;ProviderResourceTypes;Resources;ResourceGroups;Tags;Subscriptions;Tenants
 merge-operations:
@@ -130,9 +110,9 @@ directive:
 #   - remove-operation: Features_Register
 #   - remove-operation: Features_Unregister
   # These methods can be replaced by using other methods in the same operation group, remove for Preview.
-  - remove-operation: PolicyAssignments_DeleteById
-  - remove-operation: PolicyAssignments_CreateById
-  - remove-operation: PolicyAssignments_GetById
+#   - remove-operation: PolicyAssignments_DeleteById
+#   - remove-operation: PolicyAssignments_CreateById
+#   - remove-operation: PolicyAssignments_GetById
   # The input of CreateOrUpdateAtTenantScope/CreateOrUpdateAtManagementGroupScope is using ScopedDeployment, slightly different from the Deployment used by CreateOrUpdateAtScope/CreateOrUpdateAtSubscriptionScope/CreateOrUpdate(AtResourceGroupScope). The only difference is that location property is required in ScopeDeployment. Let's just use the general AtScope methods for Preview.
   - remove-operation: Deployments_DeleteAtTenantScope
   - remove-operation: Deployments_CheckExistenceAtTenantScope
@@ -175,15 +155,15 @@ directive:
   - remove-operation: DeploymentOperations_Get
   - remove-operation: DeploymentOperations_List
 
-  - remove-operation: ManagementLocks_CreateOrUpdateAtResourceGroupLevel
-  - remove-operation: ManagementLocks_CreateOrUpdateAtResourceLevel
-  - remove-operation: ManagementLocks_CreateOrUpdateAtSubscriptionLevel
-  - remove-operation: ManagementLocks_DeleteAtResourceGroupLevel
-  - remove-operation: ManagementLocks_DeleteAtResourceLevel
-  - remove-operation: ManagementLocks_DeleteAtSubscriptionLevel
-  - remove-operation: ManagementLocks_GetAtResourceGroupLevel
-  - remove-operation: ManagementLocks_GetAtResourceLevel
-  - remove-operation: ManagementLocks_GetAtSubscriptionLevel
+#   - remove-operation: ManagementLocks_CreateOrUpdateAtResourceGroupLevel
+#   - remove-operation: ManagementLocks_CreateOrUpdateAtResourceLevel
+#   - remove-operation: ManagementLocks_CreateOrUpdateAtSubscriptionLevel
+#   - remove-operation: ManagementLocks_DeleteAtResourceGroupLevel
+#   - remove-operation: ManagementLocks_DeleteAtResourceLevel
+#   - remove-operation: ManagementLocks_DeleteAtSubscriptionLevel
+#   - remove-operation: ManagementLocks_GetAtResourceGroupLevel
+#   - remove-operation: ManagementLocks_GetAtResourceLevel
+#   - remove-operation: ManagementLocks_GetAtSubscriptionLevel
 
   - remove-operation: Applications_GetById
   - remove-operation: Applications_DeleteById
