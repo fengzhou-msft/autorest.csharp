@@ -27,20 +27,19 @@ namespace AutoRest.CSharp.AutoRest.Plugins
 
             foreach (var model in context.Library.Models)
             {
-                // For the shared models in Core and Resources, we should generate them in Core package and skip in Resources package.
-                if (context.Configuration.LibraryName == "Resources" && context.SourceInputModel?.FindForType($"{model.Declaration.Namespace}", model.Declaration.Name) != null)
+                // For the shared models in Core and Resources/Management, we should generate them in Core package and skip in Resources/Management package.
+                if (context.Configuration.LibraryName != "Core")
                 {
-                    continue;
+                    if (context.SourceInputModel?.FindForType($"{model.Declaration.Namespace}", model.Declaration.Name) != null)
+                    {
+                        continue;
+                    }
+                    var mgmtObj = model as MgmtObjectType;
+                    if (mgmtObj != null && ReferenceTypePropertyChooser.GetExactMatch(mgmtObj) != null)
+                    {
+                        continue;
+                    }
                 }
-                // else
-                // {
-                //     // TODO: should expand to match for all TypeProviders
-                //     var mgmtObj = model as MgmtObjectType;
-                //     if (mgmtObj != null && ReferenceTypePropertyChooser.GetExactMatch(mgmtObj) != null)
-                //     {
-                //         continue;
-                //     }
-                // }
                 var codeWriter = new CodeWriter();
                 modelWriter.WriteModel(codeWriter, model);
 

@@ -79,6 +79,11 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             {
                 return true;
             }
+            // TODO: need to compare subproperties recursively as the property Types may have different names but should avoid infinite loop in cases like ErrorResponse has a property of List<ErrorResponse>.
+            // else if (parentPropertyType.IsClass && matchProperty(parentPropertyType, childPropertyType))
+            // {
+            //     return true;
+            // }
             else if (!(parentPropertyType.IsGenericParameter && IsAssignable(parentPropertyType.BaseType!, childPropertyType)))
             {
                 return false;
@@ -122,24 +127,30 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             {
                 Type parentKeyType = parentPropertyType.GetGenericArguments()[i];
                 CSharpType childKeyType = childPropertyType.Arguments[i];
-                var isArgMatches = false;
-                if (parentKeyType.IsClass && !childKeyType.IsFrameworkType && childKeyType.Implementation as MgmtObjectType != null)
-                {
-                    var mgmtObjectType = childKeyType.Implementation as MgmtObjectType;
-
-                    if (mgmtObjectType != null)
-                    {
-                        isArgMatches = IsEqual(parentKeyType.GetProperties().ToList(), mgmtObjectType.MyProperties.ToList());
-                    }
-                }
-                else
-                {
-                    isArgMatches = ArePropertyTypesMatch(parentKeyType, childKeyType);
-                }
+                var isArgMatches = matchProperty(parentKeyType, childKeyType);
                 if (!isArgMatches)
                     return false;
             }
             return true;
+        }
+
+        private static bool matchProperty(Type parentPropertyType, CSharpType childPropertyType)
+        {
+            var isArgMatches = false;
+            if (parentPropertyType.IsClass && !childPropertyType.IsFrameworkType && childPropertyType.Implementation as MgmtObjectType != null)
+            {
+                var mgmtObjectType = childPropertyType.Implementation as MgmtObjectType;
+
+                if (mgmtObjectType != null)
+                {
+                    isArgMatches = IsEqual(parentPropertyType.GetProperties().ToList(), mgmtObjectType.MyProperties.ToList());
+                }
+            }
+            else
+            {
+                isArgMatches = ArePropertyTypesMatch(parentPropertyType, childPropertyType);
+            }
+            return isArgMatches;
         }
     }
 }

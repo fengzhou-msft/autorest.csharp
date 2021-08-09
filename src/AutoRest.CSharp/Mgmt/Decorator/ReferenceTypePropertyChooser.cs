@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -22,6 +23,8 @@ namespace AutoRest.CSharp.Mgmt.Decorator
     {
         internal const string PropertyReferenceAttributeName = "PropertyReferenceTypeAttribute";
 
+        private static ConcurrentDictionary<MgmtObjectType, CSharpType?> _valueCache = new ConcurrentDictionary<MgmtObjectType, CSharpType?>();
+
         private static IList<System.Type> GetReferenceClassCollection()
         {
             var assembly = Assembly.GetAssembly(typeof(ArmClient));
@@ -35,10 +38,16 @@ namespace AutoRest.CSharp.Mgmt.Decorator
 
         public static CSharpType? GetExactMatch(MgmtObjectType typeToReplace)
         {
+            if (_valueCache.TryGetValue(typeToReplace, out var result))
+                return result;
             foreach (System.Type replacementType in GetReferenceClassCollection())
             {
                 if ($"{typeToReplace.Type.Namespace}.{typeToReplace.Type.Name}" == $"{replacementType.Namespace}.{replacementType.Name}")
-                    return CSharpType.FromSystemType(typeToReplace.Context, replacementType);
+                {
+                    result = CSharpType.FromSystemType(typeToReplace.Context, replacementType);
+                    _valueCache.TryAdd(typeToReplace, result);
+                    return result;
+                }
                 var attributeObj = replacementType.GetCustomAttributes()?.Where(a => a.GetType().Name == PropertyReferenceAttributeName).First();
                 var propertiesToSkipArray = attributeObj?.GetType().GetProperty("SkipTypes")?.GetValue(attributeObj) as Type[];
                 var propertiesToSkip = new HashSet<string>(propertiesToSkipArray!.Select(p => p.Name));
@@ -47,9 +56,12 @@ namespace AutoRest.CSharp.Mgmt.Decorator
 
                 if (PropertyMatchDetection.IsEqual(replacementTypeProperties, typeToReplaceProperties))
                 {
-                    return CSharpType.FromSystemType(typeToReplace.Context, replacementType);
+                    result = CSharpType.FromSystemType(typeToReplace.Context, replacementType);
+                    _valueCache.TryAdd(typeToReplace, result);
+                    return result;
                 }
             }
+            _valueCache.TryAdd(typeToReplace, null);
             return null;
         }
 
