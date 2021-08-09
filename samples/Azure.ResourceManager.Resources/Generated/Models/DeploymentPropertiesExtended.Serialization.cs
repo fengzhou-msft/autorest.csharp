@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using Azure.Core;
+using Azure.ResourceManager.Resources;
 
 namespace Azure.ResourceManager.Resources.Models
 {
@@ -21,7 +22,7 @@ namespace Azure.ResourceManager.Resources.Models
             Optional<DateTimeOffset> timestamp = default;
             Optional<string> duration = default;
             Optional<object> outputs = default;
-            Optional<IReadOnlyList<Provider>> providers = default;
+            Optional<IReadOnlyList<ProviderData>> providers = default;
             Optional<IReadOnlyList<Dependency>> dependencies = default;
             Optional<TemplateLink> templateLink = default;
             Optional<object> parameters = default;
@@ -82,10 +83,10 @@ namespace Azure.ResourceManager.Resources.Models
                         property.ThrowNonNullablePropertyIsNull();
                         continue;
                     }
-                    List<Provider> array = new List<Provider>();
+                    List<ProviderData> array = new List<ProviderData>();
                     foreach (var item in property.Value.EnumerateArray())
                     {
-                        array.Add(Provider.DeserializeProvider(item));
+                        array.Add(JsonSerializer.Deserialize<ProviderData>(item.ToString()));
                     }
                     providers = array;
                     continue;
