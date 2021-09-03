@@ -40,23 +40,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 {
                     foreach (var resource in Context.Library.ArmResources)
                     {
-                        if (resource.OperationGroup.ParentResourceType(Configuration).Equals(ResourceTypeBuilder.ResourceGroups))
-                        {
-                            _writer.Line($"#region {resource.Type.Name}");
-                            if (resource.OperationGroup.TryGetSingletonResourceSuffix(Configuration, out var singletonResourceSuffix))
-                            {
-                                WriteGetSingletonResourceMethod(_writer, resource, singletonResourceSuffix);
-                            }
-                            else
-                            {
-                                // a non-singleton resource must have a resource container
-                                WriteGetResourceContainerMethod(_writer, resource.ResourceContainer!);
-                            }
-                            _writer.LineRaw("#endregion");
-                            _writer.Line();
-                        }
-                        else if ((resource.OperationGroup.IsScopeResource(Configuration) || resource.OperationGroup.IsExtensionResource(Configuration))
-                            && resource.OperationGroup.Operations.Any(op => op.ParentResourceType().Equals(ResourceTypeBuilder.ResourceGroups, StringComparison.InvariantCultureIgnoreCase)))
+                        if (resource.OperationGroup.ParentResourceTypes().Any(rt => rt.Equals(ResourceTypeBuilder.ResourceGroups, StringComparison.InvariantCultureIgnoreCase)))
                         {
                             _writer.Line($"#region {resource.Type.Name}");
                             if (resource.OperationGroup.TryGetSingletonResourceSuffix(Configuration, out var singletonResourceSuffix))

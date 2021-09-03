@@ -678,14 +678,17 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
 
         private void AddToChildNonResourceOperationGroupMap(OperationGroup operationGroup)
         {
-            var parent = operationGroup.ParentResourceType(_mgmtConfiguration);
-            if (_childNonResourceOperationGroups.ContainsKey(parent))
+            var parents = operationGroup.ParentResourceTypes();
+            foreach (var parent in parents)
             {
-                _childNonResourceOperationGroups[parent].Add(operationGroup);
-            }
-            else
-            {
-                _childNonResourceOperationGroups[parent] = new List<OperationGroup>() { operationGroup };
+                if (_childNonResourceOperationGroups.ContainsKey(parent))
+                {
+                    _childNonResourceOperationGroups[parent].Add(operationGroup);
+                }
+                else
+                {
+                    _childNonResourceOperationGroups[parent] = new List<OperationGroup>() { operationGroup };
+                }
             }
         }
 

@@ -43,7 +43,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
         // True when it's a main resource directly under tenant or extension/scope main resource whose parent is set to tenant in readme.
         public static bool IsParentResourceTypeTenant(this OperationGroup operationGroup, MgmtConfiguration config)
         {
-            return operationGroup.ParentResourceType(config) == TenantDetection.TenantName;
+            return operationGroup.ParentResourceTypes().Contains(ResourceTypeBuilder.Tenant);
         }
 
         // True when it's a main resource or sub resource under tenant or extension/scope resource whose parent/ancestor is set to tenant in readme.

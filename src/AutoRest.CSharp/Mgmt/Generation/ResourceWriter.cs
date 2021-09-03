@@ -697,7 +697,7 @@ Check the swagger definition, and use 'operation-group-to-resource' directive to
         {
             foreach (var item in _context.CodeModel.OperationGroups)
             {
-                if (item.ParentResourceType(Config).Equals(_resource.OperationGroup.ResourceType(Config)))
+                if (item.ParentResourceTypes().Any(rt => rt.Equals(_resource.OperationGroup.ResourceType(Config), StringComparison.InvariantCultureIgnoreCase)))
                 {
                     if (item.TryGetSingletonResourceSuffix(Config, out var singletonResourceSuffix))
                     {

@@ -10,6 +10,9 @@ using AutoRest.CSharp.Input;
 using AutoRest.CSharp.Mgmt.AutoRest;
 using AutoRest.CSharp.Mgmt.Output;
 using AutoRest.CSharp.Output.Models.Types;
+using Azure.ResourceManager;
+using Azure.ResourceManager.Management;
+using Azure.ResourceManager.Resources;
 
 namespace AutoRest.CSharp.Mgmt.Decorator
 {
@@ -28,10 +31,25 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             if (_valueCache.TryGetValue(operationGroup, out result))
                 return result;
 
-            if (!config.OperationGroupToParent.TryGetValue(operationGroup.Key, out result))
-            {
-                result = ParentDetection.GetParent(operationGroup, config);
-            }
+            // if (!config.OperationGroupToParent.TryGetValue(operationGroup.Key, out result))
+            // {
+            //     result = ParentDetection.GetParent(operationGroup, config);
+            // }
+            var parentResourceTypes = operationGroup.ParentResourceTypes();
+            if (parentResourceTypes.Count == 1)
+                result = parentResourceTypes.First();
+            else if (parentResourceTypes.Contains(ResourceTypeBuilder.Tenant))
+                result = ResourceTypeBuilder.Tenant;
+            else if (parentResourceTypes.Any(rt => rt.Equals(ResourceTypeBuilder.Subscriptions, StringComparison.InvariantCultureIgnoreCase)) && parentResourceTypes.Any(rt => rt.Equals(ResourceTypeBuilder.ManagementGroups, StringComparison.InvariantCultureIgnoreCase)))
+                result = ResourceTypeBuilder.Tenant;
+            else if (parentResourceTypes.Any(rt => rt.Equals(ResourceTypeBuilder.Subscriptions, StringComparison.InvariantCultureIgnoreCase)))
+                result = ResourceTypeBuilder.Subscriptions;
+            else if (parentResourceTypes.Any(rt => rt.Equals(ResourceTypeBuilder.ManagementGroups, StringComparison.InvariantCultureIgnoreCase)))
+                result = ResourceTypeBuilder.ManagementGroups;
+            else if (parentResourceTypes.Any(rt => rt.Equals(ResourceTypeBuilder.ResourceGroups, StringComparison.InvariantCultureIgnoreCase)))
+                result = ResourceTypeBuilder.ResourceGroups;
+            else
+                result = ResourceTypeBuilder.Tenant;
 
             _valueCache.TryAdd(operationGroup, result);
             return result;
@@ -85,6 +103,72 @@ namespace AutoRest.CSharp.Mgmt.Decorator
                 throw new ArgumentException($"Could not set parent for operations group {operationGroup.Key}. Please add to readme.md");
             }
             return canidateParent;
+        }
+
+        public static HashSet<string> ParentResourceTypes(this OperationGroup operationGroup)
+        {
+            return ParentDetection.GetParents(operationGroup);
+        }
+        private static HashSet<string> GetParents(OperationGroup operationGroup)
+        {
+            var operations = GetBestOperations(operationGroup);
+            return operations.Select(op => op.ParentResourceType()).ToHashSet();
+        }
+
+        // private static string GetParents(OperationGroup operationGroup, MgmtConfiguration config)
+        // {
+        //     var methods = GetBestMethods(operationGroup.OperationHttpMethodMapping());
+        //     var methodParents = new HashSet<ResourceIdentifier>();
+        //     foreach (var method in methods)
+        //     {
+        //         var path = method.Path.Replace("{subscriptionId}", "00000000-0000-0000-0000-000000000000");
+        //         try
+        //         {
+        //             ResourceIdentifier pathId = path;
+        //             if (pathId.Parent != null)
+        //                 methodParents.Add(pathId.Parent);
+        //             else
+        //                 methodParents.Add(ResourceIdentifier.RootResourceIdentifier);
+        //         }
+        //         catch (ArgumentOutOfRangeException)
+        //         {
+        //             // TODO: take care of the resource case
+        //             methodParents.Add(ResourceIdentifier.RootResourceIdentifier);
+        //         }
+        //     }
+        //     if (methodParents.Count == 0)
+        //     {
+        //         throw new ArgumentException($"Could not set parent for operations group {operationGroup.Key}. Please add to readme.md");
+        //     }
+        //     return GetLeastCommonAncestor(methodParents);
+        // }
+
+        // private static string GetLeastCommonAncestor(HashSet<ResourceIdentifier> methodParents)
+        // {
+        //     var terminalParents = (methodParents.Count == 1 ? methodParents.Select(id => id.ResourceType.ToString()).ToHashSet() : methodParents.Select(id => id.TerminalParentResourceType()).ToHashSet());
+        //     if (terminalParents.Contains(Tenant.ResourceType))
+        //         return ResourceTypeBuilder.Tenant;
+        //     else if (terminalParents.Contains(Subscription.ResourceType) && terminalParents.Contains(ManagementGroup.ResourceType))
+        //         return ResourceTypeBuilder.Tenant;
+        //     else if (terminalParents.Contains(Subscription.ResourceType))
+        //         return ResourceTypeBuilder.Subscriptions;
+        //     else if (terminalParents.Contains(ManagementGroup.ResourceType))
+        //         return ResourceTypeBuilder.ManagementGroups;
+        //     else if (terminalParents.Contains(ResourceGroup.ResourceType))
+        //         return ResourceTypeBuilder.ResourceGroups;
+        //     else if (terminalParents.Count == 1)
+        //         return terminalParents.First();
+        //     else
+        //         return ResourceTypeBuilder.Tenant;
+        // }
+
+        private static string TerminalParentResourceType(this ResourceIdentifier id)
+        {
+            while (id.Parent != null)
+            {
+                id = id.Parent;
+            }
+            return id.ResourceType;
         }
 
         public static string AncestorResourceType(this Operation operation)
@@ -186,6 +270,42 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             }
             return null;
         }
+
+        public static IEnumerable<HttpRequest> GetBestMethods(Dictionary<HttpMethod, List<ServiceRequest>> operations)
+        {
+            List<ServiceRequest>? requests;
+
+            if (operations.TryGetValue(HttpMethod.Put, out requests))
+            {
+                return requests.Where(r => (r.Protocol?.Http as HttpRequest) != null).Select(r => (r.Protocol.Http as HttpRequest)!);
+            }
+            if (operations.TryGetValue(HttpMethod.Delete, out requests))
+            {
+                return requests.Where(r => (r.Protocol?.Http as HttpRequest) != null).Select(r => (r.Protocol.Http as HttpRequest)!);
+            }
+            if (operations.TryGetValue(HttpMethod.Patch, out requests))
+            {
+                return requests.Where(r => (r.Protocol?.Http as HttpRequest) != null).Select(r => (r.Protocol.Http as HttpRequest)!);
+            }
+            if (operations.TryGetValue(HttpMethod.Get, out requests)) // optimized which get to return here
+            {
+                return requests.Where(r => (r.Protocol?.Http as HttpRequest) != null).Select(r => (r.Protocol.Http as HttpRequest)!);
+            }
+            return Enumerable.Empty<HttpRequest>();
+        }
+
+        public static IEnumerable<Operation> GetBestOperations(OperationGroup operationGroup)
+        {
+            foreach (var httpMethod in new List<HttpMethod>{HttpMethod.Put, HttpMethod.Delete, HttpMethod.Patch, HttpMethod.Get})
+            {
+                var bestOperations = operationGroup.Operations.Where(op => op.Requests.FirstOrDefault().Protocol.Http is HttpRequest httpRequest && httpRequest.Method == httpMethod);
+                if (bestOperations.Any())
+                    return bestOperations;
+            }
+            return Enumerable.Empty<Operation>();
+        }
+
+
 
         private static ProviderSegment? GetFullProvider(List<ProviderSegment> providerSegments)
         {
