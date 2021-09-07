@@ -105,6 +105,13 @@ namespace AutoRest.CSharp.Mgmt.Decorator
                 schema = GetBodyParameter(output.First(), operationGroup).Schema;
                 return true;
             }
+            if (operationGroup.OperationHttpMethodResponseMapping().TryGetValue(HttpMethod.Get, out var responses))
+            {
+                schema = responses.First().ResponseSchema;
+                if (schema == null)
+                    throw new Exception($"No response schema found! Please add the {operationGroup.Key} to its schema name mapping to readme.md.");
+                return true;
+            }
 
             return false;
         }

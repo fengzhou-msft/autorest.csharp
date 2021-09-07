@@ -145,6 +145,10 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             {
                 return (HttpRequest?)requests[0].Protocol?.Http;
             }
+            if (operationsGroup.OperationHttpMethodMapping().TryGetValue(HttpMethod.Get, out requests))
+            {
+                return (HttpRequest?)requests[0].Protocol?.Http;
+            }
             return null;
         }
     }
