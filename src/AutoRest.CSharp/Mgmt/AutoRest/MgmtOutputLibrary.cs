@@ -61,7 +61,6 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
             OmitOperationGroups.RemoveOperationGroups(codeModel, context);
             _context = context;
             _mgmtConfiguration = context.Configuration.MgmtConfiguration;
-            UpdateSubscriptionIdForTenantIdResource(codeModel);
             _codeModel = codeModel;
             _operationGroups = new Dictionary<string, List<OperationGroup>>();
             _childNonResourceOperationGroups = new Dictionary<string, List<OperationGroup>>();
@@ -76,6 +75,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
             ReorderOperationParameters();
             DecorateOperationGroup();
             UpdateListMethodNames();
+            UpdateSubscriptionIdForTenantIdResource(_codeModel);
         }
 
         private void UpdateListMethodNames()
@@ -611,6 +611,35 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
 
         private void DecorateOperationGroup()
         {
+            var errorGroups = new List<String>();
+            var resourceErrorGroups = new List<String>();
+            foreach (var operationGroup in _codeModel.OperationGroups)
+            {
+                try
+                {
+                    var resource = operationGroup.Resource(_mgmtConfiguration);
+                }
+                catch (Exception)
+                {
+                    resourceErrorGroups.Add(operationGroup.Key);
+                }
+                try
+                {
+                    var resourceType = operationGroup.ResourceType(_mgmtConfiguration);
+                }
+                catch (ArgumentException)
+                {
+                    errorGroups.Add(operationGroup.Key);
+                }
+            }
+            if (resourceErrorGroups.Count > 0)
+            {
+                throw new ArgumentException("Cannot get resource for:\n" + String.Join("\n", resourceErrorGroups));
+            }
+            if (errorGroups.Count > 0)
+            {
+                throw new ArgumentException("Cannot get resource types for:\n" + String.Join("\n", errorGroups));
+            }
             foreach (var operationGroup in _codeModel.OperationGroups)
             {
                 ResourceTypes.Add(operationGroup.ResourceType(_mgmtConfiguration));
