@@ -20,7 +20,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
         {
             if (type.IsFrameworkType)
             {
-                return type.Equals(typeof(string));
+                return type.Equals(typeof(string)) || type.Equals(typeof(Guid));
             }
             else
             {

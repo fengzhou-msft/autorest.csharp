@@ -209,6 +209,7 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
             foreach (var resourceData in ResourceData)
             {
                 var temp = resourceData.Inherits;
+                var propTemp = resourceData.Properties;
             }
 
             //force inheritance evaluation on models
@@ -611,8 +612,9 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
 
         private void DecorateOperationGroup()
         {
-            var errorGroups = new List<String>();
             var resourceErrorGroups = new List<String>();
+            var resourceTypeErrorGroups = new List<String>();
+            var parentErrorGroups = new List<String>();
             foreach (var operationGroup in _codeModel.OperationGroups)
             {
                 try
@@ -629,16 +631,28 @@ namespace AutoRest.CSharp.Mgmt.AutoRest
                 }
                 catch (ArgumentException)
                 {
-                    errorGroups.Add(operationGroup.Key);
+                    resourceTypeErrorGroups.Add(operationGroup.Key);
+                }
+                try
+                {
+                    var parent = operationGroup.ParentResourceType(_mgmtConfiguration);
+                }
+                catch (ArgumentException)
+                {
+                    parentErrorGroups.Add(operationGroup.Key);
                 }
             }
             if (resourceErrorGroups.Count > 0)
             {
                 throw new ArgumentException("Cannot get resource for:\n" + String.Join("\n", resourceErrorGroups));
             }
-            if (errorGroups.Count > 0)
+            if (resourceTypeErrorGroups.Count > 0)
             {
-                throw new ArgumentException("Cannot get resource types for:\n" + String.Join("\n", errorGroups));
+                throw new ArgumentException("Cannot get resource types for:\n" + String.Join("\n", resourceTypeErrorGroups));
+            }
+            if (parentErrorGroups.Count > 0)
+            {
+                throw new ArgumentException("Cannot get parent resource type for:\n" + String.Join("\n", parentErrorGroups));
             }
             foreach (var operationGroup in _codeModel.OperationGroups)
             {

@@ -470,7 +470,9 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 {
                     var parentName = parentNameStack.Pop();
                     // {scope} or {resourceId} is a whole Id, remove ".Name" for it.
-                    parameter.ValueExpression = (parameter.Parameter.Name == "scope" || method.IsByIdMethod()) ? parentName.Substring(0, parentName.LastIndexOf(".Name")) : parentName;
+                    parameter.ValueExpression += (parameter.Parameter.Name == "scope" || method.IsByIdMethod()) ? parentName.Substring(0, parentName.LastIndexOf(".Name")) : parentName;
+                    if (parameter.Parameter.Type.Equals(typeof(Guid)))
+                        parameter.ValueExpression = $"new Guid({parameter.ValueExpression})";
                 }
             }
 

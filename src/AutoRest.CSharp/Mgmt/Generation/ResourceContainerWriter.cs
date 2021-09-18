@@ -439,15 +439,17 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 {
                     if (listMethod.PagingMethod != null)
                     {
-                        WriteList(_writer, false, _resource.Type, listMethod.PagingMethod, "GetAll", $".Select(value => new {_resource.Type.Name}({ContextProperty}, value))");
-                        WriteList(_writer, true, _resource.Type, listMethod.PagingMethod, "GetAll", $".Select(value => new {_resource.Type.Name}({ContextProperty}, value))");
+                        var methodName = _resourceContainer.ListMethods.Count() > 1 ? listMethod.PagingMethod.Name : "GetAll";
+                        WriteList(_writer, false, _resource.Type, listMethod.PagingMethod, methodName, $".Select(value => new {_resource.Type.Name}({ContextProperty}, value))");
+                        WriteList(_writer, true, _resource.Type, listMethod.PagingMethod, methodName, $".Select(value => new {_resource.Type.Name}({ContextProperty}, value))");
                     }
 
                     if (listMethod.ClientMethod != null)
                     {
                         _writer.Line();
-                        WriteClientMethod(_writer, listMethod.ClientMethod, "GetAll", new Diagnostic($"{TypeNameOfThis}.GetAll", Array.Empty<DiagnosticAttribute>()), _resourceContainer.OperationGroup, _context, true);
-                        WriteClientMethod(_writer, listMethod.ClientMethod, "GetAll", new Diagnostic($"{TypeNameOfThis}.GetAll", Array.Empty<DiagnosticAttribute>()), _resourceContainer.OperationGroup, _context, false);
+                        var methodName = _resourceContainer.ListMethods.Count() > 1 ? listMethod.ClientMethod.Name : "GetAll";
+                        WriteClientMethod(_writer, listMethod.ClientMethod, methodName, new Diagnostic($"{TypeNameOfThis}.{methodName}", Array.Empty<DiagnosticAttribute>()), _resourceContainer.OperationGroup, _context, true);
+                        WriteClientMethod(_writer, listMethod.ClientMethod, methodName, new Diagnostic($"{TypeNameOfThis}.{methodName}", Array.Empty<DiagnosticAttribute>()), _resourceContainer.OperationGroup, _context, false);
                     }
                 }
             }
