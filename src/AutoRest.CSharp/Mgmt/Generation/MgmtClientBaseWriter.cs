@@ -473,6 +473,17 @@ namespace AutoRest.CSharp.Mgmt.Generation
                     parameter.ValueExpression += (parameter.Parameter.Name == "scope" || method.IsByIdMethod()) ? parentName.Substring(0, parentName.LastIndexOf(".Name")) : parentName;
                     if (parameter.Parameter.Type.Equals(typeof(Guid)))
                         parameter.ValueExpression = $"new Guid({parameter.ValueExpression})";
+                    else if (!parameter.Parameter.Type.IsFrameworkType && parameter.Parameter.Type.Implementation is EnumType enumType)
+                    {
+                        if (enumType.IsExtendable)
+                        {
+                            parameter.ValueExpression = $"new {enumType.Type}({parameter.ValueExpression})";
+                        }
+                        else
+                        {
+                            parameter.ValueExpression = $"{parameter.ValueExpression}.To{enumType.Declaration.Name}()";
+                        }
+                    }
                 }
             }
 
