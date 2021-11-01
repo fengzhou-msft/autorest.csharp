@@ -13,6 +13,7 @@ using Azure;
 using Azure.Core;
 using Azure.Core.Pipeline;
 using Azure.ResourceManager.Core;
+using ResourceRename.Models;
 
 namespace ResourceRename
 {
@@ -43,7 +44,7 @@ namespace ResourceRename
             _userAgent = HttpMessageUtilities.GetUserAgentName(this, options);
         }
 
-        internal HttpMessage CreateCreateRequest(string resourceGroupName, string sshPublicKeyName, SshPublicKeyInfoData parameters)
+        internal HttpMessage CreateCreateRequest(string resourceGroupName, string sshPublicKeyName, SshPublicKeyProperties properties)
         {
             var message = _pipeline.CreateMessage();
             var request = message.Request;
@@ -60,8 +61,12 @@ namespace ResourceRename
             request.Uri = uri;
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("Content-Type", "application/json");
+            var model = new SshPublicKeyInfoData()
+            {
+                Properties = properties
+            };
             var content = new Utf8JsonRequestContent();
-            content.JsonWriter.WriteObjectValue(parameters);
+            content.JsonWriter.WriteObjectValue(model);
             request.Content = content;
             message.SetProperty("UserAgentOverride", _userAgent);
             return message;
@@ -70,10 +75,10 @@ namespace ResourceRename
         /// <summary> Creates a new SSH public key resource. </summary>
         /// <param name="resourceGroupName"> The name of the resource group. </param>
         /// <param name="sshPublicKeyName"> The name of the SSH public key. </param>
-        /// <param name="parameters"> Parameters supplied to create the SSH public key. </param>
+        /// <param name="properties"> Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="sshPublicKeyName"/>, or <paramref name="parameters"/> is null. </exception>
-        public async Task<Response<SshPublicKeyInfoData>> CreateAsync(string resourceGroupName, string sshPublicKeyName, SshPublicKeyInfoData parameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="sshPublicKeyName"/> is null. </exception>
+        public async Task<Response<SshPublicKeyInfoData>> CreateAsync(string resourceGroupName, string sshPublicKeyName, SshPublicKeyProperties properties = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -83,12 +88,8 @@ namespace ResourceRename
             {
                 throw new ArgumentNullException(nameof(sshPublicKeyName));
             }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
 
-            using var message = CreateCreateRequest(resourceGroupName, sshPublicKeyName, parameters);
+            using var message = CreateCreateRequest(resourceGroupName, sshPublicKeyName, properties);
             await _pipeline.SendAsync(message, cancellationToken).ConfigureAwait(false);
             switch (message.Response.Status)
             {
@@ -108,10 +109,10 @@ namespace ResourceRename
         /// <summary> Creates a new SSH public key resource. </summary>
         /// <param name="resourceGroupName"> The name of the resource group. </param>
         /// <param name="sshPublicKeyName"> The name of the SSH public key. </param>
-        /// <param name="parameters"> Parameters supplied to create the SSH public key. </param>
+        /// <param name="properties"> Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
-        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/>, <paramref name="sshPublicKeyName"/>, or <paramref name="parameters"/> is null. </exception>
-        public Response<SshPublicKeyInfoData> Create(string resourceGroupName, string sshPublicKeyName, SshPublicKeyInfoData parameters, CancellationToken cancellationToken = default)
+        /// <exception cref="ArgumentNullException"> <paramref name="resourceGroupName"/> or <paramref name="sshPublicKeyName"/> is null. </exception>
+        public Response<SshPublicKeyInfoData> Create(string resourceGroupName, string sshPublicKeyName, SshPublicKeyProperties properties = null, CancellationToken cancellationToken = default)
         {
             if (resourceGroupName == null)
             {
@@ -121,12 +122,8 @@ namespace ResourceRename
             {
                 throw new ArgumentNullException(nameof(sshPublicKeyName));
             }
-            if (parameters == null)
-            {
-                throw new ArgumentNullException(nameof(parameters));
-            }
 
-            using var message = CreateCreateRequest(resourceGroupName, sshPublicKeyName, parameters);
+            using var message = CreateCreateRequest(resourceGroupName, sshPublicKeyName, properties);
             _pipeline.Send(message, cancellationToken);
             switch (message.Response.Status)
             {

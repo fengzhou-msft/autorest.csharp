@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -21,22 +22,22 @@ namespace ExactMatchInheritance
     public static partial class ResourceGroupExtensions
     {
         #region ExactMatchModel1
-        /// <summary> Gets an object representing a ExactMatchModel1Container along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a ExactMatchModel1Collection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ExactMatchModel1Container" /> object. </returns>
-        public static ExactMatchModel1Container GetExactMatchModel1s(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="ExactMatchModel1Collection" /> object. </returns>
+        public static ExactMatchModel1Collection GetExactMatchModel1s(this ResourceGroup resourceGroup)
         {
-            return new ExactMatchModel1Container(resourceGroup);
+            return new ExactMatchModel1Collection(resourceGroup);
         }
         #endregion
 
         #region ExactMatchModel5
-        /// <summary> Gets an object representing a ExactMatchModel5Container along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a ExactMatchModel5Collection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ExactMatchModel5Container" /> object. </returns>
-        public static ExactMatchModel5Container GetExactMatchModel5s(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="ExactMatchModel5Collection" /> object. </returns>
+        public static ExactMatchModel5Collection GetExactMatchModel5s(this ResourceGroup resourceGroup)
         {
-            return new ExactMatchModel5Container(resourceGroup);
+            return new ExactMatchModel5Collection(resourceGroup);
         }
         #endregion
 
@@ -55,6 +56,9 @@ namespace ExactMatchInheritance
             return new ExactMatchModel4SRestOperations(clientDiagnostics, pipeline, clientOptions, subscriptionId, endpoint);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel2s/{exactMatchModel2sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel2s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel2SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel2 to use. </param>
@@ -91,6 +95,9 @@ namespace ExactMatchInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel2s/{exactMatchModel2sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel2s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel2SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel2 to use. </param>
@@ -127,6 +134,63 @@ namespace ExactMatchInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_List
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<ExactMatchModel3>>> GetExactMatchModel3sAsync(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return await resourceGroup.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetExactMatchModel3s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetExactMatchModel3SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = await restOperations.ListAsync(resourceGroup.Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_List
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<ExactMatchModel3>> GetExactMatchModel3s(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetExactMatchModel3s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetExactMatchModel3SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = restOperations.List(resourceGroup.Id.ResourceGroupName, cancellationToken);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/{exactMatchModel3sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel3SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel3 to use. </param>
@@ -163,6 +227,9 @@ namespace ExactMatchInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/{exactMatchModel3sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel3SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel3 to use. </param>
@@ -199,6 +266,9 @@ namespace ExactMatchInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/{exactMatchModel3sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_Get
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel3SName"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -230,6 +300,9 @@ namespace ExactMatchInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel3s/{exactMatchModel3sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel3s_Get
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel3SName"> The String to use. </param>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
@@ -261,6 +334,9 @@ namespace ExactMatchInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel4s/{exactMatchModel4sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel4s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel4SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel4 to use. </param>
@@ -297,6 +373,9 @@ namespace ExactMatchInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel4s/{exactMatchModel4sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: ExactMatchModel4s_Put
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="exactMatchModel4SName"> The String to use. </param>
         /// <param name="parameters"> The ExactMatchModel4 to use. </param>

@@ -63,7 +63,7 @@ namespace ExactMatchFlattenInheritance
         }
 
         /// <summary> Gets the resource type for the operations. </summary>
-        public static readonly ResourceType ResourceType = "Microsoft.Compute/azureResourceFlattenModel1";
+        public static readonly ResourceType ResourceType = "Microsoft.Compute/azureResourceFlattenModel1s";
 
         /// <summary> Gets the valid resource type for the operations. </summary>
         protected override ResourceType ValidResourceType => ResourceType;
@@ -83,6 +83,9 @@ namespace ExactMatchFlattenInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel1s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel1s/{name}
+        /// OperationId: AzureResourceFlattenModel1s_Get
         /// <summary> Get an AzureResourceFlattenModel1. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<AzureResourceFlattenModel1>> GetAsync(CancellationToken cancellationToken = default)
@@ -103,6 +106,9 @@ namespace ExactMatchFlattenInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel1s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel1s/{name}
+        /// OperationId: AzureResourceFlattenModel1s_Get
         /// <summary> Get an AzureResourceFlattenModel1. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<AzureResourceFlattenModel1> Get(CancellationToken cancellationToken = default)
@@ -157,7 +163,7 @@ namespace ExactMatchFlattenInheritance
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _azureResourceFlattenModel1sRestClient.GetAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -186,7 +192,7 @@ namespace ExactMatchFlattenInheritance
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _azureResourceFlattenModel1sRestClient.Get(Id.ResourceGroupName, Id.Name, cancellationToken);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -215,7 +221,7 @@ namespace ExactMatchFlattenInheritance
                 await TagResource.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _azureResourceFlattenModel1sRestClient.GetAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -244,7 +250,7 @@ namespace ExactMatchFlattenInheritance
                 TagResource.Delete(cancellationToken: cancellationToken);
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _azureResourceFlattenModel1sRestClient.Get(Id.ResourceGroupName, Id.Name, cancellationToken);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -272,7 +278,7 @@ namespace ExactMatchFlattenInheritance
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _azureResourceFlattenModel1sRestClient.GetAsync(Id.ResourceGroupName, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -300,7 +306,7 @@ namespace ExactMatchFlattenInheritance
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _azureResourceFlattenModel1sRestClient.Get(Id.ResourceGroupName, Id.Name, cancellationToken);
                 return Response.FromValue(new AzureResourceFlattenModel1(this, originalResponse.Value), originalResponse.GetRawResponse());
             }

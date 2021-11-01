@@ -13,12 +13,12 @@ namespace TenantOnly
     public static partial class TenantExtensions
     {
         #region BillingAccount
-        /// <summary> Gets an object representing a BillingAccountContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a BillingAccountCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="BillingAccountContainer" /> object. </returns>
-        public static BillingAccountContainer GetBillingAccounts(this Tenant tenant)
+        /// <returns> Returns a <see cref="BillingAccountCollection" /> object. </returns>
+        public static BillingAccountCollection GetBillingAccounts(this Tenant tenant)
         {
-            return new BillingAccountContainer(tenant);
+            return new BillingAccountCollection(tenant);
         }
         #endregion
     }

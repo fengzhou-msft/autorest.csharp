@@ -21,32 +21,32 @@ namespace MgmtScopeResource
     public static partial class TenantExtensions
     {
         #region PolicyAssignment
-        /// <summary> Gets an object representing a PolicyAssignmentContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a PolicyAssignmentCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="PolicyAssignmentContainer" /> object. </returns>
-        public static PolicyAssignmentContainer GetPolicyAssignments(this Tenant tenant)
+        /// <returns> Returns a <see cref="PolicyAssignmentCollection" /> object. </returns>
+        public static PolicyAssignmentCollection GetPolicyAssignments(this Tenant tenant)
         {
-            return new PolicyAssignmentContainer(tenant);
+            return new PolicyAssignmentCollection(tenant);
         }
         #endregion
 
         #region DeploymentExtended
-        /// <summary> Gets an object representing a DeploymentExtendedContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a DeploymentExtendedCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="DeploymentExtendedContainer" /> object. </returns>
-        public static DeploymentExtendedContainer GetDeploymentExtendeds(this Tenant tenant)
+        /// <returns> Returns a <see cref="DeploymentExtendedCollection" /> object. </returns>
+        public static DeploymentExtendedCollection GetDeploymentExtendeds(this Tenant tenant)
         {
-            return new DeploymentExtendedContainer(tenant);
+            return new DeploymentExtendedCollection(tenant);
         }
         #endregion
 
         #region ResourceLink
-        /// <summary> Gets an object representing a ResourceLinkContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a ResourceLinkCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="ResourceLinkContainer" /> object. </returns>
-        public static ResourceLinkContainer GetResourceLinks(this Tenant tenant)
+        /// <returns> Returns a <see cref="ResourceLinkCollection" /> object. </returns>
+        public static ResourceLinkCollection GetResourceLinks(this Tenant tenant)
         {
-            return new ResourceLinkContainer(tenant);
+            return new ResourceLinkCollection(tenant);
         }
         #endregion
 

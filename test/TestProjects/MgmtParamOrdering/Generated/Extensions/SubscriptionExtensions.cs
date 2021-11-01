@@ -22,12 +22,12 @@ namespace MgmtParamOrdering
     public static partial class SubscriptionExtensions
     {
         #region VirtualMachineExtensionImage
-        /// <summary> Gets an object representing a VirtualMachineExtensionImageContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a VirtualMachineExtensionImageCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="subscription"> The <see cref="Subscription" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="VirtualMachineExtensionImageContainer" /> object. </returns>
-        public static VirtualMachineExtensionImageContainer GetVirtualMachineExtensionImages(this Subscription subscription)
+        /// <returns> Returns a <see cref="VirtualMachineExtensionImageCollection" /> object. </returns>
+        public static VirtualMachineExtensionImageCollection GetVirtualMachineExtensionImages(this Subscription subscription)
         {
-            return new VirtualMachineExtensionImageContainer(subscription);
+            return new VirtualMachineExtensionImageCollection(subscription);
         }
         #endregion
 

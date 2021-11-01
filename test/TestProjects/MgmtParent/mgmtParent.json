@@ -79,11 +79,6 @@
                             "$ref": "#/definitions/AvailabilitySet"
                         }
                     }
-                },
-                "x-ms-examples": {
-                    "Create an availability set.": {
-                        "$ref": "./examples/CreateAnAvailabilitySet.json"
-                    }
                 }
             },
             "patch": {
@@ -239,11 +234,6 @@
                 },
                 "x-ms-pageable": {
                     "nextLinkName": "nextLink"
-                },
-                "x-ms-examples": {
-                    "List availability sets in a subscription.": {
-                        "$ref": "./examples/ListAvailabilitySetsInASubscription.json"
-                    }
                 }
             }
         },
@@ -332,11 +322,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHostGroup"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or update a dedicated host group.": {
-                        "$ref": "./examples/CreateOrUpdateADedicatedHostGroup.json"
                     }
                 }
             },
@@ -472,11 +457,6 @@
                             "$ref": "#/definitions/DedicatedHostGroup"
                         }
                     }
-                },
-                "x-ms-examples": {
-                    "Create a dedicated host group.": {
-                        "$ref": "./examples/GetADedicatedHostGroup.json"
-                    }
                 }
             }
         },
@@ -537,11 +517,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHost"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or update a dedicated host .": {
-                        "$ref": "./examples/CreateOrUpdateADedicatedHost.json"
                     }
                 },
                 "x-ms-long-running-operation": true
@@ -703,11 +678,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHost"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Get a dedicated host.": {
-                        "$ref": "./examples/GetADedicatedHost.json"
                     }
                 }
             }
@@ -1055,6 +1025,25 @@
                 }
             ],
             "description": "Specifies information about the Dedicated host."
+        },
+        "DedicatedHostGroupListResult": {
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DedicatedHostGroup"
+                    },
+                    "description": "The list of dedicated hosts"
+                },
+                "nextLink": {
+                    "type": "string",
+                    "description": "The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts."
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "description": "The list dedicated host operation response."
         },
         "DedicatedHostGroup": {
             "properties": {

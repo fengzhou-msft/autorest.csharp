@@ -63,7 +63,7 @@ namespace SubscriptionExtensions
         }
 
         /// <summary> Gets the resource type for the operations. </summary>
-        public static readonly ResourceType ResourceType = "Microsoft.Compute/availabilitySets";
+        public static readonly ResourceType ResourceType = "Microsoft.Compute/toasters";
 
         /// <summary> Gets the valid resource type for the operations. </summary>
         protected override ResourceType ValidResourceType => ResourceType;
@@ -83,8 +83,8 @@ namespace SubscriptionExtensions
             }
         }
 
-        /// RequestPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
-        /// ContextualPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
+        /// RequestPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/toasters/{toasterName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/toasters/{toasterName}
         /// OperationId: Toasters_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<Toaster>> GetAsync(CancellationToken cancellationToken = default)
@@ -105,8 +105,8 @@ namespace SubscriptionExtensions
             }
         }
 
-        /// RequestPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
-        /// ContextualPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}
+        /// RequestPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/toasters/{toasterName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/providers/Microsoft.Compute/toasters/{toasterName}
         /// OperationId: Toasters_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<Toaster> Get(CancellationToken cancellationToken = default)
@@ -161,7 +161,7 @@ namespace SubscriptionExtensions
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _toastersRestClient.GetAsync(Id.SubscriptionId, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -190,7 +190,7 @@ namespace SubscriptionExtensions
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _toastersRestClient.Get(Id.SubscriptionId, Id.Name, cancellationToken);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -219,7 +219,7 @@ namespace SubscriptionExtensions
                 await TagResource.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _toastersRestClient.GetAsync(Id.SubscriptionId, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -248,7 +248,7 @@ namespace SubscriptionExtensions
                 TagResource.Delete(cancellationToken: cancellationToken);
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _toastersRestClient.Get(Id.SubscriptionId, Id.Name, cancellationToken);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -276,7 +276,7 @@ namespace SubscriptionExtensions
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _toastersRestClient.GetAsync(Id.SubscriptionId, Id.Name, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -304,7 +304,7 @@ namespace SubscriptionExtensions
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _toastersRestClient.Get(Id.SubscriptionId, Id.Name, cancellationToken);
                 return Response.FromValue(new Toaster(this, originalResponse.Value), originalResponse.GetRawResponse());
             }

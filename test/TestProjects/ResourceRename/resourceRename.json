@@ -6,20 +6,12 @@
         "version": "2020-06-01"
     },
     "host": "management.azure.com",
-    "schemes": [
-        "https"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
+    "schemes": ["https"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
     "security": [
         {
-            "azure_auth": [
-                "user_impersonation"
-            ]
+            "azure_auth": ["user_impersonation"]
         }
     ],
     "securityDefinitions": {
@@ -36,9 +28,7 @@
     "paths": {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}": {
             "put": {
-                "tags": [
-                    "SshPublicKeys"
-                ],
+                "tags": ["SshPublicKeys"],
                 "operationId": "SshPublicKeys_Create",
                 "description": "Creates a new SSH public key resource.",
                 "parameters": [
@@ -88,9 +78,7 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "SshPublicKeys"
-                ],
+                "tags": ["SshPublicKeys"],
                 "operationId": "SshPublicKeys_Delete",
                 "description": "Delete an SSH public key.",
                 "parameters": [
@@ -125,9 +113,7 @@
                 }
             },
             "get": {
-                "tags": [
-                    "SshPublicKeys"
-                ],
+                "tags": ["SshPublicKeys"],
                 "operationId": "SshPublicKeys_Get",
                 "description": "Retrieves information about an SSH public key.",
                 "parameters": [
@@ -196,7 +182,8 @@
                     "type": "string",
                     "description": "SSH public key certificate used to authenticate with the VM through ssh. The key needs to be at least 2048-bit and in ssh-rsa format. <br><br> For creating ssh keys, see [Create SSH keys on Linux and Mac for Linux VMs in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-mac-create-ssh-keys?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)."
                 }
-            }
+            },
+            "description": "Contains information about SSH certificate public key and the path on the Linux VM where the public key is placed."
         }
     },
     "parameters": {

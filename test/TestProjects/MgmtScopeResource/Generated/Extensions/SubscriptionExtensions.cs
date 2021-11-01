@@ -21,22 +21,22 @@ namespace MgmtScopeResource
     public static partial class SubscriptionExtensions
     {
         #region PolicyAssignment
-        /// <summary> Gets an object representing a PolicyAssignmentContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a PolicyAssignmentCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="subscription"> The <see cref="Subscription" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="PolicyAssignmentContainer" /> object. </returns>
-        public static PolicyAssignmentContainer GetPolicyAssignments(this Subscription subscription)
+        /// <returns> Returns a <see cref="PolicyAssignmentCollection" /> object. </returns>
+        public static PolicyAssignmentCollection GetPolicyAssignments(this Subscription subscription)
         {
-            return new PolicyAssignmentContainer(subscription);
+            return new PolicyAssignmentCollection(subscription);
         }
         #endregion
 
         #region DeploymentExtended
-        /// <summary> Gets an object representing a DeploymentExtendedContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a DeploymentExtendedCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="subscription"> The <see cref="Subscription" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="DeploymentExtendedContainer" /> object. </returns>
-        public static DeploymentExtendedContainer GetDeploymentExtendeds(this Subscription subscription)
+        /// <returns> Returns a <see cref="DeploymentExtendedCollection" /> object. </returns>
+        public static DeploymentExtendedCollection GetDeploymentExtendeds(this Subscription subscription)
         {
-            return new DeploymentExtendedContainer(subscription);
+            return new DeploymentExtendedCollection(subscription);
         }
         #endregion
 

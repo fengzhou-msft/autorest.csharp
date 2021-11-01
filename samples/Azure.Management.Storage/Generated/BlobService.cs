@@ -217,11 +217,11 @@ namespace Azure.Management.Storage
 
         #region BlobContainer
 
-        /// <summary> Gets a container of BlobContainers in the BlobService. </summary>
+        /// <summary> Gets a collection of BlobContainers in the BlobService. </summary>
         /// <returns> An object representing collection of BlobContainers and their operations over a BlobService. </returns>
-        public BlobContainerContainer GetBlobContainers()
+        public BlobContainerCollection GetBlobContainers()
         {
-            return new BlobContainerContainer(this);
+            return new BlobContainerCollection(this);
         }
         #endregion
     }

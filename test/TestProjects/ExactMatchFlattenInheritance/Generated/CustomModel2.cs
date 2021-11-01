@@ -63,7 +63,7 @@ namespace ExactMatchFlattenInheritance
         }
 
         /// <summary> Gets the resource type for the operations. </summary>
-        public static readonly ResourceType ResourceType = "Microsoft.Compute/customModel2";
+        public static readonly ResourceType ResourceType = "Microsoft.Compute/customModel2s";
 
         /// <summary> Gets the valid resource type for the operations. </summary>
         protected override ResourceType ValidResourceType => ResourceType;
@@ -83,6 +83,9 @@ namespace ExactMatchFlattenInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/customModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/customModel2s/{name}
+        /// OperationId: CustomModel2s_Get
         /// <summary> Get an CustomModel2. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<CustomModel2>> GetAsync(CancellationToken cancellationToken = default)
@@ -103,6 +106,9 @@ namespace ExactMatchFlattenInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/customModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/customModel2s/{name}
+        /// OperationId: CustomModel2s_Get
         /// <summary> Get an CustomModel2. </summary>
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<CustomModel2> Get(CancellationToken cancellationToken = default)

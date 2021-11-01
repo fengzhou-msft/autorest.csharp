@@ -13,12 +13,12 @@ namespace MgmtListMethods
     public static partial class TenantExtensions
     {
         #region TenantTest
-        /// <summary> Gets an object representing a TenantTestContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a TenantTestCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="tenant"> The <see cref="Tenant" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="TenantTestContainer" /> object. </returns>
-        public static TenantTestContainer GetTenantTests(this Tenant tenant)
+        /// <returns> Returns a <see cref="TenantTestCollection" /> object. </returns>
+        public static TenantTestCollection GetTenantTests(this Tenant tenant)
         {
-            return new TenantTestContainer(tenant);
+            return new TenantTestCollection(tenant);
         }
         #endregion
     }

@@ -165,7 +165,7 @@ namespace MgmtListMethods
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _fakesRestClient.GetAsync(Id.Name, null, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -194,7 +194,7 @@ namespace MgmtListMethods
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue[key] = value;
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _fakesRestClient.Get(Id.Name, null, cancellationToken);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -223,7 +223,7 @@ namespace MgmtListMethods
                 await TagResource.DeleteAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _fakesRestClient.GetAsync(Id.Name, null, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -252,7 +252,7 @@ namespace MgmtListMethods
                 TagResource.Delete(cancellationToken: cancellationToken);
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.ReplaceWith(tags);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _fakesRestClient.Get(Id.Name, null, cancellationToken);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -280,7 +280,7 @@ namespace MgmtListMethods
             {
                 var originalTags = await TagResource.GetAsync(cancellationToken).ConfigureAwait(false);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                await TagContainer.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
+                await TagResource.CreateOrUpdateAsync(originalTags.Value.Data, cancellationToken: cancellationToken).ConfigureAwait(false);
                 var originalResponse = await _fakesRestClient.GetAsync(Id.Name, null, cancellationToken).ConfigureAwait(false);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -308,7 +308,7 @@ namespace MgmtListMethods
             {
                 var originalTags = TagResource.Get(cancellationToken);
                 originalTags.Value.Data.Properties.TagsValue.Remove(key);
-                TagContainer.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
+                TagResource.CreateOrUpdate(originalTags.Value.Data, cancellationToken: cancellationToken);
                 var originalResponse = _fakesRestClient.Get(Id.Name, null, cancellationToken);
                 return Response.FromValue(new Fake(this, originalResponse.Value), originalResponse.GetRawResponse());
             }
@@ -321,61 +321,61 @@ namespace MgmtListMethods
 
         #region FakeParentWithAncestorWithNonResChWithLoc
 
-        /// <summary> Gets a container of FakeParentWithAncestorWithNonResChWithLocs in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParentWithAncestorWithNonResChWithLocs in the Fake. </summary>
         /// <returns> An object representing collection of FakeParentWithAncestorWithNonResChWithLocs and their operations over a Fake. </returns>
-        public FakeParentWithAncestorWithNonResChWithLocContainer GetFakeParentWithAncestorWithNonResChWithLocs()
+        public FakeParentWithAncestorWithNonResChWithLocCollection GetFakeParentWithAncestorWithNonResChWithLocs()
         {
-            return new FakeParentWithAncestorWithNonResChWithLocContainer(this);
+            return new FakeParentWithAncestorWithNonResChWithLocCollection(this);
         }
         #endregion
 
         #region FakeParentWithAncestorWithNonResCh
 
-        /// <summary> Gets a container of FakeParentWithAncestorWithNonResChes in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParentWithAncestorWithNonResChes in the Fake. </summary>
         /// <returns> An object representing collection of FakeParentWithAncestorWithNonResChes and their operations over a Fake. </returns>
-        public FakeParentWithAncestorWithNonResChContainer GetFakeParentWithAncestorWithNonResChes()
+        public FakeParentWithAncestorWithNonResChCollection GetFakeParentWithAncestorWithNonResChes()
         {
-            return new FakeParentWithAncestorWithNonResChContainer(this);
+            return new FakeParentWithAncestorWithNonResChCollection(this);
         }
         #endregion
 
         #region FakeParentWithAncestorWithLoc
 
-        /// <summary> Gets a container of FakeParentWithAncestorWithLocs in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParentWithAncestorWithLocs in the Fake. </summary>
         /// <returns> An object representing collection of FakeParentWithAncestorWithLocs and their operations over a Fake. </returns>
-        public FakeParentWithAncestorWithLocContainer GetFakeParentWithAncestorWithLocs()
+        public FakeParentWithAncestorWithLocCollection GetFakeParentWithAncestorWithLocs()
         {
-            return new FakeParentWithAncestorWithLocContainer(this);
+            return new FakeParentWithAncestorWithLocCollection(this);
         }
         #endregion
 
         #region FakeParentWithAncestor
 
-        /// <summary> Gets a container of FakeParentWithAncestors in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParentWithAncestors in the Fake. </summary>
         /// <returns> An object representing collection of FakeParentWithAncestors and their operations over a Fake. </returns>
-        public FakeParentWithAncestorContainer GetFakeParentWithAncestors()
+        public FakeParentWithAncestorCollection GetFakeParentWithAncestors()
         {
-            return new FakeParentWithAncestorContainer(this);
+            return new FakeParentWithAncestorCollection(this);
         }
         #endregion
 
         #region FakeParentWithNonResCh
 
-        /// <summary> Gets a container of FakeParentWithNonResChes in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParentWithNonResChes in the Fake. </summary>
         /// <returns> An object representing collection of FakeParentWithNonResChes and their operations over a Fake. </returns>
-        public FakeParentWithNonResChContainer GetFakeParentWithNonResChes()
+        public FakeParentWithNonResChCollection GetFakeParentWithNonResChes()
         {
-            return new FakeParentWithNonResChContainer(this);
+            return new FakeParentWithNonResChCollection(this);
         }
         #endregion
 
         #region FakeParent
 
-        /// <summary> Gets a container of FakeParents in the Fake. </summary>
+        /// <summary> Gets a collection of FakeParents in the Fake. </summary>
         /// <returns> An object representing collection of FakeParents and their operations over a Fake. </returns>
-        public FakeParentContainer GetFakeParents()
+        public FakeParentCollection GetFakeParents()
         {
-            return new FakeParentContainer(this);
+            return new FakeParentCollection(this);
         }
         #endregion
     }

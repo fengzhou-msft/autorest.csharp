@@ -74,14 +74,14 @@ namespace AutoRest.CSharp.Mgmt.Generation
                 if (resource.IsSingleton)
                     WriteSingletonResourceEntry(resource, resource.SingletonResourceIdSuffix!);
                 else
-                    WriteResourceContainerEntry(resource);
+                    WriteResourceCollectionEntry(resource);
                 _writer.Line($"#endregion");
             }
         }
 
         protected abstract void WriteSingletonResourceEntry(Resource resource, string singletonResourceIdSuffix);
 
-        protected abstract void WriteResourceContainerEntry(Resource resource);
+        protected abstract void WriteResourceCollectionEntry(Resource resource);
 
         protected void WriteUsings(CodeWriter writer)
         {
@@ -184,10 +184,15 @@ namespace AutoRest.CSharp.Mgmt.Generation
         protected void WriteMethod(MgmtClientOperation clientOperation, bool async)
         {
             // we need to identify this operation belongs to which category: NormalMethod, NormalListMethod, LROMethod or PagingMethod
-            if (clientOperation.IsLongRunningOperation())
+            if (clientOperation.IsLongRunningOperation() && !clientOperation.IsPagingOperation(Context))
             {
-                // this is a long-running operation
+                // this is a non-pageable long-running operation
                 WriteLROMethod(clientOperation, async);
+            }
+            else if (clientOperation.IsLongRunningOperation() && clientOperation.IsPagingOperation(Context))
+            {
+                // this is a pageable long-running operation
+                throw new NotImplementedException($"Pageable LRO is not implemented yet, please use `remove-operation` directive to remove the following operationIds: {string.Join(", ", clientOperation.Select(o => o.OperationId))}");
             }
             else if (clientOperation.IsPagingOperation(Context))
             {

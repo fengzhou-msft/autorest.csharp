@@ -79,11 +79,6 @@
                             "$ref": "#/definitions/AvailabilitySet"
                         }
                     }
-                },
-                "x-ms-examples": {
-                    "Create an availability set.": {
-                        "$ref": "./examples/CreateAnAvailabilitySet.json"
-                    }
                 }
             },
             "patch": {
@@ -239,11 +234,6 @@
                 },
                 "x-ms-pageable": {
                     "nextLinkName": "nextLink"
-                },
-                "x-ms-examples": {
-                    "List availability sets in a subscription.": {
-                        "$ref": "./examples/ListAvailabilitySetsInASubscription.json"
-                    }
                 }
             }
         },
@@ -279,6 +269,52 @@
                 },
                 "x-ms-pageable": {
                     "nextLinkName": "nextLink"
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups": {
+            "get": {
+                "tags": [
+                    "DedicatedHostGroups"
+                ],
+                "operationId": "DedicatedHostGroups_List",
+                "description": "Retrieves information about a dedicated host group.",
+                "parameters": [
+                    {
+                        "name": "resourceGroupName",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "The name of the resource group."
+                    },
+                    {
+                        "name": "$expand",
+                        "in": "query",
+                        "required": false,
+                        "type": "string",
+                        "description": "The expand expression to apply on the operation. The response shows the list of instance view of the dedicated hosts under the dedicated host group.",
+                        "enum": [
+                            "instanceView"
+                        ],
+                        "x-ms-enum": {
+                            "name": "InstanceViewTypes",
+                            "modelAsString": false
+                        }
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/DedicatedHostGroupListResult"
+                        }
+                    }
                 }
             }
         },
@@ -332,11 +368,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHostGroup"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or update a dedicated host group.": {
-                        "$ref": "./examples/CreateOrUpdateADedicatedHostGroup.json"
                     }
                 }
             },
@@ -472,11 +503,6 @@
                             "$ref": "#/definitions/DedicatedHostGroup"
                         }
                     }
-                },
-                "x-ms-examples": {
-                    "Create a dedicated host group.": {
-                        "$ref": "./examples/GetADedicatedHostGroup.json"
-                    }
                 }
             }
         },
@@ -537,11 +563,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHost"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Create or update a dedicated host .": {
-                        "$ref": "./examples/CreateOrUpdateADedicatedHost.json"
                     }
                 },
                 "x-ms-long-running-operation": true
@@ -703,11 +724,6 @@
                         "schema": {
                             "$ref": "#/definitions/DedicatedHost"
                         }
-                    }
-                },
-                "x-ms-examples": {
-                    "Get a dedicated host.": {
-                        "$ref": "./examples/GetADedicatedHost.json"
                     }
                 }
             }
@@ -913,6 +929,46 @@
                 "x-ms-odata": "#/definitions/VirtualMachineExtensionImage"
             }
         },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments": {
+            "get": {
+                "tags": [
+                    "EnvironmentContainer"
+                ],
+                "summary": "Get container.",
+                "operationId": "EnvironmentContainers_List",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/WorkspaceNameParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/EnvironmentContainerResourceListResult"
+                        }
+                    }
+                }
+            }
+        },
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}": {
             "delete": {
                 "tags": [
@@ -1064,6 +1120,40 @@
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/EnvironmentContainerResource"
+                        }
+                    }
+                }
+            }
+        },
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces": {
+            "get": {
+                "tags": [
+                    "Workspaces"
+                ],
+                "description": "Gets the properties of the specified machine learning workspace.",
+                "operationId": "Workspaces_List",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/ApiVersionParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/SubscriptionIdParameter"
+                    },
+                    {
+                        "$ref": "#/parameters/ResourceGroupNameParameter"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The request was successful; the request was well-formed and received properly.",
+                        "schema": {
+                            "$ref": "#/definitions/WorkspaceListResult"
+                        }
+                    },
+                    "default": {
+                        "description": "Error response describing why the operation failed",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 }
@@ -1386,6 +1476,25 @@
             ],
             "description": "Specifies information about the Dedicated host."
         },
+        "DedicatedHostGroupListResult": {
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/DedicatedHostGroup"
+                    },
+                    "description": "The list of dedicated hosts"
+                },
+                "nextLink": {
+                    "type": "string",
+                    "description": "The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts."
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "description": "The list dedicated host operation response."
+        },
         "DedicatedHostGroup": {
             "properties": {
                 "foo": {
@@ -1563,6 +1672,25 @@
             },
             "description": "The resource management error additional info."
         },
+        "EnvironmentContainerResourceListResult": {
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EnvironmentContainerResource"
+                    },
+                    "description": "The list of dedicated hosts"
+                },
+                "nextLink": {
+                    "type": "string",
+                    "description": "The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts."
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "description": "The list dedicated host operation response."
+        },
         "EnvironmentContainerResource": {
             "description": "Azure Resource Manager resource envelope.",
             "required": [
@@ -1666,6 +1794,25 @@
                 }
             },
             "additionalProperties": false
+        },
+        "WorkspaceListResult": {
+            "properties": {
+                "value": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Workspace"
+                    },
+                    "description": "The list of dedicated hosts"
+                },
+                "nextLink": {
+                    "type": "string",
+                    "description": "The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the next page of dedicated hosts."
+                }
+            },
+            "required": [
+                "value"
+            ],
+            "description": "The list dedicated host operation response."
         },
         "Workspace": {
             "type": "object",

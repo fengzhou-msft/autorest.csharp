@@ -12,5 +12,6 @@ public-clients: false
 head-as-boolean: false
 modelerfour:
   lenient-model-deduplication: true
+
 show-request-path: true
 ```

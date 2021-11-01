@@ -13,12 +13,12 @@ namespace ResourceRename
     public static partial class ResourceGroupExtensions
     {
         #region SshPublicKeyInfo
-        /// <summary> Gets an object representing a SshPublicKeyInfoContainer along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a SshPublicKeyInfoCollection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="SshPublicKeyInfoContainer" /> object. </returns>
-        public static SshPublicKeyInfoContainer GetSshPublicKeyInfos(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="SshPublicKeyInfoCollection" /> object. </returns>
+        public static SshPublicKeyInfoCollection GetSshPublicKeyInfos(this ResourceGroup resourceGroup)
         {
-            return new SshPublicKeyInfoContainer(resourceGroup);
+            return new SshPublicKeyInfoCollection(resourceGroup);
         }
         #endregion
     }

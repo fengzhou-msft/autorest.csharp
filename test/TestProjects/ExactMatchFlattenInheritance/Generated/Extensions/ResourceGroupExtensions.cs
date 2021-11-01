@@ -6,6 +6,7 @@
 #nullable disable
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure;
@@ -21,32 +22,32 @@ namespace ExactMatchFlattenInheritance
     public static partial class ResourceGroupExtensions
     {
         #region AzureResourceFlattenModel1
-        /// <summary> Gets an object representing a AzureResourceFlattenModel1Container along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a AzureResourceFlattenModel1Collection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="AzureResourceFlattenModel1Container" /> object. </returns>
-        public static AzureResourceFlattenModel1Container GetAzureResourceFlattenModel1s(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="AzureResourceFlattenModel1Collection" /> object. </returns>
+        public static AzureResourceFlattenModel1Collection GetAzureResourceFlattenModel1s(this ResourceGroup resourceGroup)
         {
-            return new AzureResourceFlattenModel1Container(resourceGroup);
+            return new AzureResourceFlattenModel1Collection(resourceGroup);
         }
         #endregion
 
         #region CustomModel2
-        /// <summary> Gets an object representing a CustomModel2Container along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a CustomModel2Collection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="CustomModel2Container" /> object. </returns>
-        public static CustomModel2Container GetCustomModel2s(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="CustomModel2Collection" /> object. </returns>
+        public static CustomModel2Collection GetCustomModel2s(this ResourceGroup resourceGroup)
         {
-            return new CustomModel2Container(resourceGroup);
+            return new CustomModel2Collection(resourceGroup);
         }
         #endregion
 
         #region CustomModel3
-        /// <summary> Gets an object representing a CustomModel3Container along with the instance operations that can be performed on it. </summary>
+        /// <summary> Gets an object representing a CustomModel3Collection along with the instance operations that can be performed on it. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
-        /// <returns> Returns a <see cref="CustomModel3Container" /> object. </returns>
-        public static CustomModel3Container GetCustomModel3s(this ResourceGroup resourceGroup)
+        /// <returns> Returns a <see cref="CustomModel3Collection" /> object. </returns>
+        public static CustomModel3Collection GetCustomModel3s(this ResourceGroup resourceGroup)
         {
-            return new CustomModel3Container(resourceGroup);
+            return new CustomModel3Collection(resourceGroup);
         }
         #endregion
 
@@ -70,6 +71,65 @@ namespace ExactMatchFlattenInheritance
             return new AzureResourceFlattenModel5SRestOperations(clientDiagnostics, pipeline, clientOptions, subscriptionId, endpoint);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_List
+        /// <summary> Get an AzureResourceFlattenModel2. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<AzureResourceFlattenModel2>>> GetAzureResourceFlattenModel2sAsync(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return await resourceGroup.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel2s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel2SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = await restOperations.ListAsync(resourceGroup.Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_List
+        /// <summary> Get an AzureResourceFlattenModel2. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<AzureResourceFlattenModel2>> GetAzureResourceFlattenModel2s(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel2s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel2SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = restOperations.List(resourceGroup.Id.ResourceGroupName, cancellationToken);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_Put
         /// <summary> Create or update an AzureResourceFlattenModel2. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -107,6 +167,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_Put
         /// <summary> Create or update an AzureResourceFlattenModel2. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -144,6 +207,9 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_Get
         /// <summary> Get an AzureResourceFlattenModel2. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -176,6 +242,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel2s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel2s_Get
         /// <summary> Get an AzureResourceFlattenModel2. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -208,6 +277,65 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_List
+        /// <summary> Get an AzureResourceFlattenModel3. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<AzureResourceFlattenModel3>>> GetAzureResourceFlattenModel3sAsync(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return await resourceGroup.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel3s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel3SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = await restOperations.ListAsync(resourceGroup.Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_List
+        /// <summary> Get an AzureResourceFlattenModel3. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<AzureResourceFlattenModel3>> GetAzureResourceFlattenModel3s(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel3s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel3SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = restOperations.List(resourceGroup.Id.ResourceGroupName, cancellationToken);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_Put
         /// <summary> Create or update an AzureResourceFlattenModel3. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -245,6 +373,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_Put
         /// <summary> Create or update an AzureResourceFlattenModel3. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -282,6 +413,9 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_Get
         /// <summary> Get an AzureResourceFlattenModel3. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -314,6 +448,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel3s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel3s_Get
         /// <summary> Get an AzureResourceFlattenModel3. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -346,6 +483,65 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_List
+        /// <summary> Get an AzureResourceFlattenModel4. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<AzureResourceFlattenModel4>>> GetAzureResourceFlattenModel4sAsync(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return await resourceGroup.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel4s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel4SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = await restOperations.ListAsync(resourceGroup.Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_List
+        /// <summary> Get an AzureResourceFlattenModel4. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<AzureResourceFlattenModel4>> GetAzureResourceFlattenModel4s(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel4s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel4SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = restOperations.List(resourceGroup.Id.ResourceGroupName, cancellationToken);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_Put
         /// <summary> Create or update an AzureResourceFlattenModel4. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -383,6 +579,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_Put
         /// <summary> Create or update an AzureResourceFlattenModel4. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -420,6 +619,9 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_Get
         /// <summary> Get an AzureResourceFlattenModel4. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -452,6 +654,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel4s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel4s_Get
         /// <summary> Get an AzureResourceFlattenModel4. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -484,6 +689,65 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_List
+        /// <summary> Get an AzureResourceFlattenModel5. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static async Task<Response<IReadOnlyList<AzureResourceFlattenModel5>>> GetAzureResourceFlattenModel5sAsync(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return await resourceGroup.UseClientContext(async (baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel5s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel5SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = await restOperations.ListAsync(resourceGroup.Id.ResourceGroupName, cancellationToken).ConfigureAwait(false);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            ).ConfigureAwait(false);
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_List
+        /// <summary> Get an AzureResourceFlattenModel5. </summary>
+        /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
+        /// <param name="cancellationToken"> The cancellation token to use. </param>
+        public static Response<IReadOnlyList<AzureResourceFlattenModel5>> GetAzureResourceFlattenModel5s(this ResourceGroup resourceGroup, CancellationToken cancellationToken = default)
+        {
+            return resourceGroup.UseClientContext((baseUri, credential, options, pipeline) =>
+            {
+                var clientDiagnostics = new ClientDiagnostics(options);
+                using var scope = clientDiagnostics.CreateScope("ResourceGroupExtensions.GetAzureResourceFlattenModel5s");
+                scope.Start();
+                try
+                {
+                    var restOperations = GetAzureResourceFlattenModel5SRestOperations(clientDiagnostics, credential, options, pipeline, resourceGroup.Id.SubscriptionId, baseUri);
+                    var response = restOperations.List(resourceGroup.Id.ResourceGroupName, cancellationToken);
+                    return Response.FromValue(response.Value.Value, response.GetRawResponse());
+                }
+                catch (Exception e)
+                {
+                    scope.Failed(e);
+                    throw;
+                }
+            }
+            );
+        }
+
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_Put
         /// <summary> Create or update an AzureResourceFlattenModel5. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -517,6 +781,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_Put
         /// <summary> Create or update an AzureResourceFlattenModel5. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -550,6 +817,9 @@ namespace ExactMatchFlattenInheritance
             );
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_Get
         /// <summary> Get an AzureResourceFlattenModel5. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>
@@ -582,6 +852,9 @@ namespace ExactMatchFlattenInheritance
             ).ConfigureAwait(false);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/azureResourceFlattenModel5s/{name}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}
+        /// OperationId: AzureResourceFlattenModel5s_Get
         /// <summary> Get an AzureResourceFlattenModel5. </summary>
         /// <param name="resourceGroup"> The <see cref="ResourceGroup" /> instance the method will execute against. </param>
         /// <param name="name"> The String to use. </param>

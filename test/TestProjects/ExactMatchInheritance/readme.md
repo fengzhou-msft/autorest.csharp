@@ -9,4 +9,5 @@ azure-arm: true
 model-namespace: false
 input-file: $(this-folder)/ExactMatchInheritance.json
 namespace: ExactMatchInheritance
+show-request-path: true
 ```

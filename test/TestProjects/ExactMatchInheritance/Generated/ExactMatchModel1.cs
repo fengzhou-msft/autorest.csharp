@@ -83,6 +83,9 @@ namespace ExactMatchInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel1s/{exactMatchModel1sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel1s/{exactMatchModel1sName}
+        /// OperationId: ExactMatchModel1s_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<ExactMatchModel1>> GetAsync(CancellationToken cancellationToken = default)
         {
@@ -102,6 +105,9 @@ namespace ExactMatchInheritance
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel1s/{exactMatchModel1sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/exactMatchModel1s/{exactMatchModel1sName}
+        /// OperationId: ExactMatchModel1s_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<ExactMatchModel1> Get(CancellationToken cancellationToken = default)
         {

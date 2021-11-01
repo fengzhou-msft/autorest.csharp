@@ -88,6 +88,9 @@ namespace OmitOperationGroups
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// OperationId: Model2s_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<Model2>> GetAsync(CancellationToken cancellationToken = default)
         {
@@ -107,6 +110,9 @@ namespace OmitOperationGroups
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// OperationId: Model2s_Get
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<Model2> Get(CancellationToken cancellationToken = default)
         {
@@ -142,6 +148,9 @@ namespace OmitOperationGroups
             return ListAvailableLocations(ResourceType, cancellationToken);
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}/model4s/default
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// OperationId: Model4s_GetDefault
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public async virtual Task<Response<Model4>> GetDefaultModel4Async(CancellationToken cancellationToken = default)
         {
@@ -159,6 +168,9 @@ namespace OmitOperationGroups
             }
         }
 
+        /// RequestPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}/model4s/default
+        /// ContextualPath: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/model2s/{model2sName}
+        /// OperationId: Model4s_GetDefault
         /// <param name="cancellationToken"> The cancellation token to use. </param>
         public virtual Response<Model4> GetDefaultModel4(CancellationToken cancellationToken = default)
         {
