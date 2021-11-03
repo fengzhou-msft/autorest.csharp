@@ -55,6 +55,7 @@ namespace AutoRest.CSharp.Mgmt.Decorator
         {
             if (_valueCache.TryGetValue(typeToReplace.ObjectSchema, out var result))
                 return result;
+            SchemaPropertyTracker.Add(typeToReplace.ObjectSchema);
 
             if (!typeToReplace.ShouldNotReplaceForProperty())
             {

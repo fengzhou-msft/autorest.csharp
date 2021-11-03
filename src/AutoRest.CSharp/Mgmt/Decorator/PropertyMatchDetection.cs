@@ -29,14 +29,20 @@ namespace AutoRest.CSharp.Mgmt.Decorator
             {
                 parentDict.Add(parentProperty.Name, parentProperty);
             }
-
+            var result = true;
             foreach (var childProperty in childProperties)
             {
-                if (!DoesPropertyExistInParent(childProperty, parentDict, propertiesInComparison))
-                    return false;
+                if (result)
+                {
+                    result = result & DoesPropertyExistInParent(childProperty, parentDict, propertiesInComparison);
+                }
+                if (childProperty.SchemaProperty?.Schema != null)
+                {
+                    SchemaPropertyTracker.Add(childProperty.SchemaProperty.Schema);
+                }
             }
 
-            return true;
+            return result;
         }
 
         internal static bool DoesPropertyExistInParent(ObjectTypeProperty childProperty, Dictionary<string, PropertyInfo> parentDict, Dictionary<Type, CSharpType>? propertiesInComparison = null)
@@ -122,9 +128,31 @@ namespace AutoRest.CSharp.Mgmt.Decorator
 
         private static bool IsMatchingGenericType(System.Type parentPropertyType, CSharpType childPropertyType, Dictionary<Type, CSharpType>? propertiesInComparison = null)
         {
+            if (childPropertyType.IsFrameworkType && childPropertyType.FrameworkType.IsGenericType)
+            {
+                foreach (var arg in childPropertyType.Arguments)
+                {
+                    if (!arg.IsFrameworkType)
+                    {
+                        var mgmtObjectType = arg.Implementation as MgmtObjectType;
+                        if (mgmtObjectType != null)
+                        {
+                            SchemaPropertyTracker.Add(mgmtObjectType.ObjectSchema);
+                        }
+                    }
+                }
+            }
             var parentGenericTypeDef = parentPropertyType.GetGenericTypeDefinition();
             if (parentGenericTypeDef == typeof(Nullable<>))
             {
+                if (!childPropertyType.IsFrameworkType)
+                {
+                    var mgmtObjectType = childPropertyType.Implementation as MgmtObjectType;
+                    if (mgmtObjectType != null)
+                    {
+                        SchemaPropertyTracker.Add(mgmtObjectType.ObjectSchema);
+                    }
+                }
                 if (!childPropertyType.IsNullable)
                     return false;
                 else

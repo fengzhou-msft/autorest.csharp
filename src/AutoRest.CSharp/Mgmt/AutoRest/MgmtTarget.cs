@@ -162,7 +162,7 @@ namespace AutoRest.CSharp.AutoRest.Plugins
                 }
                 else if (inheritanceResult != null || propertyResult != null)
                     return true;
-                else if (model is MgmtObjectType mgmtObjType && model.GetType() != typeof(MgmtReferenceType))
+                else if (model is MgmtObjectType mgmtObjType && model.GetType() != typeof(MgmtReferenceType) && SchemaPropertyTracker.Contains(mgmtObjType.ObjectSchema))
                 {
                     //In the cache of ReferenceTypePropertyChooser, only models used as a direct property of another model is stored.
                     //There could be orphaned models that are not a direct property of another model and is not tracked by cache.
