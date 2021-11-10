@@ -72,7 +72,17 @@ namespace AutoRest.CSharp.Mgmt.Output
             if (_context.Library.RestClientMethods[operation].IsListMethod(out _))
             {
                 suffix = operationGroup.Key.IsNullOrEmpty() ? string.Empty : operationGroup.Key.ToPlural();
-                return $"{operation.MgmtCSharpName(!suffix.IsNullOrEmpty())}{suffix}";
+                var opName = operation.MgmtCSharpName(!suffix.IsNullOrEmpty());
+                // Remove 'By[Resource]' if the method is put in the [Resource] class. For instance, GetByDatabaseDatabaseColumns now becomes GetDatabaseColumns under Database resource class.
+                if (resourceOperationGroup?.Key.IsNullOrEmpty() == false && opName.EndsWith($"By{resourceOperationGroup.Key.ToSingular()}"))
+                {
+                    opName = opName.Substring(0, opName.IndexOf($"By{resourceOperationGroup.Key.ToSingular()}"));
+                }
+                else if (opName.StartsWith("GetBy") && opName.SplitByCamelCase().ToList()[1] == "By") // For other variants, move By[Resource] to the end. For instance, GetByInstanceServerTrustGroups becomes GetServerTrustGroupsByInstance.
+                {
+                    return $"Get{suffix}{opName.Substring(opName.IndexOf("By"))}";
+                }
+                return $"{opName}{suffix}";
             }
             suffix = operationGroup.Key.IsNullOrEmpty() ? string.Empty : operationGroup.Key.ToSingular();
             return $"{operation.MgmtCSharpName(!suffix.IsNullOrEmpty())}{suffix}";
