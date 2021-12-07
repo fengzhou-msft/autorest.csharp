@@ -84,20 +84,15 @@ namespace AutoRest.CSharp.AutoRest.Plugins
             RequestPathToResourceName = !IsValidJsonElement(requestPathToResourceName) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(requestPathToResourceName.ToString());
             RequestPathToResourceData = !IsValidJsonElement(requestPathToResourceData) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(requestPathToResourceData.ToString());
             RequestPathToResourceType = !IsValidJsonElement(requestPathToResourceType) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(requestPathToResourceType.ToString());
-            RequestPathToScopeResourceTypes = !IsValidJsonElement(requestPathToScopeResourceTypes) ? new Dictionary<string, string[]>() : JsonSerializer.Deserialize<Dictionary<string, string[]>>(requestPathToScopeResourceTypes.ToString());
             RequestPathToSingletonResource = !IsValidJsonElement(requestPathToSingletonResource) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(requestPathToSingletonResource.ToString());
             OverrideOperationName = !IsValidJsonElement(overrideOperationName) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(overrideOperationName.ToString());
             MgmtDebug = mgmtDebug;
             // TODO: A unified way to load from both readme and configuration.json
-            try
-            {
-                MergeOperations = !IsValidJsonElement(mergeOperations) ? new Dictionary<string, string[]>() : JsonSerializer.Deserialize<Dictionary<string, string[]>>(mergeOperations.ToString());
-            }
-            catch (JsonException)
-            {
-                var mergeOperationsStrDict = !IsValidJsonElement(mergeOperations) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(mergeOperations.ToString());
-                MergeOperations = mergeOperationsStrDict.ToDictionary(kv => kv.Key, kv => kv.Value.Split(";"));
-            }
+            var mergeOperationsStrDict = !IsValidJsonElement(mergeOperations) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(mergeOperations.ToString());
+            MergeOperations = mergeOperationsStrDict.ToDictionary(kv => kv.Key, kv => kv.Value.Split(";"));
+            var requestPathToScopeResourceTypesStrDict = !IsValidJsonElement(requestPathToScopeResourceTypes) ? new Dictionary<string, string>() : JsonSerializer.Deserialize<Dictionary<string, string>>(requestPathToScopeResourceTypes.ToString());
+            RequestPathToScopeResourceTypes = requestPathToScopeResourceTypesStrDict.ToDictionary(kv => kv.Key, kv => kv.Value.Split(";"));
+
             OperationGroupsToOmit = operationGroupsToOmit;
             RequestPathIsNonResource = requestPathIsNonResource;
             NoPropertyTypeReplacement = noPropertyTypeReplacement;
