@@ -11,6 +11,7 @@ using Azure.Core;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.FindSymbols;
 
 namespace AutoRest.CSharp.AutoRest.Plugins
 {
@@ -163,16 +164,25 @@ namespace AutoRest.CSharp.AutoRest.Plugins
 
         private bool IsSuppressedType(BaseTypeDeclarationSyntax typeSyntax)
         {
-            if (_suppressedTypeNames.IsEmpty)
-            {
-                return false;
-            }
-
             var typeSymbol = _semanticModel.GetDeclaredSymbol(typeSyntax);
             while (typeSymbol != null)
             {
                 var fullName = typeSymbol.ToDisplayString(_fullyQualifiedNameFormat);
-                if (_suppressedTypeNames.Contains(typeSymbol.Name) || _suppressedTypeNames.Contains(fullName))
+                if (!_suppressedTypeNames.IsEmpty && (_suppressedTypeNames.Contains(typeSymbol.Name) || _suppressedTypeNames.Contains(fullName)))
+                {
+                    return true;
+                }
+                var referencesToType = SymbolFinder.FindReferencesAsync(typeSymbol, _project.Solution).Result;
+                var locationSet = new HashSet<Document>();
+                foreach (var reference in referencesToType)
+                {
+                    foreach (var location in reference.Locations)
+                    {
+                        locationSet.Add(location.Document);
+                    }
+                }
+                // If a model is only referenced by itself, it is orphaned and should be removed.
+                if (locationSet.Count == 1 && locationSet.First().Name.StartsWith("Models/"))
                 {
                     return true;
                 }
