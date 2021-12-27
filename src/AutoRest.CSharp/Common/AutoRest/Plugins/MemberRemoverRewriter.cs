@@ -52,10 +52,10 @@ namespace AutoRest.CSharp.AutoRest.Plugins
             => IsSuppressedType(node) ? null : base.VisitClassDeclaration(node);
 
         public override SyntaxNode? VisitStructDeclaration(StructDeclarationSyntax node)
-            => IsSuppressedType(node) ? null : base.VisitStructDeclaration(node);
+            => IsSuppressedType(node) || IsOrphanedModel(node) ? null : base.VisitStructDeclaration(node);
 
         public override SyntaxNode? VisitEnumDeclaration(EnumDeclarationSyntax node)
-            => IsSuppressedType(node) ? null : base.VisitEnumDeclaration(node);
+            => IsSuppressedType(node) || IsOrphanedModel(node) ? null : base.VisitEnumDeclaration(node);
 
         public override SyntaxNode? VisitConstructorDeclaration(ConstructorDeclarationSyntax node)
         {
@@ -164,25 +164,56 @@ namespace AutoRest.CSharp.AutoRest.Plugins
 
         private bool IsSuppressedType(BaseTypeDeclarationSyntax typeSyntax)
         {
+            if (_suppressedTypeNames.IsEmpty)
+            {
+                return false;
+            }
+
             var typeSymbol = _semanticModel.GetDeclaredSymbol(typeSyntax);
             while (typeSymbol != null)
             {
                 var fullName = typeSymbol.ToDisplayString(_fullyQualifiedNameFormat);
-                if (!_suppressedTypeNames.IsEmpty && (_suppressedTypeNames.Contains(typeSymbol.Name) || _suppressedTypeNames.Contains(fullName)))
+                if (_suppressedTypeNames.Contains(typeSymbol.Name) || _suppressedTypeNames.Contains(fullName))
                 {
                     return true;
                 }
+
+                typeSymbol = SymbolEqualityComparer.Default.Equals(typeSymbol.BaseType?.ContainingAssembly, typeSymbol.ContainingAssembly)
+                    ? typeSymbol.BaseType
+                    : null;
+            }
+
+            return false;
+        }
+
+        private bool IsOrphanedModel(BaseTypeDeclarationSyntax typeSyntax)
+        {
+            var filePath = typeSyntax.GetLocation()?.SourceTree?.FilePath;
+            if (filePath == null || !filePath.StartsWith("Models/"))
+            {
+                return false;
+            }
+            var typeSymbol = _semanticModel.GetDeclaredSymbol(typeSyntax);
+            while (typeSymbol != null)
+            {
+                var declaringFiles = typeSymbol.DeclaringSyntaxReferences.Select(reference => reference.SyntaxTree.FilePath).ToHashSet();
+                // var fullName = typeSymbol.ToDisplayString(_fullyQualifiedNameFormat);
+                // if (!_suppressedTypeNames.IsEmpty && (_suppressedTypeNames.Contains(typeSymbol.Name) || _suppressedTypeNames.Contains(fullName)))
+                // {
+                //     return true;
+                // }
+                // TODO: If the typeSymbol is from a model Serialization, we should check the references for the model.
                 var referencesToType = SymbolFinder.FindReferencesAsync(typeSymbol, _project.Solution).Result;
-                var locationSet = new HashSet<Document>();
+                var refLocations = new HashSet<String>();
                 foreach (var reference in referencesToType)
                 {
                     foreach (var location in reference.Locations)
                     {
-                        locationSet.Add(location.Document);
+                        refLocations.Add(location.Document.Name);
                     }
                 }
-                // If a model is only referenced by itself, it is orphaned and should be removed.
-                if (locationSet.Count == 1 && locationSet.First().Name.StartsWith("Models/"))
+                // If a model is only referenced by its declaring files, it is orphaned and should be removed.
+                if (declaringFiles.IsSupersetOf(refLocations))
                 {
                     return true;
                 }
