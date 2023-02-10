@@ -192,7 +192,7 @@ namespace AutoRest.CSharp.Mgmt.Generation
             var lroParamStr = updateOperation.IsLongRunningOperation ? "WaitUntil.Completed, " : String.Empty;
 
             var parameters = updateOperation.IsLongRunningOperation ? updateOperation.MethodSignature.Parameters.Skip(1) : updateOperation.MethodSignature.Parameters;
-            var bodyParamType = parameters.First().Type;
+            var bodyParamType = parameters.Where(p => p.RequestLocation == Common.Input.RequestLocation.Body).First().Type;
             string bodyParamName = "current";
             //if we are using PATCH always minimize what we pass in the body to what we actually want to change
             if (!bodyParamType.Equals(This.ResourceData.Type) || updateOperation.OperationMappings.Values.First().Operation.GetHttpMethod() == HttpMethod.Patch)
